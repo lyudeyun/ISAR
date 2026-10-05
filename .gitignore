@@ -1,0 +1,11 @@
+.DS_Store
+.idea/
+__pycache__/
+*.py[cod]
+.venv/
+
+verisig/verisig-src/.gradle/
+verisig/verisig-src/build/
+verisig/flowstar/flowstar
+verisig/flowstar/*.o
+verisig/flowstar/*.a
