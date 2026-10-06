@@ -31,6 +31,15 @@ We also have a `...multi.yml` for both. This file encodes the STL specification.
 
 The initial broken controller networks are in `/controllers`. Verisig requires `.yml` files for neural network controllers.
 
+Two versions of the initial MC controller are included. Both have a 2-16-16-1 architecture with Sigmoid, Sigmoid, and Tanh activations, but different weights and biases:
+
+| Model file | Version |
+| --- | --- |
+| `controllers/mc_sig_2x16_broken_new.yml` | Updated MC controller from upstream commit `dd60cb1` (2025-07-10). This is the default MC model. |
+| `controllers/mc_sig_2x16_broken_old.yml` | Original, lower-performing MC controller from upstream commit `fd67e94` (2024-01-29). |
+
+Select the version explicitly with `--network`. Generate sampling and verification results separately for each model, using distinct output paths; do not reuse one model's results for the other. The UUV controller is unchanged.
+
 With Verisig installed and all files prepared, we call the following code for parallel verification on initial state regions.
 
 ```
@@ -87,6 +96,3 @@ It will end up with a plot like the follows.
 Configurations of this plot, such as title, ticks and size can be modified in `visualization.py`.
 This code will also output the number of the three types of regions,
 and the mean and std of min STL robustness in red, non-red and overall regions (as in our Table 1 and 3).
-
-
-

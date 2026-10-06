@@ -113,7 +113,7 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--data_path", help="path to pkl file by mpc shield", default='dict_mpc_data_ipopt_mc.pkl')
-    parser.add_argument("--network", help="network yml file to be repaired", default=os.path.join('controllers', 'mc_sig_2x16_broken.yml'))
+    parser.add_argument("--network", help="network yml file to be repaired", default=os.path.join('controllers', 'mc_sig_2x16_broken_new.yml'))
     parser.add_argument("--epochs", help="number of epochs, default = 10", default=10)
     parser.add_argument("--if_miqp", help="if this is MIQP (or minimally deviating repair), default=True", default=True)
     args = parser.parse_args()
@@ -130,4 +130,3 @@ if __name__ == '__main__':
     else:
         torch.save(net_repaired, 'repaired_net_min_deviating.pth')
         dump_model_dict('repaired_net_min_deviating.yml', net_repaired)
-

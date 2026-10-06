@@ -18,7 +18,7 @@ from incremental_repair_utils import MC_Control_NN, load_model_dict, dump_model_
 parser = argparse.ArgumentParser()
 parser.add_argument("--algo", help="training algo", default='ppo')
 parser.add_argument("--steps", help="training total time steps, default 100000", default=100)
-parser.add_argument("--network", help="network yml file to be repaired", default=os.path.join('controllers', 'mc_sig_2x16_broken.yml'))
+parser.add_argument("--network", help="network yml file to be repaired", default=os.path.join('controllers', 'mc_sig_2x16_broken_new.yml'))
 parser.add_argument("--sampled_result_path", help="path to sampling result csv", default='mc_sampling_result.csv')
 args = parser.parse_args()
 
