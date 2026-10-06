@@ -23,8 +23,26 @@ region's lower bound and higher bound of every dimension.
 ### Step 2: Verify controller networks on initial state regions
 
 We call Verisig, a sound but incomplete verifier, to verify whether a control policy network can satisfy the given STL task on each partitioned region.
-The first step is to install Verisig from this Github page [https://github.com/verisig/verisig]. 
-Please follow their instructions and install Verisig in a directory you prefer. The recommended directory is `/verisig`.
+The first step is to install Verisig. A copy of the Verisig source [https://github.com/verisig/verisig] is included in `verisig/`, which is also the default `--verisig_path`.
+The following steps are from the Quick Start section of `verisig/UserManual.pdf`, tested by the Verisig authors on Ubuntu 16.04 with Java 1.8:
+
+```
+# 1. Install Flow* libraries
+apt install libgmp3-dev libmpfr-dev libmpfr-doc libmpfr4 libmpfr4-dbg gsl-bin libgsl0-dev bison flex gnuplot-x11 libglpk-dev
+
+# 2. Compile Flow*
+cd verisig/flowstar; make; cd ..
+
+# 3. Compile Verisig
+cd verisig-src; ./gradlew installDist; cd ..
+
+# 4. Run the Mountain Car example, which should end with a SAFE result
+./verisig --flowstar-cmd=./flowstar/flowstar examples/mountain_car/MC.xml examples/mountain_car/sig16x16.yml
+```
+
+Notes:
+- `verisig/flowstar/Makefile` also links against `yaml-cpp`, which is not listed in the manual (`apt install libyaml-cpp-dev`).
+- The library paths used by `make` are set in `verisig/flowstar/makefile.local` (default `/usr/local/include` and `/usr/local/lib`). Change them if the libraries are installed elsewhere, e.g. `/opt/homebrew/include` and `/opt/homebrew/lib` on Apple Silicon macOS.
 
 After Verisig is installed, please notice that we have prepared a `.cfg` and `.xml` file for both UUV and MC. These files encode the system dynamics.
 We also have a `...multi.yml` for both. This file encodes the STL specification.
@@ -96,3 +114,170 @@ It will end up with a plot like the follows.
 Configurations of this plot, such as title, ticks and size can be modified in `visualization.py`.
 This code will also output the number of the three types of regions,
 and the mean and std of min STL robustness in red, non-red and overall regions (as in our Table 1 and 3).
+
+### Example: the full pipeline on UUV
+
+The commands below run Steps 1-5 on the UUV benchmark with concrete file names, so they can be copied as is.
+Run them from the repository root, after installing the packages (Step 0) and Verisig into `verisig/` (Step 2).
+
+All generated files are kept in `results/uuv/`. Some scripts take the output path as an argument; the others always write to the repository root, so their files are moved into `results/uuv/` afterwards.
+The long-running commands are wrapped in `/usr/bin/time -p python -u ... 2>&1 | tee results/uuv/logs/<name>.log`, which saves the full terminal output and appends the total wall-clock time in seconds as a `real` line at the end of the log.
+
+```
+results/uuv/
+├── uuv_initial_state_regions.csv        # Step 1
+├── verisig_output_broken/               # Step 2, one Verisig log per region
+├── uuv_verisig_result_broken.csv        # Step 2
+├── uuv_sampling_result_broken.csv       # Step 3
+├── repair_output/                       # Step 3, repair checkpoints
+├── verisig_output_repaired/             # Step 4
+├── uuv_verisig_result_repaired.csv      # Step 4
+├── uuv_*_execution_log.txt              # Steps 2 and 4, verification time per region
+└── logs/                                # terminal output and total time of each command
+```
+
+#### 1. Partition the initial state space
+
+```
+mkdir -p results/uuv/logs
+python generate_partition.py --benchmark=uuv
+mv uuv_initial_state_regions.csv results/uuv/
+```
+
+#### 2. Verify the broken controller
+
+Writes one txt log per region to `results/uuv/verisig_output_broken/`, and the verification time per region to `uuv_uuv_tanh_2_15_2x32_broken_execution_log.txt`.
+
+```
+/usr/bin/time -p python -u verisig_call.py --benchmark=uuv --network=controllers/uuv_tanh_2_15_2x32_broken.yml --verisig_path=verisig --verisig_output_path=results/uuv/verisig_output_broken --cpu_ratio=0.5 --initial_state_regions_path=results/uuv/uuv_initial_state_regions.csv 2>&1 | tee results/uuv/logs/uuv_verify_broken.log
+mv uuv_*_execution_log.txt results/uuv/
+```
+
+Parse the logs. The result is always written to `uuv_verisig_result.csv` in the repository root, so move and rename it.
+
+```
+python verisig_parse_results.py --benchmark=uuv --network=controllers/uuv_tanh_2_15_2x32_broken.yml --verisig_output_path=results/uuv/verisig_output_broken --initial_state_regions_csv=results/uuv/uuv_initial_state_regions.csv
+mv uuv_verisig_result.csv results/uuv/uuv_verisig_result_broken.csv
+```
+
+#### 3. Sample initial states and repair
+
+Sample 10 initial states per region.
+
+```
+/usr/bin/time -p python -u sample_states_in_regions.py --benchmark=uuv --network=controllers/uuv_tanh_2_15_2x32_broken.yml --initial_state_regions_path=results/uuv/uuv_initial_state_regions.csv --sampled_result_path=results/uuv/uuv_sampling_result_broken.csv --num_samples_per_region=10 2>&1 | tee results/uuv/logs/uuv_sampling_broken.log
+```
+
+Run ISAR. Checkpoints `tanh_iter_<i>_region_<r>.yml/.pt` and `sample_checkpoint_iter_<i>_region_<r>.csv` are written to `results/uuv/repair_output/`. Per-iteration times are printed as `Iteration time` and kept in the log.
+
+```
+/usr/bin/time -p python -u incremental_repair.py --benchmark=uuv --network=controllers/uuv_tanh_2_15_2x32_broken.yml --verisig_result_path=results/uuv/uuv_verisig_result_broken.csv --sampled_result_path=results/uuv/uuv_sampling_result_broken.csv --output_path=results/uuv/repair_output 2>&1 | tee results/uuv/logs/uuv_repair.log
+```
+
+#### 4. Verify the repaired controller
+
+Pick the latest checkpoint and its sampled result. To use an earlier checkpoint, set `REPAIRED` to its `.yml` path instead.
+
+```
+REPAIRED=$(ls -t results/uuv/repair_output/tanh_iter_*.yml | head -1)
+REPAIRED_SAMPLES=$(echo "$REPAIRED" | sed 's/tanh_iter_/sample_checkpoint_iter_/; s/\.yml$/.csv/')
+```
+
+Verify it, then parse, move and rename the result. Run this in the same shell as above, so that `$REPAIRED` is still set.
+
+```
+/usr/bin/time -p python -u verisig_call.py --benchmark=uuv --network="$REPAIRED" --verisig_path=verisig --verisig_output_path=results/uuv/verisig_output_repaired --cpu_ratio=0.5 --initial_state_regions_path=results/uuv/uuv_initial_state_regions.csv 2>&1 | tee results/uuv/logs/uuv_verify_repaired.log
+mv uuv_*_execution_log.txt results/uuv/
+python verisig_parse_results.py --benchmark=uuv --network="$REPAIRED" --verisig_output_path=results/uuv/verisig_output_repaired --initial_state_regions_csv=results/uuv/uuv_initial_state_regions.csv
+mv uuv_verisig_result.csv results/uuv/uuv_verisig_result_repaired.csv
+```
+
+#### 5. Visualize the results
+
+Broken controller:
+
+```
+python visualization.py --benchmark=uuv --verisig_result_path=results/uuv/uuv_verisig_result_broken.csv --sampled_result_path=results/uuv/uuv_sampling_result_broken.csv
+```
+
+Repaired controller (in the same shell as Step 4, so that `$REPAIRED_SAMPLES` is still set):
+
+```
+python visualization.py --benchmark=uuv --verisig_result_path=results/uuv/uuv_verisig_result_repaired.csv --sampled_result_path="$REPAIRED_SAMPLES"
+```
+
+### Example: the full pipeline on MC
+
+The same pipeline for MC with the new controller `controllers/mc_sig_2x16_broken_new.yml`. All generated files are kept in `results/mc_new/`.
+The two MC controllers must be kept in separate folders, since most generated file names do not include the controller version.
+To run the old controller, replace every `new` with `old` in the commands below (`mc_sig_2x16_broken_old.yml` and `results/mc_old/`).
+
+#### 1. Partition the initial state space
+
+```
+mkdir -p results/mc_new/logs
+python generate_partition.py --benchmark=mc
+mv mc_initial_state_regions.csv results/mc_new/
+```
+
+#### 2. Verify the broken controller
+
+Writes one txt log per region to `results/mc_new/verisig_output_broken/`, and the verification time per region to `mc_mc_sig_2x16_broken_new_execution_log.txt`.
+
+```
+/usr/bin/time -p python -u verisig_call.py --benchmark=mc --network=controllers/mc_sig_2x16_broken_new.yml --verisig_path=verisig --verisig_output_path=results/mc_new/verisig_output_broken --cpu_ratio=0.5 --initial_state_regions_path=results/mc_new/mc_initial_state_regions.csv 2>&1 | tee results/mc_new/logs/mc_verify_broken.log
+mv mc_*_execution_log.txt results/mc_new/
+```
+
+Parse the logs. The result is always written to `mc_verisig_result.csv` in the repository root, so move and rename it.
+
+```
+python verisig_parse_results.py --benchmark=mc --network=controllers/mc_sig_2x16_broken_new.yml --verisig_output_path=results/mc_new/verisig_output_broken --initial_state_regions_csv=results/mc_new/mc_initial_state_regions.csv
+mv mc_verisig_result.csv results/mc_new/mc_verisig_result_broken.csv
+```
+
+#### 3. Sample initial states and repair
+
+Sample 10 initial states per region.
+
+```
+/usr/bin/time -p python -u sample_states_in_regions.py --benchmark=mc --network=controllers/mc_sig_2x16_broken_new.yml --initial_state_regions_path=results/mc_new/mc_initial_state_regions.csv --sampled_result_path=results/mc_new/mc_sampling_result_broken.csv --num_samples_per_region=10 2>&1 | tee results/mc_new/logs/mc_sampling_broken.log
+```
+
+Run ISAR. Checkpoints `tanh_iter_<i>_region_<r>.yml/.pt` and `sample_checkpoint_iter_<i>_region_<r>.csv` are written to `results/mc_new/repair_output/`.
+
+```
+/usr/bin/time -p python -u incremental_repair.py --benchmark=mc --network=controllers/mc_sig_2x16_broken_new.yml --verisig_result_path=results/mc_new/mc_verisig_result_broken.csv --sampled_result_path=results/mc_new/mc_sampling_result_broken.csv --output_path=results/mc_new/repair_output 2>&1 | tee results/mc_new/logs/mc_repair.log
+```
+
+#### 4. Verify the repaired controller
+
+Pick the latest checkpoint and its sampled result. To use an earlier checkpoint, set `REPAIRED` to its `.yml` path instead.
+
+```
+REPAIRED=$(ls -t results/mc_new/repair_output/tanh_iter_*.yml | head -1)
+REPAIRED_SAMPLES=$(echo "$REPAIRED" | sed 's/tanh_iter_/sample_checkpoint_iter_/; s/\.yml$/.csv/')
+```
+
+Verify it, then parse, move and rename the result. Run this in the same shell as above, so that `$REPAIRED` is still set.
+
+```
+/usr/bin/time -p python -u verisig_call.py --benchmark=mc --network="$REPAIRED" --verisig_path=verisig --verisig_output_path=results/mc_new/verisig_output_repaired --cpu_ratio=0.5 --initial_state_regions_path=results/mc_new/mc_initial_state_regions.csv 2>&1 | tee results/mc_new/logs/mc_verify_repaired.log
+mv mc_*_execution_log.txt results/mc_new/
+python verisig_parse_results.py --benchmark=mc --network="$REPAIRED" --verisig_output_path=results/mc_new/verisig_output_repaired --initial_state_regions_csv=results/mc_new/mc_initial_state_regions.csv
+mv mc_verisig_result.csv results/mc_new/mc_verisig_result_repaired.csv
+```
+
+#### 5. Visualize the results
+
+Broken controller:
+
+```
+python visualization.py --benchmark=mc --verisig_result_path=results/mc_new/mc_verisig_result_broken.csv --sampled_result_path=results/mc_new/mc_sampling_result_broken.csv
+```
+
+Repaired controller (in the same shell as Step 4, so that `$REPAIRED_SAMPLES` is still set):
+
+```
+python visualization.py --benchmark=mc --verisig_result_path=results/mc_new/mc_verisig_result_repaired.csv --sampled_result_path="$REPAIRED_SAMPLES"
+```
