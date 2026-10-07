@@ -40,19 +40,24 @@ python -c "import matlab.engine; eng = matlab.engine.start_matlab(); print(eng.v
 ```
 
 The supported Python versions depend on the MATLAB release: R2026a supports Python 3.9 to 3.13, while R2021a supports only Python 3.7 and 3.8.
-For MATLAB R2021a (e.g. on a Linux server with MATLAB installed in `~/MATLAB/R2021a`), use Python 3.8 instead:
+For MATLAB R2021a (e.g. on a Linux server), use Python 3.8 instead.
+The engine is installed from the MATLAB installation folder, which is two levels above the `matlab` command (e.g. `/data1/deyun/MATLAB/R2021a` for `/data1/deyun/MATLAB/R2021a/bin/matlab`):
 
 ```
 conda create -n isar python=3.8 -y
 conda activate isar
 pip install "numpy<2" "pandas<2" "torch<2.5" scipy pyyaml matplotlib
-cd ~/MATLAB/R2021a/extern/engines/python
+pip install "setuptools<66"
+MATLABROOT=$(dirname $(dirname $(readlink -f $(which matlab))))
+cd $MATLABROOT/extern/engines/python
 python setup.py build --build-base=$HOME/tmp/matlab_engine_build install
 ```
 
 - `torch<2.5`, since PyTorch 2.5 dropped Python 3.8.
+- `setuptools<66`, since the `setup.py` of R2021a gives its version as `R2021a`, which setuptools 66 and later reject (`InvalidVersion: 'R2021a'`). The deprecation warnings printed during the installation can be ignored.
 - `--build-base` builds the engine in a folder of your own, in case the MATLAB installation is not writable.
 - The engine is only needed for the Simulink benchmarks; MC and UUV run without MATLAB.
+- Packages installed with `pip install --user` (in `~/.local`) are visible in every environment and can shadow the versions above. If `python -c "import numpy, pandas, torch; print(numpy.__file__, pandas.__file__, torch.__file__)"` shows a path in `~/.local`, run `export PYTHONNOUSERSITE=1` after activating the environment.
 
 Check the environment with the same two commands as above. The first one prints other versions here (e.g. `1.5.3 2.4.1 True`), but must end with `True`.
 
