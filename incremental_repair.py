@@ -166,9 +166,9 @@ def isar_main(verisig_result_path, sampled_result_path, net_path, output_path, b
         repaired_states = []
         for bad_state in bad_states:
             if benchmark == 'uuv':
-                _, traj_y_bad = uuv_simulate(net=net_updated, init_global_heading_deg=bad_state[0], init_pos_y=bad_state[1])
+                _, traj_y_bad = uuv_simulate(net=net_updated, init_pos_y=bad_state[0], init_global_heading_deg=bad_state[1])
                 robustness = uuv_robustness(traj_y_bad)
-                _, traj_y_bad_prev = uuv_simulate(net=net, init_global_heading_deg=bad_state[0], init_pos_y=bad_state[1])
+                _, traj_y_bad_prev = uuv_simulate(net=net, init_pos_y=bad_state[0], init_global_heading_deg=bad_state[1])
                 robustness_prev = uuv_robustness(traj_y_bad_prev)
             elif benchmark == 'mc':
                 traj_pos_bad, _ = mc_simulate(net=net_updated, pos_0=bad_state[0], vel_0=bad_state[1])
@@ -192,7 +192,7 @@ def isar_main(verisig_result_path, sampled_result_path, net_path, output_path, b
             h_robustness_good = []
             for good_state in good_states:
                 if benchmark == 'uuv':
-                    _, traj_y_good = uuv_simulate(net=net_updated, init_global_heading_deg=good_state[0], init_pos_y=good_state[1])
+                    _, traj_y_good = uuv_simulate(net=net_updated, init_pos_y=good_state[0], init_global_heading_deg=good_state[1])
                     h_robustness_good += [uuv_robustness(traj_y_good)]
                 elif benchmark == 'mc':
                     traj_pos_good, _ =mc_simulate(net=net_updated, pos_0=good_state[0], vel_0=good_state[1])
