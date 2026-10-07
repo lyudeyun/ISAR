@@ -46,6 +46,8 @@ The engine is installed from the MATLAB installation folder, which is two levels
 ```
 conda create -n isar python=3.8 -y
 conda activate isar
+conda env config vars set PYTHONNOUSERSITE=1
+conda deactivate && conda activate isar
 pip install "numpy<2" "pandas<2" "torch<2.5" scipy pyyaml matplotlib
 pip install "setuptools<66"
 MATLABROOT=$(dirname $(dirname $(readlink -f $(which matlab))))
@@ -57,7 +59,7 @@ python setup.py build --build-base=$HOME/tmp/matlab_engine_build install
 - `setuptools<66`, since the `setup.py` of R2021a gives its version as `R2021a`, which setuptools 66 and later reject (`InvalidVersion: 'R2021a'`). The deprecation warnings printed during the installation can be ignored.
 - `--build-base` builds the engine in a folder of your own, in case the MATLAB installation is not writable.
 - The engine is only needed for the Simulink benchmarks; MC and UUV run without MATLAB.
-- Packages installed with `pip install --user` (in `~/.local`) are visible in every environment and can shadow the versions above. If `python -c "import numpy, pandas, torch; print(numpy.__file__, pandas.__file__, torch.__file__)"` shows a path in `~/.local`, run `export PYTHONNOUSERSITE=1` after activating the environment.
+- `PYTHONNOUSERSITE=1` makes the environment ignore packages installed with `pip install --user` (in `~/.local`). Otherwise they take precedence over the versions above and can also break the engine installation (`packaging` from `~/.local` raising `InvalidVersion: 'R2021a'`). `python -c "import numpy, pandas, torch, packaging; print(numpy.__file__, pandas.__file__, torch.__file__, packaging.__file__)"` must show only paths inside the environment.
 
 Check the environment with the same two commands as above. The first one prints other versions here (e.g. `1.5.3 2.4.1 True`), but must end with `True`.
 
