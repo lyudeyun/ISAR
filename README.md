@@ -290,6 +290,8 @@ This does not change the repair procedure itself, since green (verified) and yel
 This is done by giving `incremental_repair.py` a placeholder verification result in which every region is marked `unknown`.
 Use exactly `unknown`: the value `unknown?` is treated as verified (green), in which case no region is repaired.
 
+Since the repair is a search, its cost is measured by the number of simulations rather than by wall-clock time. `incremental_repair.py` prints the number of simulations and saves it to `simulation_count.json` in the output directory after every iteration, so the counts are kept if the repair is stopped early. The counts are split into `annealing` (simulated annealing), `state_check` (checking bad and good states after annealing), `sample_check` (re-evaluating all sampled states after an accepted repair) and `total`, together with the number of completed `iterations`. The terminal output of each command is saved to `logs/`.
+
 #### UUV
 
 All generated files are kept in `results/uuv_no_verifier/`.
@@ -308,16 +310,16 @@ mv uuv_initial_state_regions.csv results/uuv_no_verifier/
 python -c "import pandas as pd; df = pd.read_csv('results/uuv_no_verifier/uuv_initial_state_regions.csv'); df['result'] = 'unknown'; df.to_csv('results/uuv_no_verifier/uuv_verisig_result_skipped.csv', index=False)"
 ```
 
-3. Sample 10 initial states per region.
+3. Sample 10 initial states per region. This runs one simulation per sampled state (10 x 2000 for UUV, 10 x 900 for MC), which is not included in the repair count.
 
 ```
-/usr/bin/time -p python -u sample_states_in_regions.py --benchmark=uuv --network=controllers/uuv_tanh_2_15_2x32_broken.yml --initial_state_regions_path=results/uuv_no_verifier/uuv_initial_state_regions.csv --sampled_result_path=results/uuv_no_verifier/uuv_sampling_result_broken.csv --num_samples_per_region=10 2>&1 | tee results/uuv_no_verifier/logs/uuv_sampling_broken.log
+python -u sample_states_in_regions.py --benchmark=uuv --network=controllers/uuv_tanh_2_15_2x32_broken.yml --initial_state_regions_path=results/uuv_no_verifier/uuv_initial_state_regions.csv --sampled_result_path=results/uuv_no_verifier/uuv_sampling_result_broken.csv --num_samples_per_region=10 2>&1 | tee results/uuv_no_verifier/logs/uuv_sampling_broken.log
 ```
 
-4. Repair. Checkpoints are written to `results/uuv_no_verifier/repair_output/`.
+4. Repair. Checkpoints and `simulation_count.json` are written to `results/uuv_no_verifier/repair_output/`.
 
 ```
-/usr/bin/time -p python -u incremental_repair.py --benchmark=uuv --network=controllers/uuv_tanh_2_15_2x32_broken.yml --verisig_result_path=results/uuv_no_verifier/uuv_verisig_result_skipped.csv --sampled_result_path=results/uuv_no_verifier/uuv_sampling_result_broken.csv --output_path=results/uuv_no_verifier/repair_output 2>&1 | tee results/uuv_no_verifier/logs/uuv_repair.log
+python -u incremental_repair.py --benchmark=uuv --network=controllers/uuv_tanh_2_15_2x32_broken.yml --verisig_result_path=results/uuv_no_verifier/uuv_verisig_result_skipped.csv --sampled_result_path=results/uuv_no_verifier/uuv_sampling_result_broken.csv --output_path=results/uuv_no_verifier/repair_output 2>&1 | tee results/uuv_no_verifier/logs/uuv_repair.log
 ```
 
 5. Visualize the broken controller and the latest repaired checkpoint. Regions are shown as yellow or red only.
@@ -346,16 +348,16 @@ mv mc_initial_state_regions.csv results/mc_new_no_verifier/
 python -c "import pandas as pd; df = pd.read_csv('results/mc_new_no_verifier/mc_initial_state_regions.csv'); df['result'] = 'unknown'; df.to_csv('results/mc_new_no_verifier/mc_verisig_result_skipped.csv', index=False)"
 ```
 
-3. Sample 10 initial states per region.
+3. Sample 10 initial states per region. This runs one simulation per sampled state (10 x 2000 for UUV, 10 x 900 for MC), which is not included in the repair count.
 
 ```
-/usr/bin/time -p python -u sample_states_in_regions.py --benchmark=mc --network=controllers/mc_sig_2x16_broken_new.yml --initial_state_regions_path=results/mc_new_no_verifier/mc_initial_state_regions.csv --sampled_result_path=results/mc_new_no_verifier/mc_sampling_result_broken.csv --num_samples_per_region=10 2>&1 | tee results/mc_new_no_verifier/logs/mc_sampling_broken.log
+python -u sample_states_in_regions.py --benchmark=mc --network=controllers/mc_sig_2x16_broken_new.yml --initial_state_regions_path=results/mc_new_no_verifier/mc_initial_state_regions.csv --sampled_result_path=results/mc_new_no_verifier/mc_sampling_result_broken.csv --num_samples_per_region=10 2>&1 | tee results/mc_new_no_verifier/logs/mc_sampling_broken.log
 ```
 
-4. Repair. Checkpoints are written to `results/mc_new_no_verifier/repair_output/`.
+4. Repair. Checkpoints and `simulation_count.json` are written to `results/mc_new_no_verifier/repair_output/`.
 
 ```
-/usr/bin/time -p python -u incremental_repair.py --benchmark=mc --network=controllers/mc_sig_2x16_broken_new.yml --verisig_result_path=results/mc_new_no_verifier/mc_verisig_result_skipped.csv --sampled_result_path=results/mc_new_no_verifier/mc_sampling_result_broken.csv --output_path=results/mc_new_no_verifier/repair_output 2>&1 | tee results/mc_new_no_verifier/logs/mc_repair.log
+python -u incremental_repair.py --benchmark=mc --network=controllers/mc_sig_2x16_broken_new.yml --verisig_result_path=results/mc_new_no_verifier/mc_verisig_result_skipped.csv --sampled_result_path=results/mc_new_no_verifier/mc_sampling_result_broken.csv --output_path=results/mc_new_no_verifier/repair_output 2>&1 | tee results/mc_new_no_verifier/logs/mc_repair.log
 ```
 
 5. Visualize the broken controller and the latest repaired checkpoint.

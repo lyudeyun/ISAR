@@ -1,5 +1,6 @@
 import os
 import time
+import json
 import argparse
 from incremental_repair_utils import *
 
@@ -125,6 +126,19 @@ def isar_main(verisig_result_path, sampled_result_path, net_path, output_path, b
 
     prev_regions = []
 
+    # Count simulations from here on, split by what they are used for
+    sim_start = SIM_COUNTER['total']
+    sim_counts = {'annealing': 0, 'sample_check': 0}
+
+    # Saved after every iteration, so the counts are kept if the repair is stopped early
+    def save_sim_counts():
+        # Simulations not in annealing or sample re-checks are the bad/good state checks after annealing
+        sim_counts['total'] = SIM_COUNTER['total'] - sim_start
+        sim_counts['state_check'] = sim_counts['total'] - sim_counts['annealing'] - sim_counts['sample_check']
+        sim_counts['iterations'] = iter_num
+        with open(os.path.join(output_path, 'simulation_count.json'), 'w') as f:
+            json.dump(sim_counts, f, indent=2)
+
     # Simulated annealing main loop
     while len(region_robustness) > 0:
 
@@ -158,7 +172,9 @@ def isar_main(verisig_result_path, sampled_result_path, net_path, output_path, b
         print(f'Bad states identified: {bad_states}')
 
         # Simulated annealing
+        sim_before = SIM_COUNTER['total']
         net_updated = safeguarded_simulated_annealing(bad_region_id, net, bad_states, good_states, benchmark=benchmark)
+        sim_counts['annealing'] += SIM_COUNTER['total'] - sim_before
 
         # Check robustness of bad states
         h_robustness_bad_prev = []
@@ -218,7 +234,9 @@ def isar_main(verisig_result_path, sampled_result_path, net_path, output_path, b
 
                 # Check the sampled states again and log
                 sampled_checkpoint_path = os.path.join(output_path, f'sample_checkpoint_iter_{iter_num}_region_{bad_region_id}.csv')
+                sim_before = SIM_COUNTER['total']
                 check_samples(repaired_net_path, sampled_result_path, sampled_checkpoint_path, benchmark=benchmark)
+                sim_counts['sample_check'] += SIM_COUNTER['total'] - sim_before
 
                 # Update region colors
                 dict_color = color_regions(verisig_result_path, sampled_checkpoint_path)
@@ -240,8 +258,13 @@ def isar_main(verisig_result_path, sampled_result_path, net_path, output_path, b
         prev_regions += [bad_region_id]
         iter_num += 1
         print(f'Iteration time: {time.time() - iter_start_time}')
+        print(f'Simulations so far: {SIM_COUNTER["total"] - sim_start}')
+        save_sim_counts()
 
     print(f'Total time: {time.time() - start_time}')
+
+    save_sim_counts()
+    print(f'Simulations: {sim_counts}')
     return
 
 

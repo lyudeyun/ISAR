@@ -5,6 +5,9 @@ import yaml
 import scipy.io as sio
 import pandas as pd
 
+# Number of simulations run in this process, incremented by uuv_simulate and mc_simulate
+SIM_COUNTER = {'total': 0}
+
 """ Controller network utils """
 
 
@@ -80,6 +83,8 @@ def dump_model_dict(filename, network: nn.Module):
 
 # Simulate, init_global_heading is in degrees
 def uuv_simulate(net: UUV_Control_NN, init_global_heading_deg, init_pos_y):
+    SIM_COUNTER['total'] += 1
+
     # Dynamics coeff matrices
     coeffs = sio.loadmat('uuv_model_oneHz.mat')
     A, B, C, D = coeffs['A'], coeffs['B'], coeffs['C'], coeffs['D']
@@ -159,6 +164,7 @@ def uuv_barriered_energy(bad_states, good_states, net, lambda_=1.0):
 
 # Simulate traj_pos and traj_vel from an initial state (replace this with actual simulator later)
 def mc_simulate(pos_0, vel_0, net: MC_Control_NN, length=111, steepness=0.0025):
+    SIM_COUNTER['total'] += 1
     net.eval()
     traj_pos = np.zeros(length)
     traj_vel = np.zeros(length)
