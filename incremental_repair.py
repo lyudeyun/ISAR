@@ -1,4 +1,5 @@
 import os
+import copy
 import time
 import json
 import argparse
@@ -173,7 +174,9 @@ def isar_main(verisig_result_path, sampled_result_path, net_path, output_path, b
 
         # Simulated annealing
         sim_before = SIM_COUNTER['total']
-        net_updated = safeguarded_simulated_annealing(bad_region_id, net, bad_states, good_states, benchmark=benchmark)
+        # Anneal a copy, since annealing changes the network in place. net stays as before annealing,
+        # for the before/after comparison below and as the rollback when the region is not repaired.
+        net_updated = safeguarded_simulated_annealing(bad_region_id, copy.deepcopy(net), bad_states, good_states, benchmark=benchmark)
         sim_counts['annealing'] += SIM_COUNTER['total'] - sim_before
 
         # Check robustness of bad states
