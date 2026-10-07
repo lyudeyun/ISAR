@@ -40,7 +40,21 @@ python -c "import matlab.engine; eng = matlab.engine.start_matlab(); print(eng.v
 ```
 
 The supported Python versions depend on the MATLAB release: R2026a supports Python 3.9 to 3.13, while R2021a supports only Python 3.7 and 3.8.
-For MATLAB R2021a, create the environment with `python=3.8` and `"torch<2.5"` (the last PyTorch releases for Python 3.8), and install the engine from `<matlabroot>/extern/engines/python` with `python setup.py install`.
+For MATLAB R2021a (e.g. on a Linux server with MATLAB installed in `~/MATLAB/R2021a`), use Python 3.8 instead:
+
+```
+conda create -n isar python=3.8 -y
+conda activate isar
+pip install "numpy<2" "pandas<2" "torch<2.5" scipy pyyaml matplotlib
+cd ~/MATLAB/R2021a/extern/engines/python
+python setup.py build --build-base=$HOME/tmp/matlab_engine_build install
+```
+
+- `torch<2.5`, since PyTorch 2.5 dropped Python 3.8.
+- `--build-base` builds the engine in a folder of your own, in case the MATLAB installation is not writable.
+- The engine is only needed for the Simulink benchmarks; MC and UUV run without MATLAB.
+
+Check the environment with the same two commands as above. The first one prints other versions here (e.g. `1.5.3 2.4.1 True`), but must end with `True`.
 
 ### Step 1: Generate iniitial state space partitions
 
