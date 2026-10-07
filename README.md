@@ -8,6 +8,40 @@ To run our code, `Python >= 3.7.0` needs to be installed, and then the required 
 pip install -r requirements.txt
 ```
 
+With recent package versions, the code fails: it uses `DataFrame.append`, which was removed in pandas 2.0, and loads whole PyTorch models with `torch.load`, which loads weights only by default since PyTorch 2.6.
+Use a dedicated environment with older versions instead. The following environment was tested on macOS (Apple Silicon):
+
+```
+conda create -n isar python=3.10 -y
+conda activate isar
+pip install "numpy<2" "pandas<2" "torch<2.6" "scipy==1.13.1" pyyaml matplotlib
+```
+
+- `numpy<2` is required by pandas 1.5.
+- `scipy==1.13.1`, since newer scipy wheels failed to load on recent macOS.
+- `gym`, `stable_baselines3` and `casadi` in `requirements.txt` are only needed for the baselines in `mc_baselines/` and `uuv_baselines/`.
+
+To check the environment, the following should print `1.5.3 2.5.1 True`:
+
+```
+python -c "import pandas as pd, torch; print(pd.__version__, torch.__version__, hasattr(pd.DataFrame, 'append'))"
+```
+
+The Simulink benchmarks in `benchmark/` are simulated in MATLAB through the MATLAB Engine for Python. Install it into the same environment from the local MATLAB installation (MATLAB R2026a on macOS here):
+
+```
+pip install /Applications/MATLAB_R2026a.app/extern/engines/python
+```
+
+The following should print the MATLAB version (starting MATLAB may take a while):
+
+```
+python -c "import matlab.engine; eng = matlab.engine.start_matlab(); print(eng.version()); eng.quit()"
+```
+
+The supported Python versions depend on the MATLAB release: R2026a supports Python 3.9 to 3.13, while R2021a supports only Python 3.7 and 3.8.
+For MATLAB R2021a, create the environment with `python=3.8` and `"torch<2.5"` (the last PyTorch releases for Python 3.8), and install the engine from `<matlabroot>/extern/engines/python` with `python setup.py install`.
+
 ### Step 1: Generate iniitial state space partitions
 
 First, we partition the initial state regions by calling
@@ -380,3 +414,86 @@ python visualization.py --benchmark=mc --verisig_result_path=results/mc_new_no_v
 REPAIRED_SAMPLES=$(ls -t results/mc_new_no_verifier/repair_output/sample_checkpoint_iter_*.csv | head -1)
 python visualization.py --benchmark=mc --verisig_result_path=results/mc_new_no_verifier/mc_verisig_result_skipped.csv --sampled_result_path="$REPAIRED_SAMPLES"
 ```
+
+### Example: repairing on a given test suite (UUV and MC)
+
+Instead of sampling initial states in grid regions, ISAR can repair on a given set of initial states, such as the 100-case test suites in `benchmark/UUV/` and `benchmark/MC/`.
+`testsuite_to_isar.py` turns such a MATLAB test suite (a `testSuite` struct whose `testCases` have `sysInputs` and `rob`) into the input files of `incremental_repair.py`.
+Each test case becomes its own region, so every satisfied test case is protected during repair and every violated one is repaired as a separate region.
+The robustness is recomputed by simulation and compared with the `rob` stored in the test suite.
+
+```
+python testsuite_to_isar.py --benchmark=mc --mat_path=benchmark/MC/MC_Phi_1_FFNN_16_16_XV_10_10_20250609.mat --network=controllers/mc_sig_2x16_broken_old.yml --output_dir=results/mc_old_testsuite
+python -u incremental_repair.py --benchmark=mc --network=controllers/mc_sig_2x16_broken_old.yml --verisig_result_path=results/mc_old_testsuite/mc_verisig_result_skipped.csv --sampled_result_path=results/mc_old_testsuite/mc_sampling_result_broken.csv --output_path=results/mc_old_testsuite/repair_output
+```
+
+For UUV, use `--benchmark=uuv`, `--mat_path=benchmark/UUV/UUV_Phi_1_FFNN_32_32_YH_10_10_May_13.mat` and `--network=controllers/uuv_tanh_2_15_2x32_broken.yml`, and replace `mc` with `uuv` in the file names.
+The MC test suite was generated with the old MC controller, `mc_sig_2x16_broken_old.yml`.
+
+### Running the Simulink benchmarks
+
+`benchmark/` holds eight Simulink benchmarks with NN controllers (ACC and AFC), copied from the git-tracked files of the AutoPatch repository (commit `1edcc84`, `FLRepBenchGen/`).
+Each benchmark folder contains the Simulink model, the controller network (`*_config_*.mat`), test suites of 100 cases (`*_testCaseNum_100.mat`, used for repair) and of 10000 cases (`*_testCaseNum_10000_val.mat`, for validation), the AutoPatch configs (`config_rfFR*`, `config_rfValEval*`), and the normalization parameters of the controller (`norm_params.mat`).
+
+| Benchmark | Specification | Controller |
+| --- | --- | --- |
+| `ACC1_Phi1` | ACC4 | `ACC4_FFNN_trainbfg_15_15_15_ep_100_Nor_20250527` |
+| `ACC1_Phi2` | ACC5v | `ACC5v_FFNN_traingdx_15_15_15_ep_50_Nor_20250702` |
+| `ACC2_Phi1` | ACC4 | `ACC4_FFNN_trainoss_30_30_30_ep_100_Nor_20250528` |
+| `ACC2_Phi2` | ACC5v | `ACC5v_FFNN_traincgf_30_30_30_ep_50_Nor_20250704` |
+| `AFC1_Phi1` | AFC1 | `AFC1_FFNN_trainscg_15_15_15_ep_1000_Nor_20250518` |
+| `AFC1_Phi2` | AFC2 | `AFC2_FFNN_trainscg_15_15_15_ep_1000_Nor_20250717` |
+| `AFC2_Phi1` | AFC1 | `AFC1_FFNN_trainrp_15_15_15_15_ep_1000_Nor_20250519` |
+| `AFC2_Phi2` | AFC2 | `AFC2_FFNN_trainscg_15_15_15_15_ep_500_Nor_20250717` |
+
+The specifications and simulation parameters are in the `config_rfFR*` file of each benchmark.
+
+**Requirements.** MATLAB with Simulink and the Deep Learning Toolbox, the MATLAB Engine for Python (Step 0), and [Breach](https://github.com/decyphir/breach).
+Pass the Breach folder with `--breach_path`, or set the environment variable `ISAR_BREACH_PATH`.
+
+**How it works.** ISAR runs in Python as for UUV and MC, and only the simulation is done in MATLAB (`simulink_interface.py` and `simulink/`):
+- Simulations use fastRob from AutoPatch (`simulink/fastrob/`): each MATLAB worker loads the model once and keeps it in fast restart, and candidate parameters are written into the Constant blocks of the network without recompiling the model.
+- All weights and biases are perturbed, as for UUV and MC (`--perturb_biases=0` perturbs weights only). They are written with `%.17g`, so writing the original parameters leaves the model numerically unchanged.
+- Each test case is a region, as in the example above. The robustness of the test suite under the original controller is recomputed with fastRob before repair, rather than taken from the test suite, so that it is consistent with the simulations during repair.
+- All test cases of one evaluation (the bad states of the region and all protected good states) are simulated in one batch, split over `--workers` MATLAB workers.
+- Each simulated test case counts as one simulation in `simulation_count.json`.
+
+**Repeated runs.** The simulated annealing is random, so the repair is repeated with different seeds.
+`run_simulink.py` prepares the inputs of a benchmark once, then runs one repair per seed, each in a new process with its own MATLAB session:
+
+```
+python run_simulink.py --benchmark=AFC1_Phi1 --runs=10 --workers=8 --breach_path=/path/to/breach
+```
+
+Results are written to `results/<benchmark>/`:
+
+```
+results/AFC1_Phi1/
+├── simulink_sampling_result_broken.csv     # robustness of the test suite under the original controller
+├── simulink_verisig_result_skipped.csv     # every test case marked unverified
+├── simulink_initial_state_regions.csv
+├── run_1/                                  # seed 1
+│   ├── repair.log
+│   ├── simulation_count.json
+│   ├── tanh_iter_<i>_region_<r>.pt/.yml    # checkpoint after each accepted repair
+│   └── sample_checkpoint_iter_<i>_region_<r>.csv
+├── ...
+└── run_10/                                 # seed 10
+```
+
+Seeds whose repair already finished are skipped, so an interrupted call can simply be repeated.
+To run some seeds only, e.g. one seed per job on a cluster, use `--first_seed` and `--runs`.
+The final repaired controller of a run is its last checkpoint, and its robustness on the test suite is in the matching `sample_checkpoint_*.csv`.
+If no region is repaired, there is no checkpoint and the result is the original controller.
+
+The two steps that `run_simulink.py` performs can also be called directly:
+
+```
+python testsuite_to_isar.py --benchmark=simulink --simulink_config=benchmark/AFC1_Phi1/config_rfFR11 --breach_path=/path/to/breach --workers=8 --output_dir=results/AFC1_Phi1
+python -u incremental_repair.py --benchmark=simulink --simulink_config=benchmark/AFC1_Phi1/config_rfFR11 --breach_path=/path/to/breach --workers=8 --seed=1 --verisig_result_path=results/AFC1_Phi1/simulink_verisig_result_skipped.csv --sampled_result_path=results/AFC1_Phi1/simulink_sampling_result_broken.csv --output_path=results/AFC1_Phi1/run_1
+```
+
+**Notes.**
+- Use at most as many workers as there are free cores.
+- fastRob leaves model copies (`fr_*.slx`) in the run folder and in Breach's `Ext/ModelsData` folder. On Linux, fastRob deletes the copies of finished processes; on macOS they accumulate and can be deleted by hand when no run is active.
+- The models were saved with MATLAB R2021a. Newer releases can open them; do not save them with a newer release, or R2021a can no longer open them.

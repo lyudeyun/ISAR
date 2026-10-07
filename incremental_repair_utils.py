@@ -4,9 +4,13 @@ import torch.nn as nn
 import yaml
 import scipy.io as sio
 import pandas as pd
+from simulink_interface import SimulinkNN
 
-# Number of simulations run in this process, incremented by uuv_simulate and mc_simulate
+# Number of simulations run in this process, incremented by uuv_simulate, mc_simulate and simulink_robustness
 SIM_COUNTER = {'total': 0}
+
+# The SimulinkBenchmark that simulink_robustness evaluates on, set before repairing a Simulink benchmark
+SIMULINK = {'bench': None}
 
 """ Controller network utils """
 
@@ -58,6 +62,13 @@ def load_model_dict(model_dict: dict, network: nn.Module):
 # Dump torch model to yaml
 def dump_model_dict(filename, network: nn.Module):
     model_dict = {}
+    if isinstance(network, SimulinkNN):
+        # Activations are part of the Simulink model, so only the parameters are written
+        model_dict['weights'] = {l + 1: w.detach().numpy().tolist() for l, w in enumerate(network.weights)}
+        model_dict['offsets'] = {l + 1: b.detach().numpy().ravel().tolist() for l, b in enumerate(network.biases)}
+        with open(filename, 'w') as f:
+            yaml.dump(model_dict, f)
+        return
     model_dict['activations'] = {}
     if isinstance(network, UUV_Control_NN):
         model_dict['activations'][1] = 'Tanh'
@@ -211,6 +222,34 @@ def mc_barriered_energy(bad_states, good_states, net, lambda_=1.0):
     return lambda_ * np.mean(h_robustness_bad) + np.mean(log_barriers), h_robustness_bad, h_robustness_good
 
 
+""" Simulink utils """
+
+
+# STL robustness of the test cases case_ids under net, simulated in Simulink in one batch.
+# A state of a Simulink benchmark is a test case, identified by its index in the test suite.
+def simulink_robustness(net: SimulinkNN, case_ids):
+    SIM_COUNTER['total'] += len(case_ids)
+    return SIMULINK['bench'].robustness(net, case_ids)
+
+
+# Objective function, same as uuv_barriered_energy and mc_barriered_energy, with all states
+# simulated in one batch
+def simulink_barriered_energy(bad_states, good_states, net, lambda_=1.0):
+    robustness_all = simulink_robustness(net, [s[0] for s in bad_states] + [s[0] for s in good_states])
+    h_robustness_bad = robustness_all[:len(bad_states)]
+    h_robustness_good = robustness_all[len(bad_states):]
+
+    log_barriers = []
+    for robustness in h_robustness_good:
+        if robustness > 0.0 and np.log(robustness) > -1000:
+            log_barrier = np.log(robustness)
+        else:
+            log_barrier = -1000
+        log_barriers += [log_barrier]
+
+    return lambda_ * np.mean(h_robustness_bad) + np.mean(log_barriers), h_robustness_bad, h_robustness_good
+
+
 """ Other utils """
 
 
@@ -311,6 +350,9 @@ def check_samples(repaired_net_path, sampled_result_path, sample_repaired_result
             result_dict[f'vel'] = vel
             result_dict[f'result'] = robustness
             df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+    elif benchmark == 'simulink':
+        robustness = simulink_robustness(net, df_sample['case'].tolist())
+        df_sample_repaired = pd.DataFrame({'region': df_sample['region'], 'case': df_sample['case'], 'result': robustness})
     else:
         raise NotImplementedError
 

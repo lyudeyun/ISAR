@@ -18,6 +18,8 @@ def safeguarded_simulated_annealing(region_id, net, bad_states, good_states, std
         current_obj_value, h_robusntess_bad, h_robustness_good = uuv_barriered_energy(bad_states, good_states, net)
     elif benchmark == 'mc':
         current_obj_value, h_robusntess_bad, h_robustness_good = mc_barriered_energy(bad_states, good_states, net)
+    elif benchmark == 'simulink':
+        current_obj_value, h_robusntess_bad, h_robustness_good = simulink_barriered_energy(bad_states, good_states, net)
     else:
         raise NotImplementedError
 
@@ -35,6 +37,8 @@ def safeguarded_simulated_annealing(region_id, net, bad_states, good_states, std
             new_obj_value, new_h_robustness_bad, new_h_robustness_good = uuv_barriered_energy(bad_states, good_states, net)
         elif benchmark == 'mc':
             new_obj_value, new_h_robustness_bad, new_h_robustness_good = mc_barriered_energy(bad_states, good_states, net)
+        elif benchmark == 'simulink':
+            new_obj_value, new_h_robustness_bad, new_h_robustness_good = simulink_barriered_energy(bad_states, good_states, net)
         else:
             raise NotImplementedError
 
@@ -107,19 +111,25 @@ def isar_main(verisig_result_path, sampled_result_path, net_path, output_path, b
         good_states = [(row['y'], row['h'], row['result']) for index, row in df_good_approx.iterrows()]
     elif benchmark == 'mc':
         good_states = [(row['pos'], row['vel'], row['result']) for index, row in df_good_approx.iterrows()]
+    elif benchmark == 'simulink':
+        good_states = [(int(row['case']), row['result']) for index, row in df_good_approx.iterrows()]
     else:
         raise NotImplementedError
 
     # Load controller network to be repaired
-    with open(net_path, 'rb') as f:
-        model_dict = yaml.safe_load(f)
-    if benchmark == 'uuv':
-        net = UUV_Control_NN()
-    elif benchmark == 'mc':
-        net = MC_Control_NN()
+    if benchmark == 'simulink':
+        # The original controller comes from the benchmark's network file, read by the Simulink interface
+        net = SIMULINK['bench'].original_net()
     else:
-        raise NotImplementedError
-    load_model_dict(model_dict, net)
+        with open(net_path, 'rb') as f:
+            model_dict = yaml.safe_load(f)
+        if benchmark == 'uuv':
+            net = UUV_Control_NN()
+        elif benchmark == 'mc':
+            net = MC_Control_NN()
+        else:
+            raise NotImplementedError
+        load_model_dict(model_dict, net)
 
     iter_num = 0
     count_red_regions = len(region_robustness)
@@ -155,6 +165,8 @@ def isar_main(verisig_result_path, sampled_result_path, net_path, output_path, b
             bad_states = [(row['y'], row['h']) for index, row in df_region_bad.iterrows()]
         elif benchmark == 'mc':
             bad_states = [(row['pos'], row['vel']) for index, row in df_region_bad.iterrows()]
+        elif benchmark == 'simulink':
+            bad_states = [(int(row['case']),) for index, row in df_region_bad.iterrows()]
         else:
             raise NotImplementedError
 
@@ -183,7 +195,12 @@ def isar_main(verisig_result_path, sampled_result_path, net_path, output_path, b
         h_robustness_bad_prev = []
         h_robustness_bad = []
         repaired_states = []
-        for bad_state in bad_states:
+        if benchmark == 'simulink':
+            # Same checks as for UUV and MC, with the bad states simulated in two batches
+            bad_case_ids = [bad_state[0] for bad_state in bad_states]
+            robustness_bad_all = simulink_robustness(net_updated, bad_case_ids)
+            robustness_bad_prev_all = simulink_robustness(net, bad_case_ids)
+        for bad_idx, bad_state in enumerate(bad_states):
             if benchmark == 'uuv':
                 _, traj_y_bad = uuv_simulate(net=net_updated, init_pos_y=bad_state[0], init_global_heading_deg=bad_state[1])
                 robustness = uuv_robustness(traj_y_bad)
@@ -194,6 +211,9 @@ def isar_main(verisig_result_path, sampled_result_path, net_path, output_path, b
                 robustness = mc_robustness(traj_pos_bad)
                 traj_pos_bad_prev, _ = mc_simulate(net=net, pos_0=bad_state[0], vel_0=bad_state[1])
                 robustness_prev = mc_robustness(traj_pos_bad_prev)
+            elif benchmark == 'simulink':
+                robustness = robustness_bad_all[bad_idx]
+                robustness_prev = robustness_bad_prev_all[bad_idx]
             else:
                 raise NotImplementedError
             if robustness >= 0.0:
@@ -209,7 +229,9 @@ def isar_main(verisig_result_path, sampled_result_path, net_path, output_path, b
 
             # Check robustness of good states
             h_robustness_good = []
-            for good_state in good_states:
+            if benchmark == 'simulink':
+                h_robustness_good = simulink_robustness(net_updated, [good_state[0] for good_state in good_states])
+            for good_state in (good_states if benchmark != 'simulink' else []):
                 if benchmark == 'uuv':
                     _, traj_y_good = uuv_simulate(net=net_updated, init_pos_y=good_state[0], init_global_heading_deg=good_state[1])
                     h_robustness_good += [uuv_robustness(traj_y_good)]
@@ -273,11 +295,29 @@ def isar_main(verisig_result_path, sampled_result_path, net_path, output_path, b
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("--benchmark", help="uuv or mc", default="uuv")
-    parser.add_argument("--network", help="network yml file to be repaired", default=os.path.join('controllers', 'uuv_tanh_2_15_2x32_broken.yml'))
+    parser.add_argument("--benchmark", help="uuv, mc or simulink", default="uuv")
+    parser.add_argument("--network", help="network yml file to be repaired (not used for simulink)", default=os.path.join('controllers', 'uuv_tanh_2_15_2x32_broken.yml'))
     parser.add_argument("--verisig_result_path", help="path to verisig result csv", default='uuv_verisig_result.csv')
     parser.add_argument("--sampled_result_path", help="path to sampling result csv", default='uuv_sampling_result.csv')
     parser.add_argument("--output_path", help="directory for all output files", default='uuv_output')
+    parser.add_argument("--simulink_config", help="simulink only: AutoPatch config file in the benchmark folder, e.g. benchmark/AFC1_Phi1/config_rfFR11")
+    parser.add_argument("--breach_path", help="simulink only: Breach installation", default=os.environ.get('ISAR_BREACH_PATH', os.path.join('..', 'breach')))
+    parser.add_argument("--workers", help="simulink only: number of MATLAB workers simulating in parallel", default=1)
+    parser.add_argument("--perturb_biases", help="simulink only: 1 to perturb biases as well as weights, as for uuv and mc", default=1)
+    parser.add_argument("--seed", help="random seed of the simulated annealing, for reproducible repeated runs; not set by default", default=None)
     args = parser.parse_args()
 
-    isar_main(args.verisig_result_path, args.sampled_result_path, args.network, args.output_path, benchmark=args.benchmark)
+    if args.seed is not None:
+        torch.manual_seed(int(args.seed))
+        np.random.seed(int(args.seed))
+
+    if args.benchmark == 'simulink':
+        from simulink_interface import SimulinkBenchmark
+        SIMULINK['bench'] = SimulinkBenchmark(os.path.dirname(args.simulink_config), args.simulink_config, args.breach_path,
+                                              os.path.join(args.output_path, 'matlab_work'), workers=int(args.workers),
+                                              perturb_biases=bool(int(args.perturb_biases)))
+    try:
+        isar_main(args.verisig_result_path, args.sampled_result_path, args.network, args.output_path, benchmark=args.benchmark)
+    finally:
+        if SIMULINK['bench'] is not None:
+            SIMULINK['bench'].close()
