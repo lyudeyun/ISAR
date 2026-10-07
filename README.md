@@ -415,57 +415,37 @@ REPAIRED_SAMPLES=$(ls -t results/mc_new_no_verifier/repair_output/sample_checkpo
 python visualization.py --benchmark=mc --verisig_result_path=results/mc_new_no_verifier/mc_verisig_result_skipped.csv --sampled_result_path="$REPAIRED_SAMPLES"
 ```
 
-### Example: repairing on a given test suite (UUV and MC)
+### Repairing the benchmarks on their test suites
 
-Instead of sampling initial states in grid regions, ISAR can repair on a given set of initial states, such as the 100-case test suites in `benchmark/UUV/` and `benchmark/MC/`.
-`testsuite_to_isar.py` turns such a MATLAB test suite (a `testSuite` struct whose `testCases` have `sysInputs` and `rob`) into the input files of `incremental_repair.py`.
+Ten benchmarks can be repaired on a given test suite of 100 cases, without the verifier: MC and UUV, simulated in Python, and eight Simulink benchmarks in `benchmark/`.
+
+| Benchmark | Simulator | Specification | Controller |
+| --- | --- | --- | --- |
+| `MC` | Python | MC | `controllers/mc_sig_2x16_broken_old.yml` |
+| `UUV` | Python | UUV | `controllers/uuv_tanh_2_15_2x32_broken.yml` |
+| `ACC1_Phi1` | Simulink | ACC4 | `ACC4_FFNN_trainbfg_15_15_15_ep_100_Nor_20250527` |
+| `ACC1_Phi2` | Simulink | ACC5v | `ACC5v_FFNN_traingdx_15_15_15_ep_50_Nor_20250702` |
+| `ACC2_Phi1` | Simulink | ACC4 | `ACC4_FFNN_trainoss_30_30_30_ep_100_Nor_20250528` |
+| `ACC2_Phi2` | Simulink | ACC5v | `ACC5v_FFNN_traincgf_30_30_30_ep_50_Nor_20250704` |
+| `AFC1_Phi1` | Simulink | AFC1 | `AFC1_FFNN_trainscg_15_15_15_ep_1000_Nor_20250518` |
+| `AFC1_Phi2` | Simulink | AFC2 | `AFC2_FFNN_trainscg_15_15_15_ep_1000_Nor_20250717` |
+| `AFC2_Phi1` | Simulink | AFC1 | `AFC1_FFNN_trainrp_15_15_15_15_ep_1000_Nor_20250519` |
+| `AFC2_Phi2` | Simulink | AFC2 | `AFC2_FFNN_trainscg_15_15_15_15_ep_500_Nor_20250717` |
+
 Each test case becomes its own region, so every satisfied test case is protected during repair and every violated one is repaired as a separate region.
-The robustness is recomputed by simulation and compared with the `rob` stored in the test suite.
+Before repair, the robustness of the test suite under the original controller is recomputed by simulation, rather than taken from the test suite, so that it is consistent with the simulations during repair.
+The MC test suite was generated with the old MC controller.
+
+The simulated annealing is random, so the repair is repeated with different seeds.
+`run_benchmark.py` prepares the inputs of a benchmark once, then runs one repair per seed, each in a new process:
 
 ```
-python testsuite_to_isar.py --benchmark=mc --mat_path=benchmark/MC/MC_Phi_1_FFNN_16_16_XV_10_10_20250609.mat --network=controllers/mc_sig_2x16_broken_old.yml --output_dir=results/mc_old_testsuite
-python -u incremental_repair.py --benchmark=mc --network=controllers/mc_sig_2x16_broken_old.yml --verisig_result_path=results/mc_old_testsuite/mc_verisig_result_skipped.csv --sampled_result_path=results/mc_old_testsuite/mc_sampling_result_broken.csv --output_path=results/mc_old_testsuite/repair_output
+python run_benchmark.py --benchmark=MC --runs=10
+python run_benchmark.py --benchmark=UUV --runs=10
+python run_benchmark.py --benchmark=AFC1_Phi1 --runs=10 --workers=8 --breach_path=/path/to/breach
 ```
 
-For UUV, use `--benchmark=uuv`, `--mat_path=benchmark/UUV/UUV_Phi_1_FFNN_32_32_YH_10_10_May_13.mat` and `--network=controllers/uuv_tanh_2_15_2x32_broken.yml`, and replace `mc` with `uuv` in the file names.
-The MC test suite was generated with the old MC controller, `mc_sig_2x16_broken_old.yml`.
-
-### Running the Simulink benchmarks
-
-`benchmark/` holds eight Simulink benchmarks with NN controllers (ACC and AFC), copied from the git-tracked files of the AutoPatch repository (commit `1edcc84`, `FLRepBenchGen/`).
-Each benchmark folder contains the Simulink model, the controller network (`*_config_*.mat`), test suites of 100 cases (`*_testCaseNum_100.mat`, used for repair) and of 10000 cases (`*_testCaseNum_10000_val.mat`, for validation), the AutoPatch configs (`config_rfFR*`, `config_rfValEval*`), and the normalization parameters of the controller (`norm_params.mat`).
-
-| Benchmark | Specification | Controller |
-| --- | --- | --- |
-| `ACC1_Phi1` | ACC4 | `ACC4_FFNN_trainbfg_15_15_15_ep_100_Nor_20250527` |
-| `ACC1_Phi2` | ACC5v | `ACC5v_FFNN_traingdx_15_15_15_ep_50_Nor_20250702` |
-| `ACC2_Phi1` | ACC4 | `ACC4_FFNN_trainoss_30_30_30_ep_100_Nor_20250528` |
-| `ACC2_Phi2` | ACC5v | `ACC5v_FFNN_traincgf_30_30_30_ep_50_Nor_20250704` |
-| `AFC1_Phi1` | AFC1 | `AFC1_FFNN_trainscg_15_15_15_ep_1000_Nor_20250518` |
-| `AFC1_Phi2` | AFC2 | `AFC2_FFNN_trainscg_15_15_15_ep_1000_Nor_20250717` |
-| `AFC2_Phi1` | AFC1 | `AFC1_FFNN_trainrp_15_15_15_15_ep_1000_Nor_20250519` |
-| `AFC2_Phi2` | AFC2 | `AFC2_FFNN_trainscg_15_15_15_15_ep_500_Nor_20250717` |
-
-The specifications and simulation parameters are in the `config_rfFR*` file of each benchmark.
-
-**Requirements.** MATLAB with Simulink and the Deep Learning Toolbox, the MATLAB Engine for Python (Step 0), and [Breach](https://github.com/decyphir/breach).
-Pass the Breach folder with `--breach_path`, or set the environment variable `ISAR_BREACH_PATH`.
-
-**How it works.** ISAR runs in Python as for UUV and MC, and only the simulation is done in MATLAB (`simulink_interface.py` and `simulink/`):
-- Simulations use fastRob from AutoPatch (`simulink/fastrob/`): each MATLAB worker loads the model once and keeps it in fast restart, and candidate parameters are written into the Constant blocks of the network without recompiling the model.
-- All weights and biases are perturbed, as for UUV and MC (`--perturb_biases=0` perturbs weights only). They are written with `%.17g`, so writing the original parameters leaves the model numerically unchanged.
-- Each test case is a region, as in the example above. The robustness of the test suite under the original controller is recomputed with fastRob before repair, rather than taken from the test suite, so that it is consistent with the simulations during repair.
-- All test cases of one evaluation (the bad states of the region and all protected good states) are simulated in one batch, split over `--workers` MATLAB workers.
-- Each simulated test case counts as one simulation in `simulation_count.json`.
-
-**Repeated runs.** The simulated annealing is random, so the repair is repeated with different seeds.
-`run_simulink.py` prepares the inputs of a benchmark once, then runs one repair per seed, each in a new process with its own MATLAB session:
-
-```
-python run_simulink.py --benchmark=AFC1_Phi1 --runs=10 --workers=8 --breach_path=/path/to/breach
-```
-
-Results are written to `results/<benchmark>/`:
+Results are written to `results/<benchmark>/`, with the file prefix `mc`, `uuv` or `simulink`:
 
 ```
 results/AFC1_Phi1/
@@ -481,17 +461,37 @@ results/AFC1_Phi1/
 └── run_10/                                 # seed 10
 ```
 
-Seeds whose repair already finished are skipped, so an interrupted call can simply be repeated.
-To run some seeds only, e.g. one seed per job on a cluster, use `--first_seed` and `--runs`.
-The final repaired controller of a run is its last checkpoint, and its robustness on the test suite is in the matching `sample_checkpoint_*.csv`.
-If no region is repaired, there is no checkpoint and the result is the original controller.
+- Seeds whose repair already finished are skipped, so an interrupted call can simply be repeated. To run some seeds only, e.g. one seed per job on a cluster, use `--first_seed` and `--runs`.
+- The final repaired controller of a run is its last checkpoint, and its robustness on the test suite is in the matching `sample_checkpoint_*.csv`. If no region is repaired, there is no checkpoint and the result is the original controller.
+- `simulation_count.json` counts the simulations of the repair, one per simulated test case. The simulations that prepare the inputs are not included.
+- The repair stops once every violated region has been tried once; it has no simulation budget.
 
-The two steps that `run_simulink.py` performs can also be called directly:
+The two steps that `run_benchmark.py` performs can also be called directly, e.g. for MC and AFC1_Phi1:
 
 ```
+python testsuite_to_isar.py --benchmark=mc --mat_path=benchmark/MC/MC_Phi_1_FFNN_16_16_XV_10_10_20250609.mat --network=controllers/mc_sig_2x16_broken_old.yml --output_dir=results/MC
+python -u incremental_repair.py --benchmark=mc --network=controllers/mc_sig_2x16_broken_old.yml --seed=1 --verisig_result_path=results/MC/mc_verisig_result_skipped.csv --sampled_result_path=results/MC/mc_sampling_result_broken.csv --output_path=results/MC/run_1
+
 python testsuite_to_isar.py --benchmark=simulink --simulink_config=benchmark/AFC1_Phi1/config_rfFR11 --breach_path=/path/to/breach --workers=8 --output_dir=results/AFC1_Phi1
 python -u incremental_repair.py --benchmark=simulink --simulink_config=benchmark/AFC1_Phi1/config_rfFR11 --breach_path=/path/to/breach --workers=8 --seed=1 --verisig_result_path=results/AFC1_Phi1/simulink_verisig_result_skipped.csv --sampled_result_path=results/AFC1_Phi1/simulink_sampling_result_broken.csv --output_path=results/AFC1_Phi1/run_1
 ```
+
+`testsuite_to_isar.py` also accepts other MATLAB test suites of UUV or MC initial states: a `testSuite` struct whose `testCases` have `sysInputs` ([y, h] for UUV, [pos, vel] for MC) and `rob`.
+
+#### Simulink benchmarks
+
+The eight Simulink benchmarks in `benchmark/` were copied from the git-tracked files of the AutoPatch repository (commit `1edcc84`, `FLRepBenchGen/`).
+Each benchmark folder contains the Simulink model, the controller network (`*_config_*.mat`), test suites of 100 cases (`*_testCaseNum_100.mat`, used for repair) and of 10000 cases (`*_testCaseNum_10000_val.mat`, for validation), the AutoPatch configs (`config_rfFR*`, `config_rfValEval*`), and the normalization parameters of the controller (`norm_params.mat`).
+The specifications and simulation parameters are in the `config_rfFR*` file of each benchmark.
+`benchmark/MC/` and `benchmark/UUV/` hold the test suites of MC and UUV, with their 10000-case validation suites.
+
+**Requirements.** MATLAB with Simulink and the Deep Learning Toolbox, the MATLAB Engine for Python (Step 0), and [Breach](https://github.com/decyphir/breach).
+Pass the Breach folder with `--breach_path`, or set the environment variable `ISAR_BREACH_PATH`.
+
+**How it works.** ISAR runs in Python as for UUV and MC, and only the simulation is done in MATLAB (`simulink_interface.py` and `simulink/`):
+- Simulations use fastRob from AutoPatch (`simulink/fastrob/`): each MATLAB worker loads the model once and keeps it in fast restart, and candidate parameters are written into the Constant blocks of the network without recompiling the model.
+- All weights and biases are perturbed, as for UUV and MC (`--perturb_biases=0` perturbs weights only). They are written with `%.17g`, so writing the original parameters leaves the model numerically unchanged.
+- All test cases of one evaluation (the bad states of the region and all protected good states) are simulated in one batch, split over `--workers` MATLAB workers.
 
 **Notes.**
 - Use at most as many workers as there are free cores.
