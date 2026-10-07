@@ -281,3 +281,87 @@ Repaired controller (in the same shell as Step 4, so that `$REPAIRED_SAMPLES` is
 ```
 python visualization.py --benchmark=mc --verisig_result_path=results/mc_new/mc_verisig_result_repaired.csv --sampled_result_path="$REPAIRED_SAMPLES"
 ```
+
+### Example: running without the verifier
+
+ISAR can also be run without Verisig. During repair, regions are colored by the sampled states only: a region is red (to be repaired) if any of its sampled states violates the STL specification, and yellow (to be preserved) otherwise.
+This does not change the repair procedure itself, since green (verified) and yellow regions are treated the same way during repair. Verisig and Flow* are not needed, so Step 2 and Step 4 are skipped.
+
+This is done by giving `incremental_repair.py` a placeholder verification result in which every region is marked `unknown`.
+Use exactly `unknown`: the value `unknown?` is treated as verified (green), in which case no region is repaired.
+
+#### UUV
+
+All generated files are kept in `results/uuv_no_verifier/`.
+
+1. Partition the initial state space.
+
+```
+mkdir -p results/uuv_no_verifier/logs
+python generate_partition.py --benchmark=uuv
+mv uuv_initial_state_regions.csv results/uuv_no_verifier/
+```
+
+2. Mark every region as unverified.
+
+```
+python -c "import pandas as pd; df = pd.read_csv('results/uuv_no_verifier/uuv_initial_state_regions.csv'); df['result'] = 'unknown'; df.to_csv('results/uuv_no_verifier/uuv_verisig_result_skipped.csv', index=False)"
+```
+
+3. Sample 10 initial states per region.
+
+```
+/usr/bin/time -p python -u sample_states_in_regions.py --benchmark=uuv --network=controllers/uuv_tanh_2_15_2x32_broken.yml --initial_state_regions_path=results/uuv_no_verifier/uuv_initial_state_regions.csv --sampled_result_path=results/uuv_no_verifier/uuv_sampling_result_broken.csv --num_samples_per_region=10 2>&1 | tee results/uuv_no_verifier/logs/uuv_sampling_broken.log
+```
+
+4. Repair. Checkpoints are written to `results/uuv_no_verifier/repair_output/`.
+
+```
+/usr/bin/time -p python -u incremental_repair.py --benchmark=uuv --network=controllers/uuv_tanh_2_15_2x32_broken.yml --verisig_result_path=results/uuv_no_verifier/uuv_verisig_result_skipped.csv --sampled_result_path=results/uuv_no_verifier/uuv_sampling_result_broken.csv --output_path=results/uuv_no_verifier/repair_output 2>&1 | tee results/uuv_no_verifier/logs/uuv_repair.log
+```
+
+5. Visualize the broken controller and the latest repaired checkpoint. Regions are shown as yellow or red only.
+
+```
+python visualization.py --benchmark=uuv --verisig_result_path=results/uuv_no_verifier/uuv_verisig_result_skipped.csv --sampled_result_path=results/uuv_no_verifier/uuv_sampling_result_broken.csv
+REPAIRED_SAMPLES=$(ls -t results/uuv_no_verifier/repair_output/sample_checkpoint_iter_*.csv | head -1)
+python visualization.py --benchmark=uuv --verisig_result_path=results/uuv_no_verifier/uuv_verisig_result_skipped.csv --sampled_result_path="$REPAIRED_SAMPLES"
+```
+
+#### MC
+
+The same steps for the new MC controller, with all generated files in `results/mc_new_no_verifier/`. For the old controller, replace every `new` with `old`.
+
+1. Partition the initial state space.
+
+```
+mkdir -p results/mc_new_no_verifier/logs
+python generate_partition.py --benchmark=mc
+mv mc_initial_state_regions.csv results/mc_new_no_verifier/
+```
+
+2. Mark every region as unverified.
+
+```
+python -c "import pandas as pd; df = pd.read_csv('results/mc_new_no_verifier/mc_initial_state_regions.csv'); df['result'] = 'unknown'; df.to_csv('results/mc_new_no_verifier/mc_verisig_result_skipped.csv', index=False)"
+```
+
+3. Sample 10 initial states per region.
+
+```
+/usr/bin/time -p python -u sample_states_in_regions.py --benchmark=mc --network=controllers/mc_sig_2x16_broken_new.yml --initial_state_regions_path=results/mc_new_no_verifier/mc_initial_state_regions.csv --sampled_result_path=results/mc_new_no_verifier/mc_sampling_result_broken.csv --num_samples_per_region=10 2>&1 | tee results/mc_new_no_verifier/logs/mc_sampling_broken.log
+```
+
+4. Repair. Checkpoints are written to `results/mc_new_no_verifier/repair_output/`.
+
+```
+/usr/bin/time -p python -u incremental_repair.py --benchmark=mc --network=controllers/mc_sig_2x16_broken_new.yml --verisig_result_path=results/mc_new_no_verifier/mc_verisig_result_skipped.csv --sampled_result_path=results/mc_new_no_verifier/mc_sampling_result_broken.csv --output_path=results/mc_new_no_verifier/repair_output 2>&1 | tee results/mc_new_no_verifier/logs/mc_repair.log
+```
+
+5. Visualize the broken controller and the latest repaired checkpoint.
+
+```
+python visualization.py --benchmark=mc --verisig_result_path=results/mc_new_no_verifier/mc_verisig_result_skipped.csv --sampled_result_path=results/mc_new_no_verifier/mc_sampling_result_broken.csv
+REPAIRED_SAMPLES=$(ls -t results/mc_new_no_verifier/repair_output/sample_checkpoint_iter_*.csv | head -1)
+python visualization.py --benchmark=mc --verisig_result_path=results/mc_new_no_verifier/mc_verisig_result_skipped.csv --sampled_result_path="$REPAIRED_SAMPLES"
+```
