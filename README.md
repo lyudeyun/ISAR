@@ -115,6 +115,19 @@ Configurations of this plot, such as title, ticks and size can be modified in `v
 This code will also output the number of the three types of regions,
 and the mean and std of min STL robustness in red, non-red and overall regions (as in our Table 1 and 3).
 
+### Note on the MC dynamics
+
+The MC simulator used for sampling and repair (`mc_simulate` in `incremental_repair_utils.py`) updates the position with the velocity of the previous step (explicit Euler; clipping of position and velocity omitted below):
+
+```
+pos[t+1] = pos[t] + vel[t]
+vel[t+1] = vel[t] + 0.0015 * u[t] - 0.0025 * cos(3 * pos[t])
+```
+
+This differs slightly from the standard Mountain Car (Sutton & Barto, OpenAI Gym), which updates the position with the new velocity, `pos[t+1] = pos[t] + vel[t+1]`.
+The Verisig model `mc.xml` and the gym environment `mc_baselines/mc_gym.py` follow the standard form.
+We keep the ISAR implementation unchanged, so that results remain comparable with the original ISAR implementation. When comparing other methods on MC, use the same dynamics as `mc_simulate`.
+
 ### Example: the full pipeline on UUV
 
 The commands below run Steps 1-5 on the UUV benchmark with concrete file names, so they can be copied as is.
