@@ -1,6 +1,7 @@
 import argparse
 import glob
 import os
+import shutil
 import subprocess
 import sys
 
@@ -28,8 +29,9 @@ if __name__ == '__main__':
     parser.add_argument("--runs", help="number of repeated runs, default 10", default=10)
     parser.add_argument("--first_seed", help="seed of the first run; run i uses seed first_seed + i, default 1", default=1)
     parser.add_argument("--workers", help="Simulink only: number of MATLAB workers simulating in parallel", default=8)
-    parser.add_argument("--breach_path", help="Simulink only: Breach installation", default=os.environ.get('ISAR_BREACH_PATH', os.path.join('..', 'breach')))
+    parser.add_argument("--breach_path", help="Simulink only: Breach installation", default=os.environ.get('ISAR_BREACH_PATH', os.path.join(os.path.dirname(ISAR_DIR), 'breach')))
     parser.add_argument("--results_dir", help="directory for all results", default=os.path.join(ISAR_DIR, 'results'))
+    parser.add_argument("--prepare_only", help="1 to only prepare the inputs, e.g. once before submitting one job per seed", default=0)
     args = parser.parse_args()
 
     out_dir = os.path.abspath(os.path.join(args.results_dir, args.benchmark))
@@ -42,6 +44,9 @@ if __name__ == '__main__':
         configs = sorted(glob.glob(os.path.join(ISAR_DIR, 'benchmark', args.benchmark, 'config_rfFR*')))
         assert len(configs) == 1, f'expected one config_rfFR* in benchmark/{args.benchmark}, found {configs}'
         kind = 'simulink'
+        if not os.path.isfile(os.path.join(args.breach_path, 'InitBreach.m')):
+            sys.exit(f'Breach not found in {os.path.abspath(args.breach_path)} (no InitBreach.m); '
+                     f'pass the Breach folder with --breach_path or set ISAR_BREACH_PATH')
         prepare_args = ['--simulink_config=' + configs[0], '--breach_path=' + os.path.abspath(args.breach_path),
                         '--workers=' + str(args.workers)]
         repair_args = prepare_args
@@ -53,6 +58,9 @@ if __name__ == '__main__':
         print(f'Preparing {args.benchmark}: robustness of the test suite under the original controller', flush=True)
         subprocess.run([sys.executable, '-u', 'testsuite_to_isar.py', '--benchmark=' + kind, '--output_dir=' + out_dir]
                        + prepare_args, cwd=ISAR_DIR, check=True)
+        shutil.rmtree(os.path.join(out_dir, 'matlab_work'), ignore_errors=True)
+    if int(args.prepare_only):
+        sys.exit(0)
 
     for i in range(int(args.runs)):
         seed = int(args.first_seed) + i
@@ -61,7 +69,11 @@ if __name__ == '__main__':
         if os.path.isfile(log_path) and 'Total time:' in open(log_path).read():
             print(f'{args.benchmark} seed {seed}: already finished, skipped', flush=True)
             continue
-        os.makedirs(run_dir, exist_ok=True)
+        # A run that did not finish is started over in an empty folder, so no checkpoint of the earlier attempt remains
+        if os.path.isdir(run_dir):
+            print(f'{args.benchmark} seed {seed}: removing the unfinished earlier attempt in {run_dir}', flush=True)
+            shutil.rmtree(run_dir)
+        os.makedirs(run_dir)
         print(f'{args.benchmark} seed {seed}: repairing, log in {log_path}', flush=True)
         with open(log_path, 'w') as log:
             result = subprocess.run([sys.executable, '-u', 'incremental_repair.py', '--benchmark=' + kind, '--seed=' + str(seed),
@@ -71,4 +83,6 @@ if __name__ == '__main__':
         if result.returncode != 0:
             print(f'{args.benchmark} seed {seed}: failed with exit code {result.returncode}, see {log_path}', flush=True)
             sys.exit(result.returncode)
+        # The model copies made by fastRob are only needed while the run is active
+        shutil.rmtree(os.path.join(run_dir, 'matlab_work'), ignore_errors=True)
         print(f'{args.benchmark} seed {seed}: done', flush=True)

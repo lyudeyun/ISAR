@@ -461,10 +461,23 @@ results/AFC1_Phi1/
 └── run_10/                                 # seed 10
 ```
 
-- Seeds whose repair already finished are skipped, so an interrupted call can simply be repeated. To run some seeds only, e.g. one seed per job on a cluster, use `--first_seed` and `--runs`.
+- Each seed writes only to its own `run_<seed>/` folder, so repeated runs never overwrite each other.
+- Seeds whose repair already finished are skipped, so an interrupted call can simply be repeated. A seed that did not finish is started over in an empty `run_<seed>/` folder, so no checkpoint of the earlier attempt remains.
 - The final repaired controller of a run is its last checkpoint, and its robustness on the test suite is in the matching `sample_checkpoint_*.csv`. If no region is repaired, there is no checkpoint and the result is the original controller.
 - `simulation_count.json` counts the simulations of the repair, one per simulated test case. The simulations that prepare the inputs are not included.
 - The repair stops once every violated region has been tried once; it has no simulation budget.
+
+To run the seeds in parallel, e.g. one job per seed on a cluster, prepare the inputs once and then start one call per seed:
+
+```
+python run_benchmark.py --benchmark=AFC1_Phi1 --prepare_only=1 --workers=8 --breach_path=/path/to/breach
+python run_benchmark.py --benchmark=AFC1_Phi1 --first_seed=1 --runs=1 --workers=8 --breach_path=/path/to/breach   # job 1
+python run_benchmark.py --benchmark=AFC1_Phi1 --first_seed=2 --runs=1 --workers=8 --breach_path=/path/to/breach   # job 2
+...
+```
+
+Never start two calls for the same seed at the same time: a call removes the folder of an unfinished seed before running it.
+For Simulink benchmarks, give each concurrently running job its own copy of Breach and its own `MATLAB_JOB_STORAGE_LOCATION` (see the notes below).
 
 The two steps that `run_benchmark.py` performs can also be called directly, e.g. for MC and AFC1_Phi1:
 
@@ -487,6 +500,7 @@ The specifications and simulation parameters are in the `config_rfFR*` file of e
 
 **Requirements.** MATLAB with Simulink and the Deep Learning Toolbox, the MATLAB Engine for Python (Step 0), and [Breach](https://github.com/decyphir/breach).
 Pass the Breach folder with `--breach_path`, or set the environment variable `ISAR_BREACH_PATH`.
+Otherwise a folder named `breach` next to this repository is used, e.g. `~/git3/breach` for a clone in `~/git3/ISAR`. The scripts stop before starting MATLAB if that folder does not contain `InitBreach.m`.
 
 **How it works.** ISAR runs in Python as for UUV and MC, and only the simulation is done in MATLAB (`simulink_interface.py` and `simulink/`):
 - Simulations use fastRob from AutoPatch (`simulink/fastrob/`): each MATLAB worker loads the model once and keeps it in fast restart, and candidate parameters are written into the Constant blocks of the network without recompiling the model.
@@ -495,5 +509,7 @@ Pass the Breach folder with `--breach_path`, or set the environment variable `IS
 
 **Notes.**
 - Use at most as many workers as there are free cores.
-- fastRob leaves model copies (`fr_*.slx`) in the run folder and in Breach's `Ext/ModelsData` folder. On Linux, fastRob deletes the copies of finished processes; on macOS they accumulate and can be deleted by hand when no run is active.
+- fastRob leaves model copies (`fr_*.slx`) in the run folder and in Breach's `Ext/ModelsData` folder. `run_benchmark.py` deletes the copies in the run folder when a run finishes. On Linux, fastRob deletes the copies of finished processes in `Ext/ModelsData`; on macOS they accumulate and can be deleted by hand when no run is active.
+- fastRob decides that a copy in `Ext/ModelsData` belongs to a finished process by its process id on the current machine. Jobs on different nodes that share one Breach folder can therefore delete each other's copies while they are in use. Give each concurrently running job its own copy of Breach, as AutoPatch's `run_experiment.pjm.sh` does.
+- MATLAB sessions that start parallel pools at the same time on one machine can conflict in the default job storage folder. `initParpool` uses the environment variable `MATLAB_JOB_STORAGE_LOCATION` if it is set, so set it to a different folder for each job.
 - The models were saved with MATLAB R2021a. Newer releases can open them; do not save them with a newer release, or R2021a can no longer open them.

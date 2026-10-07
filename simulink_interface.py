@@ -7,6 +7,15 @@ import torch.nn as nn
 
 ISAR_DIR = os.path.dirname(os.path.abspath(__file__))
 
+# Breach: the environment variable ISAR_BREACH_PATH if set, otherwise a folder named breach next to this repository
+DEFAULT_BREACH_PATH = os.environ.get('ISAR_BREACH_PATH', os.path.join(os.path.dirname(ISAR_DIR), 'breach'))
+
+
+def check_breach_path(breach_path):
+    if not os.path.isfile(os.path.join(breach_path, 'InitBreach.m')):
+        raise FileNotFoundError(f'Breach not found in {os.path.abspath(breach_path)} (no InitBreach.m); '
+                                f'pass the Breach folder with --breach_path or set ISAR_BREACH_PATH')
+
 
 # Controller of a Simulink benchmark. It only holds the weights and biases; the network is
 # evaluated inside the Simulink model. Weights and biases are parameters, so the simulated
@@ -49,6 +58,7 @@ def parse_autopatch_config(path):
 class SimulinkBenchmark:
 
     def __init__(self, bench_dir, config_path, breach_path, work_dir, workers=1, perturb_biases=True):
+        check_breach_path(breach_path)
         import matlab.engine
 
         config = parse_autopatch_config(config_path)

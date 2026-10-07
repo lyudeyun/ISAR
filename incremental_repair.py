@@ -4,6 +4,7 @@ import time
 import json
 import argparse
 from incremental_repair_utils import *
+from simulink_interface import DEFAULT_BREACH_PATH
 
 
 # Safeguarded simulated annealing, which attemps to repair one region while preserving others
@@ -301,7 +302,7 @@ if __name__ == '__main__':
     parser.add_argument("--sampled_result_path", help="path to sampling result csv", default='uuv_sampling_result.csv')
     parser.add_argument("--output_path", help="directory for all output files", default='uuv_output')
     parser.add_argument("--simulink_config", help="simulink only: AutoPatch config file in the benchmark folder, e.g. benchmark/AFC1_Phi1/config_rfFR11")
-    parser.add_argument("--breach_path", help="simulink only: Breach installation", default=os.environ.get('ISAR_BREACH_PATH', os.path.join('..', 'breach')))
+    parser.add_argument("--breach_path", help="simulink only: Breach installation", default=DEFAULT_BREACH_PATH)
     parser.add_argument("--workers", help="simulink only: number of MATLAB workers simulating in parallel", default=1)
     parser.add_argument("--perturb_biases", help="simulink only: 1 to perturb biases as well as weights, as for uuv and mc", default=1)
     parser.add_argument("--seed", help="random seed of the simulated annealing, for reproducible repeated runs; not set by default", default=None)

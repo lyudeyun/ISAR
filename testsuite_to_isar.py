@@ -1,6 +1,14 @@
 import argparse
 import os
 from incremental_repair_utils import *
+from simulink_interface import DEFAULT_BREACH_PATH
+
+
+# Write a csv under a temporary name and rename it, so that a concurrent reader never sees a partial file
+def write_csv_atomically(df, path):
+    tmp_path = f'{path}.tmp{os.getpid()}'
+    df.to_csv(tmp_path, index=False)
+    os.replace(tmp_path, path)
 
 
 # Simulink benchmark: the test suite named in the AutoPatch config, simulated with the original controller
@@ -22,11 +30,10 @@ def convert_simulink(args):
     df_regions = pd.DataFrame({'case': case_ids})
     df_verisig = df_regions.copy()
     df_verisig['result'] = 'unknown'
-    if not os.path.exists(args.output_dir):
-        os.makedirs(args.output_dir)
-    df_regions.to_csv(os.path.join(args.output_dir, 'simulink_initial_state_regions.csv'), index=False)
-    df_verisig.to_csv(os.path.join(args.output_dir, 'simulink_verisig_result_skipped.csv'), index=False)
-    df_sample.to_csv(os.path.join(args.output_dir, 'simulink_sampling_result_broken.csv'), index=False)
+    os.makedirs(args.output_dir, exist_ok=True)
+    write_csv_atomically(df_regions, os.path.join(args.output_dir, 'simulink_initial_state_regions.csv'))
+    write_csv_atomically(df_verisig, os.path.join(args.output_dir, 'simulink_verisig_result_skipped.csv'))
+    write_csv_atomically(df_sample, os.path.join(args.output_dir, 'simulink_sampling_result_broken.csv'))
     print(f'{len(df_sample)} test cases, {(df_sample["result"] < 0).sum()} violating')
 
 
@@ -41,7 +48,7 @@ if __name__ == '__main__':
     parser.add_argument("--network", help="uuv and mc: network yml file to be repaired", default=os.path.join('controllers', 'uuv_tanh_2_15_2x32_broken.yml'))
     parser.add_argument("--output_dir", help="directory to write the csv files")
     parser.add_argument("--simulink_config", help="simulink only: AutoPatch config file in the benchmark folder, e.g. benchmark/AFC1_Phi1/config_rfFR11")
-    parser.add_argument("--breach_path", help="simulink only: Breach installation", default=os.environ.get('ISAR_BREACH_PATH', os.path.join('..', 'breach')))
+    parser.add_argument("--breach_path", help="simulink only: Breach installation", default=DEFAULT_BREACH_PATH)
     parser.add_argument("--workers", help="simulink only: number of MATLAB workers simulating in parallel", default=1)
     args = parser.parse_args()
 
@@ -85,11 +92,10 @@ if __name__ == '__main__':
     df_verisig = df_regions.copy()
     df_verisig['result'] = 'unknown'
 
-    if not os.path.exists(args.output_dir):
-        os.makedirs(args.output_dir)
-    df_regions.to_csv(os.path.join(args.output_dir, f'{args.benchmark}_initial_state_regions.csv'), index=False)
-    df_verisig.to_csv(os.path.join(args.output_dir, f'{args.benchmark}_verisig_result_skipped.csv'), index=False)
-    df_sample.to_csv(os.path.join(args.output_dir, f'{args.benchmark}_sampling_result_broken.csv'), index=False)
+    os.makedirs(args.output_dir, exist_ok=True)
+    write_csv_atomically(df_regions, os.path.join(args.output_dir, f'{args.benchmark}_initial_state_regions.csv'))
+    write_csv_atomically(df_verisig, os.path.join(args.output_dir, f'{args.benchmark}_verisig_result_skipped.csv'))
+    write_csv_atomically(df_sample, os.path.join(args.output_dir, f'{args.benchmark}_sampling_result_broken.csv'))
 
     print(f'{len(df_sample)} test cases, {(df_sample["result"] < 0).sum()} violating')
     print(f'Recomputed robustness vs. rob in the mat file: max |diff| = {max_diff:.2e}, sign mismatches = {sign_mismatch}')
