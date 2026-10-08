@@ -487,6 +487,7 @@ results/AFC1_Phi1/
 - The final repaired controller of a run is its last checkpoint, and its robustness on the test suite is in the matching `sample_checkpoint_*.csv`. If no region is repaired, there is no checkpoint and the result is the original controller.
 - `simulation_count.json` counts the simulations of the repair, one per simulated test case. The simulations that prepare the inputs are not included.
 - The repair stops once every violated region has been tried once; it has no simulation budget.
+- The annealing perturbs every weight and bias with Gaussian noise of standard deviation 0.1, the default of ISAR. `--std` changes it, e.g. `--std=0.001`; such runs are written to `results/<benchmark>/std_<std>/run_<seed>/`, apart from the runs with the default.
 
 To run the seeds in parallel, e.g. one job per seed on a cluster, prepare the inputs once and then start one call per seed:
 
@@ -530,6 +531,7 @@ Otherwise a folder named `breach` next to this repository is used, e.g. `~/git3/
 
 **Notes.**
 - Use at most as many workers as there are free cores.
+- MATLAB R2021a can deadlock inside `sim()`, in the Simulation Data Inspector, which would hang a run without any error (observed once in about 21,000 batches). Every call to MATLAB therefore has a timeout (`--eval_timeout`, 900 s by default; the first batch of a run also builds the simulation sessions and takes longer than the others). On a timeout, MATLAB and its workers are killed and restarted, and the same batch is simulated again, at most 3 times. Simulation is deterministic, so the result is the same as without the hang, and the batch is counted once. The number of restarts is recorded as `matlab_restarts` in `simulation_count.json`.
 - fastRob leaves model copies (`fr_*.slx`) in the run folder and in Breach's `Ext/ModelsData` folder. `run_benchmark.py` deletes the copies in the run folder when a run finishes. On Linux, fastRob deletes the copies of finished processes in `Ext/ModelsData`; on macOS they accumulate and can be deleted by hand when no run is active.
 - fastRob decides that a copy in `Ext/ModelsData` belongs to a finished process by its process id on the current machine. Jobs on different nodes that share one Breach folder can therefore delete each other's copies while they are in use. Give each concurrently running job its own copy of Breach, as AutoPatch's `run_experiment.pjm.sh` does.
 - MATLAB sessions that start parallel pools at the same time on one machine can conflict in the default job storage folder. `initParpool` uses the environment variable `MATLAB_JOB_STORAGE_LOCATION` if it is set, so set it to a different folder for each job.

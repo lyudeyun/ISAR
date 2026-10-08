@@ -72,7 +72,7 @@ def safeguarded_simulated_annealing(region_id, net, bad_states, good_states, std
 
 
 # Main ISAR algorithm
-def isar_main(verisig_result_path, sampled_result_path, net_path, output_path, benchmark='uuv'):
+def isar_main(verisig_result_path, sampled_result_path, net_path, output_path, benchmark='uuv', std=0.1):
 
     # Directory to save all logs and checkpoints
     if not os.path.exists(output_path):
@@ -148,6 +148,8 @@ def isar_main(verisig_result_path, sampled_result_path, net_path, output_path, b
         sim_counts['total'] = SIM_COUNTER['total'] - sim_start
         sim_counts['state_check'] = sim_counts['total'] - sim_counts['annealing'] - sim_counts['sample_check']
         sim_counts['iterations'] = iter_num
+        if SIMULINK['bench'] is not None:
+            sim_counts['matlab_restarts'] = SIMULINK['bench'].restarts
         with open(os.path.join(output_path, 'simulation_count.json'), 'w') as f:
             json.dump(sim_counts, f, indent=2)
 
@@ -189,7 +191,7 @@ def isar_main(verisig_result_path, sampled_result_path, net_path, output_path, b
         sim_before = SIM_COUNTER['total']
         # Anneal a copy, since annealing changes the network in place. net stays as before annealing,
         # for the before/after comparison below and as the rollback when the region is not repaired.
-        net_updated = safeguarded_simulated_annealing(bad_region_id, copy.deepcopy(net), bad_states, good_states, benchmark=benchmark)
+        net_updated = safeguarded_simulated_annealing(bad_region_id, copy.deepcopy(net), bad_states, good_states, std=std, benchmark=benchmark)
         sim_counts['annealing'] += SIM_COUNTER['total'] - sim_before
 
         # Check robustness of bad states
@@ -305,7 +307,9 @@ if __name__ == '__main__':
     parser.add_argument("--breach_path", help="simulink only: Breach installation", default=DEFAULT_BREACH_PATH)
     parser.add_argument("--workers", help="simulink only: number of MATLAB workers simulating in parallel", default=1)
     parser.add_argument("--perturb_biases", help="simulink only: 1 to perturb biases as well as weights, as for uuv and mc", default=1)
+    parser.add_argument("--eval_timeout", help="simulink only: seconds to wait for one batch of simulations before restarting MATLAB, default 900", default=900)
     parser.add_argument("--seed", help="random seed of the simulated annealing, for reproducible repeated runs; not set by default", default=None)
+    parser.add_argument("--std", help="standard deviation of the Gaussian perturbation added to every weight and bias in the simulated annealing, default 0.1 as in ISAR", default=0.1)
     args = parser.parse_args()
 
     if args.seed is not None:
@@ -316,9 +320,10 @@ if __name__ == '__main__':
         from simulink_interface import SimulinkBenchmark
         SIMULINK['bench'] = SimulinkBenchmark(os.path.dirname(args.simulink_config), args.simulink_config, args.breach_path,
                                               os.path.join(args.output_path, 'matlab_work'), workers=int(args.workers),
-                                              perturb_biases=bool(int(args.perturb_biases)))
+                                              perturb_biases=bool(int(args.perturb_biases)), eval_timeout=float(args.eval_timeout))
     try:
-        isar_main(args.verisig_result_path, args.sampled_result_path, args.network, args.output_path, benchmark=args.benchmark)
+        print(f'Perturbation std: {float(args.std)}', flush=True)
+        isar_main(args.verisig_result_path, args.sampled_result_path, args.network, args.output_path, benchmark=args.benchmark, std=float(args.std))
     finally:
         if SIMULINK['bench'] is not None:
             SIMULINK['bench'].close()

@@ -31,6 +31,8 @@ if __name__ == '__main__':
     parser.add_argument("--workers", help="Simulink only: number of MATLAB workers simulating in parallel", default=8)
     parser.add_argument("--breach_path", help="Simulink only: Breach installation", default=os.environ.get('ISAR_BREACH_PATH', os.path.join(os.path.dirname(ISAR_DIR), 'breach')))
     parser.add_argument("--results_dir", help="directory for all results", default=os.path.join(ISAR_DIR, 'results'))
+    parser.add_argument("--eval_timeout", help="Simulink only: seconds to wait for one batch of simulations before restarting MATLAB, default 900", default=900)
+    parser.add_argument("--std", help="standard deviation of the annealing perturbation; if given, runs go to <benchmark>/std_<std>/ instead of <benchmark>/ (default 0.1)", default=None)
     parser.add_argument("--prepare_only", help="1 to only prepare the inputs, e.g. once before submitting one job per seed", default=0)
     args = parser.parse_args()
 
@@ -48,7 +50,7 @@ if __name__ == '__main__':
             sys.exit(f'Breach not found in {os.path.abspath(args.breach_path)} (no InitBreach.m); '
                      f'pass the Breach folder with --breach_path or set ISAR_BREACH_PATH')
         prepare_args = ['--simulink_config=' + configs[0], '--breach_path=' + os.path.abspath(args.breach_path),
-                        '--workers=' + str(args.workers)]
+                        '--workers=' + str(args.workers), '--eval_timeout=' + str(args.eval_timeout)]
         repair_args = prepare_args
     verisig_path = os.path.join(out_dir, f'{kind}_verisig_result_skipped.csv')
     sampled_path = os.path.join(out_dir, f'{kind}_sampling_result_broken.csv')
@@ -64,7 +66,9 @@ if __name__ == '__main__':
 
     for i in range(int(args.runs)):
         seed = int(args.first_seed) + i
-        run_dir = os.path.join(out_dir, f'run_{seed}')
+        # Runs with a non-default perturbation are kept apart from the runs with the default of ISAR
+        runs_dir = out_dir if args.std is None else os.path.join(out_dir, f'std_{float(args.std):g}')
+        run_dir = os.path.join(runs_dir, f'run_{seed}')
         log_path = os.path.join(run_dir, 'repair.log')
         if os.path.isfile(log_path) and 'Total time:' in open(log_path).read():
             print(f'{args.benchmark} seed {seed}: already finished, skipped', flush=True)
@@ -78,7 +82,7 @@ if __name__ == '__main__':
         with open(log_path, 'w') as log:
             result = subprocess.run([sys.executable, '-u', 'incremental_repair.py', '--benchmark=' + kind, '--seed=' + str(seed),
                                      '--verisig_result_path=' + verisig_path, '--sampled_result_path=' + sampled_path,
-                                     '--output_path=' + run_dir] + repair_args,
+                                     '--output_path=' + run_dir] + repair_args + ([] if args.std is None else ['--std=' + str(float(args.std))]),
                                     cwd=ISAR_DIR, stdout=log, stderr=subprocess.STDOUT)
         if result.returncode != 0:
             print(f'{args.benchmark} seed {seed}: failed with exit code {result.returncode}, see {log_path}', flush=True)

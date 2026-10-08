@@ -1,5 +1,7 @@
 import os
 import glob
+import signal
+import subprocess
 import numpy as np
 import torch
 import torch.nn as nn
@@ -54,11 +56,31 @@ def parse_autopatch_config(path):
     return config
 
 
-# Interface to one Simulink benchmark through the MATLAB Engine
+# Kill a process and all its descendants
+def kill_process_tree(pid):
+    pids, todo = [], [int(pid)]
+    while todo:
+        p = todo.pop()
+        pids.append(p)
+        children = subprocess.run(['pgrep', '-P', str(p)], capture_output=True, text=True).stdout.split()
+        todo += [int(c) for c in children]
+    for p in pids:
+        try:
+            os.kill(p, signal.SIGKILL)
+        except (ProcessLookupError, PermissionError):
+            pass
+
+
+# Interface to one Simulink benchmark through the MATLAB Engine.
+# MATLAB R2021a can deadlock inside sim() (in the Simulation Data Inspector), which would hang the repair
+# forever. Every call to MATLAB therefore has a timeout; on a timeout, MATLAB and its workers are killed
+# and restarted, and the same call is made again. Simulation is deterministic, so the result is unchanged.
 class SimulinkBenchmark:
 
-    def __init__(self, bench_dir, config_path, breach_path, work_dir, workers=1, perturb_biases=True):
+    def __init__(self, bench_dir, config_path, breach_path, work_dir, workers=1, perturb_biases=True,
+                 eval_timeout=900, init_timeout=1800, max_retries=3):
         check_breach_path(breach_path)
+        import matlab
         import matlab.engine
 
         config = parse_autopatch_config(config_path)
@@ -74,10 +96,14 @@ class SimulinkBenchmark:
         nn_stru = [float(x) for x in config['nnStru'][0].strip('[]').split(',')]
 
         self.perturb_biases = perturb_biases
-        self.eng = matlab.engine.start_matlab()
         self.matlab = matlab
-        self.eng.addpath(os.path.join(ISAR_DIR, 'simulink'), nargout=0)
-        cfg = {
+        self.eval_timeout = float(eval_timeout)
+        self.init_timeout = float(init_timeout)
+        self.max_retries = int(max_retries)
+        self.restarts = 0
+        self.eng = None
+        self.matlab_pids = []
+        self.cfg = {
             'benchDir': model_dir,
             'model': config['model'][0],
             'nnFile': config['nn'][0],
@@ -92,7 +118,7 @@ class SimulinkBenchmark:
             'workDir': os.path.abspath(work_dir),
             'workers': float(workers),
         }
-        info = self.eng.isar_sl('init', cfg, nargout=1)
+        info = self._call('init', self.cfg)
 
         self.w_shapes = [tuple(int(x) for x in row) for row in np.asarray(info['Wshape'])]
         self.b_shapes = [tuple(int(x) for x in row) for row in np.asarray(info['bshape'])]
@@ -100,6 +126,44 @@ class SimulinkBenchmark:
         self.biases = self._unflatten(np.asarray(info['bflat']).ravel(), self.b_shapes)
         self.num_cases = int(info['numCases'])
         self.stored_rob = np.asarray(info['storedRob']).ravel()
+
+    # Start MATLAB and set up the benchmark, remembering the processes to kill on a hang
+    def _start(self):
+        self.eng = self.matlab.engine.start_matlab(background=True).result(timeout=self.init_timeout)
+        self.matlab_pids = [int(self.eng.feature('getpid'))]
+        self.eng.addpath(os.path.join(ISAR_DIR, 'simulink'), nargout=0)
+        info = self.eng.isar_sl('init', self.cfg, nargout=1, background=True).result(timeout=self.init_timeout)
+        self.matlab_pids += [int(p) for p in np.asarray(info['workerPids']).ravel()]
+        return info
+
+    def _kill(self):
+        for pid in self.matlab_pids:
+            kill_process_tree(pid)
+        self.eng = None
+        self.matlab_pids = []
+
+    # Call isar_sl(*args) with a timeout, restarting MATLAB and retrying on a hang or a dead engine
+    def _call(self, *args):
+        engine = self.matlab.engine
+        retryable = (engine.TimeoutError, TimeoutError, engine.EngineError)
+        last_error = None
+        for attempt in range(self.max_retries + 1):
+            try:
+                if self.eng is None:
+                    info = self._start()
+                    if args[0] == 'init':
+                        return info
+                elif args[0] == 'init':
+                    return self.eng.isar_sl(*args, nargout=1, background=True).result(timeout=self.init_timeout)
+                return self.eng.isar_sl(*args, nargout=1, background=True).result(timeout=self.eval_timeout)
+            except retryable as error:
+                last_error = error
+                print(f'MATLAB call {args[0]!r} failed ({type(error).__name__}: {error}); '
+                      f'killing MATLAB processes {self.matlab_pids} and restarting '
+                      f'(retry {attempt + 1} of {self.max_retries})', flush=True)
+                self._kill()
+                self.restarts += 1
+        raise RuntimeError(f'MATLAB call {args[0]!r} failed after {self.max_retries} restarts') from last_error
 
     @staticmethod
     def _unflatten(v, shapes):
@@ -119,18 +183,23 @@ class SimulinkBenchmark:
         case_ids = [int(c) for c in case_ids]
         if len(case_ids) == 0:
             return []
-        rob = self.eng.isar_sl('eval',
-                               self.matlab.double(net.flat_weights().tolist()),
-                               self.matlab.double(net.flat_biases().tolist()),
-                               self.matlab.double([c + 1 for c in case_ids]), nargout=1)
+        rob = self._call('eval',
+                         self.matlab.double(net.flat_weights().tolist()),
+                         self.matlab.double(net.flat_biases().tolist()),
+                         self.matlab.double([c + 1 for c in case_ids]))
         return list(np.asarray(rob, dtype=float).ravel())
 
     # Weights and biases currently in the model blocks, to check them against the network file
     def read_model_params(self):
-        p = self.eng.isar_sl('read_model_params', nargout=1)
+        p = self._call('read_model_params')
         return (self._unflatten(np.asarray(p['Wflat']).ravel(), self.w_shapes),
                 self._unflatten(np.asarray(p['bflat']).ravel(), self.b_shapes))
 
     def close(self):
-        self.eng.isar_sl('close', nargout=0)
-        self.eng.quit()
+        if self.eng is None:
+            return
+        try:
+            self.eng.isar_sl('close', nargout=0, background=True).result(timeout=self.eval_timeout)
+            self.eng.quit()
+        except Exception:
+            self._kill()

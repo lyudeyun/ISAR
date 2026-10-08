@@ -15,7 +15,8 @@ def write_csv_atomically(df, path):
 def convert_simulink(args):
     from simulink_interface import SimulinkBenchmark
     bench = SimulinkBenchmark(os.path.dirname(args.simulink_config), args.simulink_config, args.breach_path,
-                              os.path.join(args.output_dir, 'matlab_work'), workers=int(args.workers))
+                              os.path.join(args.output_dir, 'matlab_work'), workers=int(args.workers),
+                              eval_timeout=float(args.eval_timeout))
     try:
         # Robustness is recomputed with the same simulation pipeline as during repair
         case_ids = list(range(bench.num_cases))
@@ -50,6 +51,7 @@ if __name__ == '__main__':
     parser.add_argument("--simulink_config", help="simulink only: AutoPatch config file in the benchmark folder, e.g. benchmark/AFC1_Phi1/config_rfFR11")
     parser.add_argument("--breach_path", help="simulink only: Breach installation", default=DEFAULT_BREACH_PATH)
     parser.add_argument("--workers", help="simulink only: number of MATLAB workers simulating in parallel", default=1)
+    parser.add_argument("--eval_timeout", help="simulink only: seconds to wait for one batch of simulations before restarting MATLAB, default 900", default=900)
     args = parser.parse_args()
 
     if args.benchmark == 'simulink':

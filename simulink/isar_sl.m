@@ -25,7 +25,7 @@ switch action
         out = struct('Wflat', flattenCells(S.W), 'bflat', flattenCells(S.b), ...
                      'Wshape', S.Wshape, 'bshape', S.bshape, ...
                      'numCases', numel(S.inputs), 'storedRob', S.storedRob, ...
-                     'workers', S.workers);
+                     'workers', S.workers, 'workerPids', S.workerPids);
 
     case 'eval'
         assert(~isempty(S), 'isar_sl:notInitialized', 'call isar_sl(''init'', cfg) first');
@@ -101,9 +101,15 @@ if ~isfolder(cfg.workDir), mkdir(cfg.workDir); end
 cd(cfg.workDir);
 
 S.workers = double(cfg.workers);
+S.workerPids = zeros(1, 0);
 if S.workers > 1
     initParpool(S.workers);
     wait(parfevalOnAll(@cd, 0, cfg.workDir));
+    % Python kills these processes, along with this one, if an evaluation hangs
+    spmd
+        pid = feature('getpid');
+    end
+    S.workerPids = double([pid{:}]);
 end
 end
 
