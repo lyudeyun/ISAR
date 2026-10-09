@@ -1,0 +1,8 @@
+{
+  "annealing": 26469,
+  "sample_check": 500,
+  "total": 27221,
+  "state_check": 252,
+  "iterations": 11,
+  "matlab_restarts": 0
+}
