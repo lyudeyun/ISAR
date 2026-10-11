@@ -1,0 +1,326 @@
+Initializing Breach from folder /home/deyun/git/breach...
+Starting parallel pool (parpool) using the 'local' profile ...
+Preserving jobs with IDs: 2840 because they contain crash dump files.
+You can use 'delete(myCluster.Jobs)' to remove all jobs created with profile local. To create 'myCluster' use 'myCluster = parcluster('local')'.
+Connected to the parallel pool (number of workers: 10).
+Perturbation std: 0.1
+Green, green hatches, red: 0, 82, 18
+incremental_repair.py:106: FutureWarning: Not prepending group keys to the result index of transform-like apply. In the future, the group keys will be included in the index, regardless of whether the applied function returns a like-indexed object.
+To preserve the previous behavior, use
+
+	>>> .groupby(..., group_keys=False)
+
+To adopt the future behavior and silence this warning, use 
+
+	>>> .groupby(..., group_keys=True)
+  df_red_good_approx = df_red_good.groupby('region').apply(lambda x: x.head(5)).reset_index(drop=True)
+incremental_repair.py:107: FutureWarning: Not prepending group keys to the result index of transform-like apply. In the future, the group keys will be included in the index, regardless of whether the applied function returns a like-indexed object.
+To preserve the previous behavior, use
+
+	>>> .groupby(..., group_keys=False)
+
+To adopt the future behavior and silence this warning, use 
+
+	>>> .groupby(..., group_keys=True)
+  df_yellow_approx = df_yellow.groupby('region').apply(lambda x: x.head(5)).reset_index(drop=True)
+incremental_repair.py:108: FutureWarning: Not prepending group keys to the result index of transform-like apply. In the future, the group keys will be included in the index, regardless of whether the applied function returns a like-indexed object.
+To preserve the previous behavior, use
+
+	>>> .groupby(..., group_keys=False)
+
+To adopt the future behavior and silence this warning, use 
+
+	>>> .groupby(..., group_keys=True)
+  df_green_approx = df_green.groupby('region').apply(lambda x: x.head(5)).reset_index(drop=True)
+Count red regions: 18
+Remaining regions to be repaired: 18
+Bad states identified: [(18,)]
+Simulated annealing on region 18 ...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Found var Ts in base workspace used by fr_ACC_FFNN_tra_73303_w750104_1_breach/Set velocity.
+Found var Ts in base workspace used by fr_ACC_FFNN_tra_73303_w750804_1_breach/Set velocity.
+Found var Ts in base workspace used by fr_ACC_FFNN_tra_73303_w751120_1_breach/Set velocity.
+Found var Ts in base workspace used by fr_ACC_FFNN_tra_73303_w749956_1_breach/Set velocity.
+Found var Ts in base workspace used by fr_ACC_FFNN_tra_73303_w749967_1_breach/Set velocity.
+Found var Ts in base workspace used by fr_ACC_FFNN_tra_73303_w750242_1_breach/Set velocity.
+Found var Ts in base workspace used by fr_ACC_FFNN_tra_73303_w750378_1_breach/Set velocity.
+Found var Ts in base workspace used by fr_ACC_FFNN_tra_73303_w750660_1_breach/Set velocity.
+Found var Ts in base workspace used by fr_ACC_FFNN_tra_73303_w750954_1_breach/Set velocity.
+Found var Ts in base workspace used by fr_ACC_FFNN_tra_73303_w750518_1_breach/Set velocity.
+Found var amax_ego in base workspace used by fr_ACC_FFNN_tra_73303_w750104_1_breach/Saturation.
+Found var amin_ego in base workspace used by fr_ACC_FFNN_tra_73303_w750104_1_breach/Saturation.
+Found var t_gap in base workspace used by fr_ACC_FFNN_tra_73303_w750104_1_breach/Time gap.
+Found var v0_ego in base workspace used by fr_ACC_FFNN_tra_73303_w750104_1_breach/v0 host.
+Found var v0_lead in base workspace used by fr_ACC_FFNN_tra_73303_w750104_1_breach/v0 lead.
+Found var v_set in base workspace used by fr_ACC_FFNN_tra_73303_w750104_1_breach/Set velocity.
+Found var x0_ego in base workspace used by fr_ACC_FFNN_tra_73303_w750104_1_breach/x0 host.
+Found var x0_lead in base workspace used by fr_ACC_FFNN_tra_73303_w750104_1_breach/x0 lead.
+Found var x_gain in base workspace used by fr_ACC_FFNN_tra_73303_w750104_1_breach/Multiply.
+Found x_gain, 3 3 table -  Set 'FindTables' option to true to generate table parameters.
+Found var x_offset in base workspace used by fr_ACC_FFNN_tra_73303_w750104_1_breach/Constant.
+Found x_offset, 3 1 table -  Set 'FindTables' option to true to generate table parameters.
+Found var y_gain in base workspace used by fr_ACC_FFNN_tra_73303_w750104_1_breach/Constant1.
+Found var y_offset in base workspace used by fr_ACC_FFNN_tra_73303_w750104_1_breach/Constant2.
+Found var amax_ego in base workspace used by fr_ACC_FFNN_tra_73303_w750804_1_breach/Saturation.
+Found var amin_ego in base workspace used by fr_ACC_FFNN_tra_73303_w750804_1_breach/Saturation.
+Found var t_gap in base workspace used by fr_ACC_FFNN_tra_73303_w750804_1_breach/Time gap.
+Found var v0_ego in base workspace used by fr_ACC_FFNN_tra_73303_w750804_1_breach/v0 host.
+Found var v0_lead in base workspace used by fr_ACC_FFNN_tra_73303_w750804_1_breach/v0 lead.
+Found var v_set in base workspace used by fr_ACC_FFNN_tra_73303_w750804_1_breach/Set velocity.
+Found var x0_ego in base workspace used by fr_ACC_FFNN_tra_73303_w750804_1_breach/x0 host.
+Found var x0_lead in base workspace used by fr_ACC_FFNN_tra_73303_w750804_1_breach/x0 lead.
+Found var x_gain in base workspace used by fr_ACC_FFNN_tra_73303_w750804_1_breach/Multiply.
+Found x_gain, 3 3 table -  Set 'FindTables' option to true to generate table parameters.
+Found var x_offset in base workspace used by fr_ACC_FFNN_tra_73303_w750804_1_breach/Constant.
+Found x_offset, 3 1 table -  Set 'FindTables' option to true to generate table parameters.
+Found var y_gain in base workspace used by fr_ACC_FFNN_tra_73303_w750804_1_breach/Constant1.
+Found var y_offset in base workspace used by fr_ACC_FFNN_tra_73303_w750804_1_breach/Constant2.
+Found var amax_ego in base workspace used by fr_ACC_FFNN_tra_73303_w750954_1_breach/Saturation.
+Found var amin_ego in base workspace used by fr_ACC_FFNN_tra_73303_w750954_1_breach/Saturation.
+Found var t_gap in base workspace used by fr_ACC_FFNN_tra_73303_w750954_1_breach/Time gap.
+Found var v0_ego in base workspace used by fr_ACC_FFNN_tra_73303_w750954_1_breach/v0 host.
+Found var v0_lead in base workspace used by fr_ACC_FFNN_tra_73303_w750954_1_breach/v0 lead.
+Found var v_set in base workspace used by fr_ACC_FFNN_tra_73303_w750954_1_breach/Set velocity.
+Found var x0_ego in base workspace used by fr_ACC_FFNN_tra_73303_w750954_1_breach/x0 host.
+Found var x0_lead in base workspace used by fr_ACC_FFNN_tra_73303_w750954_1_breach/x0 lead.
+Found var x_gain in base workspace used by fr_ACC_FFNN_tra_73303_w750954_1_breach/Multiply.
+Found x_gain, 3 3 table -  Set 'FindTables' option to true to generate table parameters.
+Found var x_offset in base workspace used by fr_ACC_FFNN_tra_73303_w750954_1_breach/Constant.
+Found x_offset, 3 1 table -  Set 'FindTables' option to true to generate table parameters.
+Found var y_gain in base workspace used by fr_ACC_FFNN_tra_73303_w750954_1_breach/Constant1.
+Found var y_offset in base workspace used by fr_ACC_FFNN_tra_73303_w750954_1_breach/Constant2.
+Found var amax_ego in base workspace used by fr_ACC_FFNN_tra_73303_w751120_1_breach/Saturation.
+Found var amin_ego in base workspace used by fr_ACC_FFNN_tra_73303_w751120_1_breach/Saturation.
+Found var t_gap in base workspace used by fr_ACC_FFNN_tra_73303_w751120_1_breach/Time gap.
+Found var v0_ego in base workspace used by fr_ACC_FFNN_tra_73303_w751120_1_breach/v0 host.
+Found var v0_lead in base workspace used by fr_ACC_FFNN_tra_73303_w751120_1_breach/v0 lead.
+Found var v_set in base workspace used by fr_ACC_FFNN_tra_73303_w751120_1_breach/Set velocity.
+Found var x0_ego in base workspace used by fr_ACC_FFNN_tra_73303_w751120_1_breach/x0 host.
+Found var x0_lead in base workspace used by fr_ACC_FFNN_tra_73303_w751120_1_breach/x0 lead.
+Found var x_gain in base workspace used by fr_ACC_FFNN_tra_73303_w751120_1_breach/Multiply.
+Found x_gain, 3 3 table -  Set 'FindTables' option to true to generate table parameters.
+Found var x_offset in base workspace used by fr_ACC_FFNN_tra_73303_w751120_1_breach/Constant.
+Found x_offset, 3 1 table -  Set 'FindTables' option to true to generate table parameters.
+Found var y_gain in base workspace used by fr_ACC_FFNN_tra_73303_w751120_1_breach/Constant1.
+Found var y_offset in base workspace used by fr_ACC_FFNN_tra_73303_w751120_1_breach/Constant2.
+Found var amax_ego in base workspace used by fr_ACC_FFNN_tra_73303_w749956_1_breach/Saturation.
+Found var amin_ego in base workspace used by fr_ACC_FFNN_tra_73303_w749956_1_breach/Saturation.
+Found var t_gap in base workspace used by fr_ACC_FFNN_tra_73303_w749956_1_breach/Time gap.
+Found var v0_ego in base workspace used by fr_ACC_FFNN_tra_73303_w749956_1_breach/v0 host.
+Found var v0_lead in base workspace used by fr_ACC_FFNN_tra_73303_w749956_1_breach/v0 lead.
+Found var v_set in base workspace used by fr_ACC_FFNN_tra_73303_w749956_1_breach/Set velocity.
+Found var x0_ego in base workspace used by fr_ACC_FFNN_tra_73303_w749956_1_breach/x0 host.
+Found var x0_lead in base workspace used by fr_ACC_FFNN_tra_73303_w749956_1_breach/x0 lead.
+Found var x_gain in base workspace used by fr_ACC_FFNN_tra_73303_w749956_1_breach/Multiply.
+Found x_gain, 3 3 table -  Set 'FindTables' option to true to generate table parameters.
+Found var x_offset in base workspace used by fr_ACC_FFNN_tra_73303_w749956_1_breach/Constant.
+Found x_offset, 3 1 table -  Set 'FindTables' option to true to generate table parameters.
+Found var y_gain in base workspace used by fr_ACC_FFNN_tra_73303_w749956_1_breach/Constant1.
+Found var y_offset in base workspace used by fr_ACC_FFNN_tra_73303_w749956_1_breach/Constant2.
+Found var amax_ego in base workspace used by fr_ACC_FFNN_tra_73303_w749967_1_breach/Saturation.
+Found var amin_ego in base workspace used by fr_ACC_FFNN_tra_73303_w749967_1_breach/Saturation.
+Found var t_gap in base workspace used by fr_ACC_FFNN_tra_73303_w749967_1_breach/Time gap.
+Found var v0_ego in base workspace used by fr_ACC_FFNN_tra_73303_w749967_1_breach/v0 host.
+Found var v0_lead in base workspace used by fr_ACC_FFNN_tra_73303_w749967_1_breach/v0 lead.
+Found var v_set in base workspace used by fr_ACC_FFNN_tra_73303_w749967_1_breach/Set velocity.
+Found var x0_ego in base workspace used by fr_ACC_FFNN_tra_73303_w749967_1_breach/x0 host.
+Found var x0_lead in base workspace used by fr_ACC_FFNN_tra_73303_w749967_1_breach/x0 lead.
+Found var x_gain in base workspace used by fr_ACC_FFNN_tra_73303_w749967_1_breach/Multiply.
+Found x_gain, 3 3 table -  Set 'FindTables' option to true to generate table parameters.
+Found var x_offset in base workspace used by fr_ACC_FFNN_tra_73303_w749967_1_breach/Constant.
+Found x_offset, 3 1 table -  Set 'FindTables' option to true to generate table parameters.
+Found var y_gain in base workspace used by fr_ACC_FFNN_tra_73303_w749967_1_breach/Constant1.
+Found var y_offset in base workspace used by fr_ACC_FFNN_tra_73303_w749967_1_breach/Constant2.
+Found var amax_ego in base workspace used by fr_ACC_FFNN_tra_73303_w750242_1_breach/Saturation.
+Found var amin_ego in base workspace used by fr_ACC_FFNN_tra_73303_w750242_1_breach/Saturation.
+Found var t_gap in base workspace used by fr_ACC_FFNN_tra_73303_w750242_1_breach/Time gap.
+Found var v0_ego in base workspace used by fr_ACC_FFNN_tra_73303_w750242_1_breach/v0 host.
+Found var v0_lead in base workspace used by fr_ACC_FFNN_tra_73303_w750242_1_breach/v0 lead.
+Found var v_set in base workspace used by fr_ACC_FFNN_tra_73303_w750242_1_breach/Set velocity.
+Found var x0_ego in base workspace used by fr_ACC_FFNN_tra_73303_w750242_1_breach/x0 host.
+Found var x0_lead in base workspace used by fr_ACC_FFNN_tra_73303_w750242_1_breach/x0 lead.
+Found var x_gain in base workspace used by fr_ACC_FFNN_tra_73303_w750242_1_breach/Multiply.
+Found x_gain, 3 3 table -  Set 'FindTables' option to true to generate table parameters.
+Found var x_offset in base workspace used by fr_ACC_FFNN_tra_73303_w750242_1_breach/Constant.
+Found x_offset, 3 1 table -  Set 'FindTables' option to true to generate table parameters.
+Found var y_gain in base workspace used by fr_ACC_FFNN_tra_73303_w750242_1_breach/Constant1.
+Found var y_offset in base workspace used by fr_ACC_FFNN_tra_73303_w750242_1_breach/Constant2.
+Found var amax_ego in base workspace used by fr_ACC_FFNN_tra_73303_w750378_1_breach/Saturation.
+Found var amin_ego in base workspace used by fr_ACC_FFNN_tra_73303_w750378_1_breach/Saturation.
+Found var t_gap in base workspace used by fr_ACC_FFNN_tra_73303_w750378_1_breach/Time gap.
+Found var v0_ego in base workspace used by fr_ACC_FFNN_tra_73303_w750378_1_breach/v0 host.
+Found var v0_lead in base workspace used by fr_ACC_FFNN_tra_73303_w750378_1_breach/v0 lead.
+Found var v_set in base workspace used by fr_ACC_FFNN_tra_73303_w750378_1_breach/Set velocity.
+Found var x0_ego in base workspace used by fr_ACC_FFNN_tra_73303_w750378_1_breach/x0 host.
+Found var x0_lead in base workspace used by fr_ACC_FFNN_tra_73303_w750378_1_breach/x0 lead.
+Found var x_gain in base workspace used by fr_ACC_FFNN_tra_73303_w750378_1_breach/Multiply.
+Found x_gain, 3 3 table -  Set 'FindTables' option to true to generate table parameters.
+Found var x_offset in base workspace used by fr_ACC_FFNN_tra_73303_w750378_1_breach/Constant.
+Found x_offset, 3 1 table -  Set 'FindTables' option to true to generate table parameters.
+Found var y_gain in base workspace used by fr_ACC_FFNN_tra_73303_w750378_1_breach/Constant1.
+Found var y_offset in base workspace used by fr_ACC_FFNN_tra_73303_w750378_1_breach/Constant2.
+Found var amax_ego in base workspace used by fr_ACC_FFNN_tra_73303_w750660_1_breach/Saturation.
+Found var amin_ego in base workspace used by fr_ACC_FFNN_tra_73303_w750660_1_breach/Saturation.
+Found var t_gap in base workspace used by fr_ACC_FFNN_tra_73303_w750660_1_breach/Time gap.
+Found var v0_ego in base workspace used by fr_ACC_FFNN_tra_73303_w750660_1_breach/v0 host.
+Found var v0_lead in base workspace used by fr_ACC_FFNN_tra_73303_w750660_1_breach/v0 lead.
+Found var v_set in base workspace used by fr_ACC_FFNN_tra_73303_w750660_1_breach/Set velocity.
+Found var x0_ego in base workspace used by fr_ACC_FFNN_tra_73303_w750660_1_breach/x0 host.
+Found var x0_lead in base workspace used by fr_ACC_FFNN_tra_73303_w750660_1_breach/x0 lead.
+Found var x_gain in base workspace used by fr_ACC_FFNN_tra_73303_w750660_1_breach/Multiply.
+Found x_gain, 3 3 table -  Set 'FindTables' option to true to generate table parameters.
+Found var x_offset in base workspace used by fr_ACC_FFNN_tra_73303_w750660_1_breach/Constant.
+Found x_offset, 3 1 table -  Set 'FindTables' option to true to generate table parameters.
+Found var y_gain in base workspace used by fr_ACC_FFNN_tra_73303_w750660_1_breach/Constant1.
+Found var y_offset in base workspace used by fr_ACC_FFNN_tra_73303_w750660_1_breach/Constant2.
+Found var amax_ego in base workspace used by fr_ACC_FFNN_tra_73303_w750518_1_breach/Saturation.
+Found var amin_ego in base workspace used by fr_ACC_FFNN_tra_73303_w750518_1_breach/Saturation.
+Found var t_gap in base workspace used by fr_ACC_FFNN_tra_73303_w750518_1_breach/Time gap.
+Found var v0_ego in base workspace used by fr_ACC_FFNN_tra_73303_w750518_1_breach/v0 host.
+Found var v0_lead in base workspace used by fr_ACC_FFNN_tra_73303_w750518_1_breach/v0 lead.
+Found var v_set in base workspace used by fr_ACC_FFNN_tra_73303_w750518_1_breach/Set velocity.
+Found var x0_ego in base workspace used by fr_ACC_FFNN_tra_73303_w750518_1_breach/x0 host.
+Found var x0_lead in base workspace used by fr_ACC_FFNN_tra_73303_w750518_1_breach/x0 lead.
+Found var x_gain in base workspace used by fr_ACC_FFNN_tra_73303_w750518_1_breach/Multiply.
+Found x_gain, 3 3 table -  Set 'FindTables' option to true to generate table parameters.
+Found var x_offset in base workspace used by fr_ACC_FFNN_tra_73303_w750518_1_breach/Constant.
+Found x_offset, 3 1 table -  Set 'FindTables' option to true to generate table parameters.
+Found var y_gain in base workspace used by fr_ACC_FFNN_tra_73303_w750518_1_breach/Constant1.
+Found var y_offset in base workspace used by fr_ACC_FFNN_tra_73303_w750518_1_breach/Constant2.
+Annealing iteration 0 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 1 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 2 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 3 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 4 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 5 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 6 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 7 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 8 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 9 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 10 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 11 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 12 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 13 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 14 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 15 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 16 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 17 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 18 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 19 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 20 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 21 ...
+Better params identified
+Annealing iteration 22 ...
+Better params identified
+Annealing iteration 23 ...
+Better params identified
+Annealing iteration 24 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 25 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 26 ...
+Better params identified
+Annealing iteration 27 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 28 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 29 ...
+Better params identified
+Annealing iteration 30 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 31 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 32 ...
+Better params identified
+Annealing iteration 33 ...
+Better params identified
+Annealing iteration 34 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 35 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 36 ...
+Better params identified
+Annealing iteration 37 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 38 ...
+Better params identified
+Annealing iteration 39 ...
+Better params identified
+Annealing iteration 40 ...
+Better params identified
+Annealing iteration 41 ...
+Better params identified
+Annealing iteration 42 ...
+Better params identified
+Annealing iteration 43 ...
+Better params identified
+Annealing iteration 44 ...
+Better params identified
+Annealing iteration 45 ...
+Better params identified
+Annealing iteration 46 ...
+Better params identified
+Annealing iteration 47 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 48 ...
+Better params identified
+Annealing iteration 49 ...
+Better params identified
+Execution time: 93.69357013702393
+Found var Ts in base workspace used by fr_ACC_FFNN_tra_73303_w747590_1_breach/Set velocity.
+Found var amax_ego in base workspace used by fr_ACC_FFNN_tra_73303_w747590_1_breach/Saturation.
+Found var amin_ego in base workspace used by fr_ACC_FFNN_tra_73303_w747590_1_breach/Saturation.
+Found var t_gap in base workspace used by fr_ACC_FFNN_tra_73303_w747590_1_breach/Time gap.
+Found var v0_ego in base workspace used by fr_ACC_FFNN_tra_73303_w747590_1_breach/v0 host.
+Found var v0_lead in base workspace used by fr_ACC_FFNN_tra_73303_w747590_1_breach/v0 lead.
+Found var v_set in base workspace used by fr_ACC_FFNN_tra_73303_w747590_1_breach/Set velocity.
+Found var x0_ego in base workspace used by fr_ACC_FFNN_tra_73303_w747590_1_breach/x0 host.
+Found var x0_lead in base workspace used by fr_ACC_FFNN_tra_73303_w747590_1_breach/x0 lead.
+Found var x_gain in base workspace used by fr_ACC_FFNN_tra_73303_w747590_1_breach/Multiply.
+Found x_gain, 3 3 table -  Set 'FindTables' option to true to generate table parameters.
+Found var x_offset in base workspace used by fr_ACC_FFNN_tra_73303_w747590_1_breach/Constant.
+Found x_offset, 3 1 table -  Set 'FindTables' option to true to generate table parameters.
+Found var y_gain in base workspace used by fr_ACC_FFNN_tra_73303_w747590_1_breach/Constant1.
+Found var y_offset in base workspace used by fr_ACC_FFNN_tra_73303_w747590_1_breach/Constant2.
+Avg bad states robustness before and after sim annealing: -0.011504932519897624, 8.100000000000101
+Exist a bad state that is repaired
+Avg good states robustness after sim annealing: 8.100000000000103
+Bad states are improved, proceed
+/home/deyun/git/ISAR/incremental_repair_utils.py:325: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  net = torch.load(repaired_net_path)
+Checking sampled states ...
+Green, green hatches, red: 0, 100, 0
+Iteration time: 136.61842012405396
+Simulations so far: 4418
+Total time: 136.96849489212036
+Simulations: {'annealing': 4233, 'sample_check': 100, 'total': 4418, 'state_check': 85, 'iterations': 1, 'matlab_restarts': 0}
