@@ -1,0 +1,96 @@
+addpath 2
+/home/deyun/git/AutoRepair_Alpha
+/home/deyun/git/breach
+bench 1
+WT
+benchType 1
+simulink
+model 1
+WT_FFNN_trainbfg_5_5_5_Dec_22
+modelCopy 1
+WT_FFNN_trainbfg_5_5_5_Dec_22
+dataset_run 1
+Null.mat
+is_nor 1
+0
+in_name 1
+h_ref
+in_range 1
+10 20
+in_span 1
+5
+ics_name 1
+h_error
+oc_name 1
+action
+oc_span 1
+0.1
+nn 1
+WT_FFNN_trainbfg_5_5_5_config_Dec_22.mat
+nnStru 1
+[5,5,5,1]
+phi_str 1
+WT1 alw_[4,4.9](abs(h_error[t]) < 0.86) and alw_[9,9.9](abs(h_error[t]) < 0.86) and alw_[14,14.9](abs(h_error[t]) < 0.86)
+parameters 4
+T=15;
+Ts=0.1;
+h_ref_min=10;
+h_ref_max=20;
+testSuite 5
+WT_error_086_spec_1_FFNN_trainbfg_5_5_5_Dec_22_Tr_TS_100_seed_1.mat
+WT_error_086_spec_1_FFNN_trainbfg_5_5_5_Dec_22_Tr_TS_100_seed_2.mat
+WT_error_086_spec_1_FFNN_trainbfg_5_5_5_Dec_22_Tr_TS_100_seed_3.mat
+WT_error_086_spec_1_FFNN_trainbfg_5_5_5_Dec_22_Tr_TS_100_seed_4.mat
+WT_error_086_spec_1_FFNN_trainbfg_5_5_5_Dec_22_Tr_TS_100_seed_5.mat
+testCaseNum 1
+100
+faultType 1
+undertrained
+flMode 1
+SpectAcle
+spsMetricList 5
+Tarantula
+Ochiai
+D3
+Jaccard
+Kulczynski2
+hci 1
+8
+mi 1
+5
+tops 1
+5
+searchMode 1
+DE
+fitnessMode 1
+expdis
+budget 1
+10
+popDimRatio 1
+2
+maxGen 1
+50
+checkpointStep 1
+5
+F 1
+0.5
+CR 1
+0.9
+mutSgy 1
+1
+crSgy 1
+1
+pertFactor 1
+0.5
+scaleParam 1
+2
+initMode 1
+internal
+initFolder 1
+NULL
+popInitMode 1
+hybridGuass
+coreNum 1
+10
+autoSync 1
+0

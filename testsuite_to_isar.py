@@ -11,12 +11,12 @@ def write_csv_atomically(df, path):
     os.replace(tmp_path, path)
 
 
-# Simulink benchmark: the test suite named in the AutoPatch config, simulated with the original controller
+# Simulink benchmark: a test suite named in the AutoPatch config, simulated with the original controller
 def convert_simulink(args):
     from simulink_interface import SimulinkBenchmark
     bench = SimulinkBenchmark(os.path.dirname(args.simulink_config), args.simulink_config, args.breach_path,
                               os.path.join(args.output_dir, 'matlab_work'), workers=int(args.workers),
-                              eval_timeout=float(args.eval_timeout))
+                              eval_timeout=float(args.eval_timeout), test_suite=int(args.test_suite))
     try:
         # Robustness is recomputed with the same simulation pipeline as during repair
         case_ids = list(range(bench.num_cases))
@@ -48,10 +48,11 @@ if __name__ == '__main__':
                                            "sysInputs is [y, h] for uuv and [pos, vel] for mc")
     parser.add_argument("--network", help="uuv and mc: network yml file to be repaired", default=os.path.join('controllers', 'uuv_tanh_2_15_2x32_broken.yml'))
     parser.add_argument("--output_dir", help="directory to write the csv files")
-    parser.add_argument("--simulink_config", help="simulink only: AutoPatch config file in the benchmark folder, e.g. benchmark/AFC1_Phi1/config_rfFR11")
+    parser.add_argument("--simulink_config", help="simulink only: AutoPatch config file in the benchmark folder, e.g. benchmark_contrrep/AFC1_Phi1/config_rfFR11")
     parser.add_argument("--breach_path", help="simulink only: Breach installation", default=DEFAULT_BREACH_PATH)
     parser.add_argument("--workers", help="simulink only: number of MATLAB workers simulating in parallel", default=1)
     parser.add_argument("--eval_timeout", help="simulink only: seconds to wait for one batch of simulations before restarting MATLAB, default 900", default=900)
+    parser.add_argument("--test_suite", help="simulink only: which test suite of the config's testSuite list to use, 1-based, default 1", default=1)
     args = parser.parse_args()
 
     if args.benchmark == 'simulink':

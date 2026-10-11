@@ -303,11 +303,12 @@ if __name__ == '__main__':
     parser.add_argument("--verisig_result_path", help="path to verisig result csv", default='uuv_verisig_result.csv')
     parser.add_argument("--sampled_result_path", help="path to sampling result csv", default='uuv_sampling_result.csv')
     parser.add_argument("--output_path", help="directory for all output files", default='uuv_output')
-    parser.add_argument("--simulink_config", help="simulink only: AutoPatch config file in the benchmark folder, e.g. benchmark/AFC1_Phi1/config_rfFR11")
+    parser.add_argument("--simulink_config", help="simulink only: AutoPatch config file in the benchmark folder, e.g. benchmark_contrrep/AFC1_Phi1/config_rfFR11")
     parser.add_argument("--breach_path", help="simulink only: Breach installation", default=DEFAULT_BREACH_PATH)
     parser.add_argument("--workers", help="simulink only: number of MATLAB workers simulating in parallel", default=1)
     parser.add_argument("--perturb_biases", help="simulink only: 1 to perturb biases as well as weights, as for uuv and mc", default=1)
     parser.add_argument("--eval_timeout", help="simulink only: seconds to wait for one batch of simulations before restarting MATLAB, default 900", default=900)
+    parser.add_argument("--test_suite", help="simulink only: which test suite of the config's testSuite list to use, 1-based, default 1", default=1)
     parser.add_argument("--seed", help="random seed of the simulated annealing, for reproducible repeated runs; not set by default", default=None)
     parser.add_argument("--std", help="standard deviation of the Gaussian perturbation added to every weight and bias in the simulated annealing, default 0.1 as in ISAR", default=0.1)
     args = parser.parse_args()
@@ -320,7 +321,8 @@ if __name__ == '__main__':
         from simulink_interface import SimulinkBenchmark
         SIMULINK['bench'] = SimulinkBenchmark(os.path.dirname(args.simulink_config), args.simulink_config, args.breach_path,
                                               os.path.join(args.output_path, 'matlab_work'), workers=int(args.workers),
-                                              perturb_biases=bool(int(args.perturb_biases)), eval_timeout=float(args.eval_timeout))
+                                              perturb_biases=bool(int(args.perturb_biases)), eval_timeout=float(args.eval_timeout),
+                                              test_suite=int(args.test_suite))
     try:
         print(f'Perturbation std: {float(args.std)}', flush=True)
         isar_main(args.verisig_result_path, args.sampled_result_path, args.network, args.output_path, benchmark=args.benchmark, std=float(args.std))
