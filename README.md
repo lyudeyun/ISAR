@@ -533,14 +533,34 @@ The specifications and simulation parameters are in the `config_rfFR*` file of e
 | `WT1` | WT1 | `WT_FFNN_trainbfg_5_5_5_Dec_22` | no |
 | `WT2` | WT2 | `WT_FFNN_trainbfg_15_15_15_Dec_22` | no |
 
-- Each benchmark has five test suites of 100 cases (`*_TS_100_seed_<k>.mat`, k = 1..5), sampled stratified from the dataset to be repaired; the config (`config_rfFR_<benchmark>`) lists them in order. Run `<seed>` repairs on test suite `<seed>`, so seeds 1 to 5 cover the five test suites.
+- The dataset to be repaired has 10000 traces, too many to simulate for every candidate of the annealing. Each benchmark therefore has five test suites of 100 cases (`*_TS_100_seed_<k>.mat`, k = 1..5), sampled stratified from that dataset, i.e. with its share of violating traces; the config (`config_rfFR_<benchmark>`) lists them in order. They are the first five of the ten test suites of OPERA's SpectAcle+ContrRep baseline.
+- The repair is repeated with seeds 1 to 10 on each test suite, 50 runs per benchmark: the test suites capture the variation from sampling, the seeds that from the annealing.
 - `norm_params.mat` holds the normalization of the network inputs and output, taken from the config's `dataset_run` as OPERA does (`ps_x`, `ps_y`); it is empty with `is_nor = 0` for the benchmarks without normalization.
 
 ```
 python run_benchmark.py --benchmark_dir=benchmark_opera --benchmark=ACC1 --workers=8 --breach_path=/path/to/breach
 ```
 
-Results are written to `results/opera/<benchmark>/`: the prepared inputs of test suite `<k>` in `testsuite_<k>/`, and the runs in `run_<seed>/` as above.
+`--test_suites` restricts the call to some test suites, e.g. `--test_suites=2` or `--test_suites=1-3`, and `--first_seed` and `--runs` select the seeds as above, so one job can run e.g. test suite 2 with seed 7:
+
+```
+python run_benchmark.py --benchmark_dir=benchmark_opera --benchmark=ACC1 --prepare_only=1 --workers=8 --breach_path=/path/to/breach
+python run_benchmark.py --benchmark_dir=benchmark_opera --benchmark=ACC1 --test_suites=2 --first_seed=7 --runs=1 --workers=8 --breach_path=/path/to/breach
+```
+
+Results are written to `results/opera/<benchmark>/testsuite_<k>/`: the prepared inputs of test suite `<k>`, and its runs in `run_<seed>/` as above.
+
+**Evaluation on the test set.** Each benchmark also has OPERA's test set of 1000 cases (`*_Te_TS_1000.mat`, the `testSet` entry of the config), converted from the `_Te.mat` file that OPERA's `rep_eval` evaluates repaired controllers on (`te_in_cell`, `te_rob_set`). After the repairs, `evaluate_testset.py` simulates the final controller of each finished run on it:
+
+```
+python evaluate_testset.py --benchmark=ACC1 --workers=8 --breach_path=/path/to/breach
+```
+
+- The final controller of a run is its last checkpoint, or the original controller if no region was repaired.
+- The metrics are those of OPERA's `rep_eval`: a test case is satisfied if its robustness is > 0. `SR_before` and `SR_after` are the percentages of satisfied test cases under the original and the repaired controller, `neg_to_pos` the violated test cases that the repair satisfies, and `pos_to_neg` the satisfied ones it breaks. The original controller is simulated, like during repair, rather than taken from the test set.
+- The original controller is evaluated once, in `results/opera/<benchmark>/testset/original.csv`. Each run gets `testset_robustness.csv` (robustness of every test case before and after repair) and `testset_result.json` in its `run_<seed>/` folder, and all runs are listed in `results/opera/<benchmark>/testset/summary.csv`.
+- Runs that are already evaluated are skipped, and runs whose repair has not finished are left out, so the script can be run again while repairs are still going on. `--test_suites`, `--first_seed`, `--runs` and `--std` select the runs as for `run_benchmark.py`.
+- The test set adds 1000 simulations per run, on top of 1000 for the original controller. Like a repair, the evaluation starts its own MATLAB session; run it with its own Breach copy if repairs are running at the same time.
 
 **Requirements.** MATLAB with Simulink and the Deep Learning Toolbox, the MATLAB Engine for Python (Step 0), and [Breach](https://github.com/decyphir/breach).
 Pass the Breach folder with `--breach_path`, or set the environment variable `ISAR_BREACH_PATH`.

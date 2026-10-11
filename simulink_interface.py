@@ -78,7 +78,7 @@ def kill_process_tree(pid):
 class SimulinkBenchmark:
 
     def __init__(self, bench_dir, config_path, breach_path, work_dir, workers=1, perturb_biases=True,
-                 eval_timeout=900, init_timeout=1800, max_retries=3, test_suite=1):
+                 eval_timeout=900, init_timeout=1800, max_retries=3, test_suite=1, test_suite_file=None):
         check_breach_path(breach_path)
         import matlab
         import matlab.engine
@@ -112,8 +112,9 @@ class SimulinkBenchmark:
             'params': config['parameters'],
             'inName': config['in_name'],
             'inSpan': matlab.double(in_span),
-            # A config may list several test suites (one per repeated run); test_suite is 1-based
-            'testSuiteFile': config['testSuite'][int(test_suite) - 1],
+            # A config may list several test suites (repaired on separately); test_suite is 1-based.
+            # test_suite_file names another file of the model folder instead, e.g. the test set
+            'testSuiteFile': test_suite_file or config['testSuite'][int(test_suite) - 1],
             'normFile': os.path.join(bench_dir, 'norm_params.mat'),
             'breachPath': os.path.abspath(breach_path),
             'workDir': os.path.abspath(work_dir),
