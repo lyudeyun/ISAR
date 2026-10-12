@@ -104,12 +104,9 @@ S.workers = double(cfg.workers);
 S.workerPids = zeros(1, 0);
 if S.workers > 1
     initParpool(S.workers);
-    wait(parfevalOnAll(@cd, 0, cfg.workDir));
+    % Each worker works in its own folder, see isarWorkerDir.
     % Python kills these processes, along with this one, if an evaluation hangs
-    spmd
-        pid = feature('getpid');
-    end
-    S.workerPids = double([pid{:}]);
+    S.workerPids = double(reshape(fetchOutputs(parfevalOnAll(@isarWorkerDir, 1, cfg.workDir)), 1, []));
 end
 end
 

@@ -1,2 +1,0 @@
-test_suite,seed,num_cases,satisfied_before,satisfied_after,SR_before,SR_after,neg_to_pos,pos_to_neg,test_set,checkpoint
-1,1,1000,855,855,85.5,85.5,0,0,AFC_mu_015_spec_1_FFNN_trainlm_30_30_30_Nor_Jan_6_Te_TS_1000.mat,
