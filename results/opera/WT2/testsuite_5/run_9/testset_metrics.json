@@ -1,0 +1,7 @@
+{
+  "test_set": "WT_error_086_spec_1_FFNN_trainbfg_15_15_15_Dec_22_Te_TS_1000.mat",
+  "checkpoint": "tanh_iter_0_region_83.pt",
+  "te_mean_steady": 1.0,
+  "te_mean_MAE": 0.04333874534046124,
+  "te_mean_MAXERR": 0.10965626287245961
+}

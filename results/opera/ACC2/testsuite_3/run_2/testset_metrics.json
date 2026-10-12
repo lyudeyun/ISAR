@@ -1,0 +1,9 @@
+{
+  "test_set": "ACC_vl_28_ve_22_spec_1_FFNN_trainbfg_30_30_30_Nor_Sat_Te_TS_1000.mat",
+  "checkpoint": "tanh_iter_0_region_31.pt",
+  "te_mean_x_ego": -2563.643538922736,
+  "te_mean_steady": 1.0,
+  "te_mean_delta_v": 81.47436195987495,
+  "te_mean_comfortable": 0.9994100000000001,
+  "te_mean_resilience": NaN
+}
