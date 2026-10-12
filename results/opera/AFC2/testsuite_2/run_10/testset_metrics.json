@@ -1,0 +1,8 @@
+{
+  "test_set": "AFC_mu_015_spec_1_FFNN_trainlm_30_30_30_Nor_Jan_6_Te_TS_1000.mat",
+  "checkpoint": null,
+  "te_mean_steady": 0.9921860465116279,
+  "te_mean_recovery": 1.0,
+  "te_mean_MAE": 0.0026156907284975175,
+  "te_mean_MAXERR": 0.13317757454996104
+}
