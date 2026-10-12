@@ -546,7 +546,7 @@ The specifications and simulation parameters are in the `config_rfFR*` file of e
 
 #### OPERA benchmarks
 
-`benchmark_opera/` holds the six Simulink benchmarks of the AutoRepair_Alpha (OPERA) repository, with the test suites its SpectAcle+ContrRep baseline repairs on (`baseline/spectacle+contrrep`, commit `6f4688767`), and MC with the new controller (`MC_new`, from `benchmark/mc/`, commit `a317187fb`), simulated in Python like `MC_old`.
+`benchmark_opera/` holds the six Simulink benchmarks of the AutoRepair_Alpha (OPERA) repository, with the test suites its SpectAcle+ContrRep baseline repairs on (`baseline/spectacle+contrrep`, commit `6f4688767`), and MC with the new controller (`MC_new`, from `benchmark/mc/`, commit `a317187fb`; the same files are in `benchmark/mc/MC_Phi_1_FFNN_16_16_XV_100_100_Feb_11_2026/dataset/` since commit `c0bf9ba9e`), simulated in Python like `MC_old`.
 
 | Benchmark | Specification | Model | Normalization |
 | --- | --- | --- | --- |
@@ -587,6 +587,21 @@ python evaluate_testset.py --benchmark=ACC1 --workers=8 --breach_path=/path/to/b
 - The original controller is evaluated once, in `results/opera/<benchmark>/testset/original.csv`. Each run gets `testset_robustness.csv` (robustness of every test case before and after repair) and `testset_result.json` in its `run_<seed>/` folder, and all runs are listed in `results/opera/<benchmark>/testset/summary.csv`.
 - Runs that are already evaluated are skipped, and runs whose repair has not finished are left out, so the script can be run again while repairs are still going on. `--test_suites`, `--first_seed`, `--runs` and `--std` select the runs as for `run_benchmark.py`.
 - The test set adds 1000 simulations per run, on top of 1000 for the original controller. Like a repair, the evaluation starts its own MATLAB session; run it with its own Breach copy if repairs are running at the same time.
+
+**Performance metrics on the test set.** For the benchmarks of `benchmark_opera/`, `evaluate_testset.py` also computes OPERA's performance metrics of each final controller, to see whether a repair degrades the behaviour beyond the specification. They are taken over from AutoRepair_Alpha, constants and averaging included:
+
+| Benchmark | Metrics | Source in AutoRepair_Alpha |
+| --- | --- | --- |
+| `ACC1`, `ACC2` | `te_mean_x_ego`, `te_mean_steady`, `te_mean_delta_v`, `te_mean_comfortable`, `te_mean_resilience` | `test/rep_eval_acc.py` |
+| `AFC1`, `AFC2` | `te_mean_steady`, `te_mean_recovery`, `te_mean_MAE`, `te_mean_MAXERR` | `test/rep_eval_afc.py` |
+| `WT1`, `WT2` | `te_mean_steady`, `te_mean_MAE`, `te_mean_MAXERR` | `test/rep_eval_wt.py` |
+| `MC_new` | `te_mean_reach`, `te_mean_energy`, `te_mean_smooth` | `src/eval/MC_rep_eval.m` |
+
+- Simulink benchmarks: the per-test-case quantities are computed by `simulink/isarOperaMetrics.m`, a copy of the MATLAB code that `rep_eval_*.py` generates, from the trajectory fastRob returns; the signals they need besides those of the specification are recorded through `simConf.extraSigs` (see `simulink/fastrob/README.md`). `evaluate_testset.py` averages them as `rep_eval_*.py` does, e.g. `te_mean_resilience = sum(recovery) / sum(unsteady)`.
+- MC: simulated as `simMatlabMC.m` (which `MC_rep_eval.m` uses), in double precision from the controller's yml file, and scored with `mcMetrics` of `MC_rep_eval.m`. `mc_simulate`, used during repair, evaluates the network in single precision, which moves the metrics by about 1e-7.
+- The metrics are computed in a simulation session of their own: the robustness and the files above are as without them.
+- Outputs: in each run folder `testset_metrics.json` (the metrics of its final controller, the `te_mean_*` of `rep_eval`) and `testset_metrics_cases.csv` (their per-test-case quantities, one row per test case, the `te_*_set` of `rep_eval`, e.g. `te_x_ego_set`); the same for the original controller in `testset/original_metrics.json` and `testset/original_metrics_cases.csv`; and `testset/metrics_summary.csv` (one row per run). Runs that already have both files are skipped.
+- Checked on the original controllers (MATLAB R2026a): the metrics of ACC and WT agree with the `te_mean_*` of AutoRepair_Alpha's `analysis/RQ1/*_Bef_Eval_Result.mat` within 3e-13, those of MC with the executions recorded in its test set within 1e-14 and with `MC_rep_eval.m` within 4e-11. AFC is simulated in accelerator mode with a variable-step solver, whose results depend on the MATLAB release.
 
 **Requirements.** MATLAB with Simulink and the Deep Learning Toolbox, the MATLAB Engine for Python (Step 0), and [Breach](https://github.com/decyphir/breach).
 Pass the Breach folder with `--breach_path`, or set the environment variable `ISAR_BREACH_PATH`.

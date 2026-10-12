@@ -26,9 +26,16 @@ end
 % The session caches the spec and the input layout too, so both belong in the
 % key -- otherwise a worker that switches specification would silently keep
 % scoring against the previous one.
-key = sprintf('%s|%.17g|%.17g|%s|%s|%s|%s', mdlInfo.faultyMdl, simConf.T, simConf.Ts, ...
+% Signals recorded besides those of the spec (simConf.extraSigs, optional), for
+% callers that compute metrics on other outputs.
+if isfield(simConf, 'extraSigs')
+    extraSigs = reshape(cellstr(simConf.extraSigs), 1, []);
+else
+    extraSigs = {};
+end
+key = sprintf('%s|%.17g|%.17g|%s|%s|%s|%s|%s', mdlInfo.faultyMdl, simConf.T, simConf.Ts, ...
               mat2str(mdlInfo.spsWeights), disp(simConf.phi), ...
-              mat2str(simConf.in_span), strjoin(simConf.in_name, ','));
+              mat2str(simConf.in_span), strjoin(simConf.in_name, ','), strjoin(extraSigs, ','));
 
 if ~isempty(CTX) && strcmp(KEY, key)
     h = CTX;
@@ -37,7 +44,7 @@ end
 
 if isempty(BUILDS), BUILDS = 0; end
 BUILDS = BUILDS + 1;
-h = buildSession(mdlInfo, simConf, BUILDS);
+h = buildSession(mdlInfo, simConf, extraSigs, BUILDS);
 CTX = h;
 KEY = key;
 
@@ -56,7 +63,7 @@ end
 end
 
 
-function h = buildSession(mdlInfo, simConf, buildNo)
+function h = buildSession(mdlInfo, simConf, extraSigs, buildNo)
 h = struct();
 h.T       = simConf.T;
 h.Ts      = simConf.Ts;
@@ -72,6 +79,7 @@ else
 end
 
 h.sigNames = reshape(cellstr(STL_ExtractSignals(simConf.phi)), 1, []);
+h.sigNames = unique([h.sigNames, extraSigs], 'stable');
 
 % One trace system for the session rather than one per test case: constructing
 % it runs InitBreach, and at one per test case that is on the order of a

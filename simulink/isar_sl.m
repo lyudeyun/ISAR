@@ -7,10 +7,15 @@ function out = isar_sl(action, varargin)
 %         benchDir, model, nnFile, nnStru, phiStr, params (cellstr of
 %         'name=value;'), inName (cellstr), inSpan, testSuiteFile, normFile,
 %         breachPath, workDir, workers
+%       metrics (optional): 'ACC', 'AFC' or 'WT' to record the signals of OPERA's
+%         metrics, for 'eval_metrics'
 %   rob = isar_sl('eval', Wflat, bflat, caseIdx)
 %       Robustness of the test cases caseIdx (1-based) for the controller
 %       given by the flattened weights and biases (column-major per layer,
 %       layers concatenated, same layout as returned by 'init').
+%   r = isar_sl('eval_metrics', Wflat, bflat, caseIdx)
+%       As 'eval', plus the per-test-case quantities of OPERA's metrics:
+%       r.rob, r.names and r.M (one row per test case), see isarOperaMetrics.
 %   p = isar_sl('read_model_params')
 %       Weights and biases currently stored in the model blocks, flattened
 %       like Wflat/bflat. Used to check that the model matches the network file.
@@ -27,13 +32,19 @@ switch action
                      'numCases', numel(S.inputs), 'storedRob', S.storedRob, ...
                      'workers', S.workers, 'workerPids', S.workerPids);
 
-    case 'eval'
+    case {'eval', 'eval_metrics'}
         assert(~isempty(S), 'isar_sl:notInitialized', 'call isar_sl(''init'', cfg) first');
         [Wflat, bflat, caseIdx] = varargin{:};
         W = unflattenCells(Wflat, S.Wshape);
         b = unflattenCells(bflat, S.bshape);
         inputs = S.inputs(caseIdx(:)');
-        out = evalCases(S, W, b, inputs);
+        if strcmp(action, 'eval')
+            out = evalCases(S, W, b, inputs, '');
+        else
+            assert(~isempty(S.metrics), 'isar_sl:noMetrics', 'init was called without cfg.metrics');
+            R = evalCases(S, W, b, inputs, S.metrics);
+            out = struct('rob', R(:, 1)', 'names', {isarOperaMetrics(S.metrics)}, 'M', R(:, 2:end));
+        end
 
     case 'read_model_params'
         assert(~isempty(S), 'isar_sl:notInitialized', 'call isar_sl(''init'', cfg) first');
@@ -91,6 +102,20 @@ S.mdlInfo = struct('faultyMdl', cfg.model, 'spsWeights', sps, 'oriWeights', {S.W
 S.simConf = struct('T', S.constParams.T, 'Ts', S.constParams.Ts, ...
                    'in_name', {cellstr(cfg.inName)}, 'in_span', double(cfg.inSpan(:)'), ...
                    'phi', STL_Formula('phi', cfg.phiStr));
+% OPERA's metrics need signals besides those of the specification, recorded as in its rep_eval
+% (simConf.extraSigs). 'eval_metrics' simulates with them in a session of its own; 'eval' keeps S.simConf
+% and so the robustness as without metrics.
+S.metrics = '';
+S.metricsSimConf = S.simConf;
+if isfield(cfg, 'metrics') && ~isempty(cfg.metrics)
+    S.metrics = char(cfg.metrics);
+    switch S.metrics
+        case 'ACC', S.metricsSimConf.extraSigs = {'x_ego', 'd_rel', 'v_ego', 'a_ego'};
+        case 'AFC', S.metricsSimConf.extraSigs = {'AF'};
+        case 'WT',  S.metricsSimConf.extraSigs = {'h_error'};
+        otherwise, error('isar_sl:metrics', 'no OPERA metrics for %s', S.metrics);
+    end
+end
 
 ts = load(fullfile(cfg.benchDir, cfg.testSuiteFile), 'testSuite');
 S.inputs = {ts.testSuite.testCases.sysInputs};
@@ -111,7 +136,8 @@ end
 end
 
 
-function rob = evalCases(S, W, b, inputs)
+function rob = evalCases(S, W, b, inputs, metrics)
+% Robustness of inputs as a row; with metrics, one row per input: robustness, then the quantities of isarOperaMetrics
 if S.workers > 1 && numel(inputs) > 1
     nChunk = min(S.workers, numel(inputs));
     edges = round(linspace(0, numel(inputs), nChunk + 1));
@@ -120,13 +146,21 @@ if S.workers > 1 && numel(inputs) > 1
         chunks{ci} = inputs(edges(ci)+1:edges(ci+1));
     end
     robChunks = cell(1, nChunk);
-    mdlInfo = S.mdlInfo; simConf = S.simConf; constParams = S.constParams; normParams = S.normParams;
+    mdlInfo = S.mdlInfo; constParams = S.constParams; normParams = S.normParams;
+    simConf = S.simConf;
+    if ~isempty(metrics), simConf = S.metricsSimConf; end
     parfor ci = 1:nChunk
-        robChunks{ci} = isar_sl_eval_chunk(mdlInfo, simConf, constParams, normParams, W, b, chunks{ci});
+        robChunks{ci} = isar_sl_eval_chunk(mdlInfo, simConf, constParams, normParams, W, b, chunks{ci}, metrics);
     end
-    rob = [robChunks{:}];
+    if isempty(metrics)
+        rob = [robChunks{:}];
+    else
+        rob = vertcat(robChunks{:});
+    end
 else
-    rob = isar_sl_eval_chunk(S.mdlInfo, S.simConf, S.constParams, S.normParams, W, b, inputs);
+    simConf = S.simConf;
+    if ~isempty(metrics), simConf = S.metricsSimConf; end
+    rob = isar_sl_eval_chunk(S.mdlInfo, simConf, S.constParams, S.normParams, W, b, inputs, metrics);
 end
 end
 

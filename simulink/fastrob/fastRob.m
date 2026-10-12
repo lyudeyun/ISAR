@@ -1,6 +1,11 @@
-function rob = fastRob(h, sysInputs)
+function [rob, tout, X] = fastRob(h, sysInputs)
 % FASTROB  STL robustness of one test case: native sim() for the trajectory,
 % Breach's STL engine for the robustness.
+%
+% tout and X optionally return the trajectory the robustness was computed on
+% (columns of X follow h.sigNames). Both are empty when the simulation failed,
+% so a caller that needs the trajectory can tell a failure apart from a real
+% robustness of -1e6 instead of reading a stale trace.
 
 % Every sim leaves a run in the Simulink Data Inspector, about 3 MB each, and
 % turning signal-log inspection off does not stop it -- which is why Breach
@@ -48,6 +53,8 @@ end
 % A signal or input that does not line up with the specification is a different
 % matter: that is a misconfigured experiment, and swallowing it would make every
 % candidate look like it diverged. Let those out.
+tout = [];
+X = [];
 try
     so = sim(h.mdl);
     [tout, X] = extractSignals(so, h.sigNames, h.outportNames);
@@ -59,6 +66,8 @@ catch ME
         rethrow(ME);
     end
     rob = -1e6;
+    tout = [];
+    X = [];
 end
 end
 

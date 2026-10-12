@@ -78,7 +78,7 @@ def kill_process_tree(pid):
 class SimulinkBenchmark:
 
     def __init__(self, bench_dir, config_path, breach_path, work_dir, workers=1, perturb_biases=True,
-                 eval_timeout=900, init_timeout=1800, max_retries=3, test_suite=1, test_suite_file=None):
+                 eval_timeout=900, init_timeout=1800, max_retries=3, test_suite=1, test_suite_file=None, metrics=None):
         check_breach_path(breach_path)
         import matlab
         import matlab.engine
@@ -119,6 +119,8 @@ class SimulinkBenchmark:
             'breachPath': os.path.abspath(breach_path),
             'workDir': os.path.abspath(work_dir),
             'workers': float(workers),
+            # 'ACC', 'AFC' or 'WT': record the signals of OPERA's metrics, for robustness_and_metrics
+            'metrics': metrics or '',
         }
         info = self._call('init', self.cfg)
 
@@ -190,6 +192,19 @@ class SimulinkBenchmark:
                          self.matlab.double(net.flat_biases().tolist()),
                          self.matlab.double([c + 1 for c in case_ids]))
         return list(np.asarray(rob, dtype=float).ravel())
+
+    # Robustness and the per-test-case quantities of OPERA's metrics (simulink/isarOperaMetrics.m) of the
+    # test cases case_ids under the controller net; needs metrics at construction
+    def robustness_and_metrics(self, net, case_ids):
+        case_ids = [int(c) for c in case_ids]
+        r = self._call('eval_metrics',
+                       self.matlab.double(net.flat_weights().tolist()),
+                       self.matlab.double(net.flat_biases().tolist()),
+                       self.matlab.double([c + 1 for c in case_ids]))
+        names = [str(n) for n in r['names']]
+        rob = np.asarray(r['rob'], dtype=float).ravel()
+        quantities = np.asarray(r['M'], dtype=float).reshape(len(case_ids), len(names))
+        return rob, names, quantities
 
     # Weights and biases currently in the model blocks, to check them against the network file
     def read_model_params(self):
