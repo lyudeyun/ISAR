@@ -1,0 +1,157 @@
+Initializing Breach from folder /home/deyun/git/breach...
+Starting parallel pool (parpool) using the 'local' profile ...
+Preserving jobs with IDs: 58 because they contain crash dump files.
+You can use 'delete(myCluster.Jobs)' to remove all jobs created with profile local. To create 'myCluster' use 'myCluster = parcluster('local')'.
+Connected to the parallel pool (number of workers: 20).
+Perturbation std: 0.1
+Green, green hatches, red: 0, 87, 13
+incremental_repair.py:106: FutureWarning: Not prepending group keys to the result index of transform-like apply. In the future, the group keys will be included in the index, regardless of whether the applied function returns a like-indexed object.
+To preserve the previous behavior, use
+
+	>>> .groupby(..., group_keys=False)
+
+To adopt the future behavior and silence this warning, use 
+
+	>>> .groupby(..., group_keys=True)
+  df_red_good_approx = df_red_good.groupby('region').apply(lambda x: x.head(5)).reset_index(drop=True)
+incremental_repair.py:107: FutureWarning: Not prepending group keys to the result index of transform-like apply. In the future, the group keys will be included in the index, regardless of whether the applied function returns a like-indexed object.
+To preserve the previous behavior, use
+
+	>>> .groupby(..., group_keys=False)
+
+To adopt the future behavior and silence this warning, use 
+
+	>>> .groupby(..., group_keys=True)
+  df_yellow_approx = df_yellow.groupby('region').apply(lambda x: x.head(5)).reset_index(drop=True)
+incremental_repair.py:108: FutureWarning: Not prepending group keys to the result index of transform-like apply. In the future, the group keys will be included in the index, regardless of whether the applied function returns a like-indexed object.
+To preserve the previous behavior, use
+
+	>>> .groupby(..., group_keys=False)
+
+To adopt the future behavior and silence this warning, use 
+
+	>>> .groupby(..., group_keys=True)
+  df_green_approx = df_green.groupby('region').apply(lambda x: x.head(5)).reset_index(drop=True)
+Count red regions: 13
+Remaining regions to be repaired: 13
+Bad states identified: [(42,)]
+Simulated annealing on region 42 ...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Found var AF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1956211_1_breach/Air Fuel Control Model 1/A//F sensor tolerance [0.99 1.01].
+Found var AF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1956214_1_breach/Air Fuel Control Model 1/A//F sensor tolerance [0.99 1.01].
+Found var AF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1956328_1_breach/Air Fuel Control Model 1/A//F sensor tolerance [0.99 1.01].
+Found var AF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1956443_1_breach/Air Fuel Control Model 1/A//F sensor tolerance [0.99 1.01].
+Found var AF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1956559_1_breach/Air Fuel Control Model 1/A//F sensor tolerance [0.99 1.01].
+Found var AF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1956673_1_breach/Air Fuel Control Model 1/A//F sensor tolerance [0.99 1.01].
+Found var AF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1956789_1_breach/Air Fuel Control Model 1/A//F sensor tolerance [0.99 1.01].
+Found var AF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1956905_1_breach/Air Fuel Control Model 1/A//F sensor tolerance [0.99 1.01].
+Found var AF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1957025_1_breach/Air Fuel Control Model 1/A//F sensor tolerance [0.99 1.01].
+Found var AF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1957150_1_breach/Air Fuel Control Model 1/A//F sensor tolerance [0.99 1.01].
+Found var AF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1957276_1_breach/Air Fuel Control Model 1/A//F sensor tolerance [0.99 1.01].
+Found var AF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1957435_1_breach/Air Fuel Control Model 1/A//F sensor tolerance [0.99 1.01].
+Found var AF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1957590_1_breach/Air Fuel Control Model 1/A//F sensor tolerance [0.99 1.01].
+Found var AF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1957743_1_breach/Air Fuel Control Model 1/A//F sensor tolerance [0.99 1.01].
+Found var AF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1957901_1_breach/Air Fuel Control Model 1/A//F sensor tolerance [0.99 1.01].
+Found var AF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1958055_1_breach/Air Fuel Control Model 1/A//F sensor tolerance [0.99 1.01].
+Found var AF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1958211_1_breach/Air Fuel Control Model 1/A//F sensor tolerance [0.99 1.01].
+Found var AF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1958367_1_breach/Air Fuel Control Model 1/A//F sensor tolerance [0.99 1.01].
+Found var AF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1958520_1_breach/Air Fuel Control Model 1/A//F sensor tolerance [0.99 1.01].
+Found var AF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1958676_1_breach/Air Fuel Control Model 1/A//F sensor tolerance [0.99 1.01].
+Found var MAF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1956211_1_breach/Air Fuel Control Model 1/MAF sensor tolerance [0.95 1.05].
+Found var fault_time in base workspace used by fr_AFC_FFNN_tra_53497_w1956211_1_breach/Air Fuel Control Model 1/A//F Sensor
+Fault Injection.
+Found var fuel_inj_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1956211_1_breach/Air Fuel Control Model 1/fuel injector tolerance
+[0.95 1.05].
+Found var kappa_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1956211_1_breach/Air Fuel Control Model 1/Wall wetting/Kappa tolerance
+[0.9 1.1].
+Found var pump_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1956211_1_breach/Air Fuel Control Model 1/Intake Manifold/Gain2.
+Found var tau_ww_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1956211_1_breach/Air Fuel Control Model 1/Wall wetting/tau_ww tolerance
+[0.9 1.1].
+Found var x_gain in base workspace used by fr_AFC_FFNN_tra_53497_w1956211_1_breach/Air Fuel Control Model 1/Multiply.
+Found x_gain, 4 4 table -  Set 'FindTables' option to true to generate table parameters.
+Found var x_offset in base workspace used by fr_AFC_FFNN_tra_53497_w1956211_1_breach/Air Fuel Control Model 1/Constant.
+Found x_offset, 4 1 table -  Set 'FindTables' option to true to generate table parameters.
+Found var y_gain in base workspace used by fr_AFC_FFNN_tra_53497_w1956211_1_breach/Air Fuel Control Model 1/Constant1.
+Found var y_offset in base workspace used by fr_AFC_FFNN_tra_53497_w1956211_1_breach/Air Fuel Control Model 1/Constant2.
+
+Build Summary
+
+Top model accelerator targets built:
+
+Model                                    Action  Rebuild Reason                                    
+===================================================================================================
+fr_AFC_FFNN_tra_53497_w1956211_1_breach  Failed  Code generation information file does not exist.  
+
+0 of 1 models built (0 models already up to date)
+Build duration: 0h 0m 0.20523s
+Error using BreachSimulinkSystem/CreateInterface (line 518)
+Problem creating Accelerator MEX file for model 'fr_AFC_FFNN_tra_53497_w1956211_1_breach'.
+ To see the build output, use set_param('fr_AFC_FFNN_tra_53497_w1956211_1_breach','AccelVerboseBuild','on')
+
+Error in BreachSimulinkSystem (line 103)
+                    this.CreateInterface(mdl_name);
+
+Error in fastRobOpen>buildSession (line 130)
+Br = BreachSimulinkSystem(localMdl);
+
+Error in fastRobOpen (line 40)
+h = buildSession(mdlInfo, simConf, BUILDS);
+
+Error in isar_sl_eval_chunk (line 8)
+h = fastRobOpen(mdlInfo, simConf);
+
+Error in isar_sl>evalCases (line 127)
+    parfor ci = 1:nChunk
+
+Error in isar_sl (line 36)
+        out = evalCases(S, W, b, inputs);
+
+Caused by:
+    Error using BreachSimulinkSystem/CreateInterface (line 518)
+    Simulink code generation folder in the current folder was created for a different release. The 'slprj' subfolder is not compatible with the current release. Manually remove the 'slprj' folder and generated code files that the folder contains.
+
+Traceback (most recent call last):
+  File "incremental_repair.py", line 328, in <module>
+    isar_main(args.verisig_result_path, args.sampled_result_path, args.network, args.output_path, benchmark=args.benchmark, std=float(args.std))
+  File "incremental_repair.py", line 194, in isar_main
+    net_updated = safeguarded_simulated_annealing(bad_region_id, copy.deepcopy(net), bad_states, good_states, std=std, benchmark=benchmark)
+  File "incremental_repair.py", line 23, in safeguarded_simulated_annealing
+    current_obj_value, h_robusntess_bad, h_robustness_good = simulink_barriered_energy(bad_states, good_states, net)
+  File "/home/deyun/git/ISAR/incremental_repair_utils.py", line 238, in simulink_barriered_energy
+    robustness_all = simulink_robustness(net, [s[0] for s in bad_states] + [s[0] for s in good_states])
+  File "/home/deyun/git/ISAR/incremental_repair_utils.py", line 232, in simulink_robustness
+    return SIMULINK['bench'].robustness(net, case_ids)
+  File "/home/deyun/git/ISAR/simulink_interface.py", line 188, in robustness
+    rob = self._call('eval',
+  File "/home/deyun/git/ISAR/simulink_interface.py", line 160, in _call
+    return self.eng.isar_sl(*args, nargout=1, background=True).result(timeout=self.eval_timeout)
+  File "/home/deyun/miniconda3/envs/isar/lib/python3.8/site-packages/matlabengineforpython-R2021a-py3.8.egg/matlab/engine/futureresult.py", line 67, in result
+    return self.__future.result(timeout)
+  File "/home/deyun/miniconda3/envs/isar/lib/python3.8/site-packages/matlabengineforpython-R2021a-py3.8.egg/matlab/engine/fevalfuture.py", line 82, in result
+    self._result = pythonengine.getFEvalResult(self._future,self._nargout, None, out=self._out, err=self._err)
+matlab.engine.MatlabExecutionError: 
+  File /home/deyun/git/ISAR/simulink/isar_sl.m, line 127, in evalCases
+
+  File /home/deyun/git/ISAR/simulink/isar_sl.m, line 36, in isar_sl
+Problem creating Accelerator MEX file for model 'fr_AFC_FFNN_tra_53497_w1956211_1_breach'.
+ To see the build output, use set_param('fr_AFC_FFNN_tra_53497_w1956211_1_breach','AccelVerboseBuild','on')
+

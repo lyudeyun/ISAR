@@ -1,0 +1,2416 @@
+Initializing Breach from folder /home/deyun/git/breach...
+Starting parallel pool (parpool) using the 'local' profile ...
+Preserving jobs with IDs: 58 because they contain crash dump files.
+You can use 'delete(myCluster.Jobs)' to remove all jobs created with profile local. To create 'myCluster' use 'myCluster = parcluster('local')'.
+Connected to the parallel pool (number of workers: 20).
+Perturbation std: 0.1
+Green, green hatches, red: 0, 87, 13
+incremental_repair.py:106: FutureWarning: Not prepending group keys to the result index of transform-like apply. In the future, the group keys will be included in the index, regardless of whether the applied function returns a like-indexed object.
+To preserve the previous behavior, use
+
+	>>> .groupby(..., group_keys=False)
+
+To adopt the future behavior and silence this warning, use 
+
+	>>> .groupby(..., group_keys=True)
+  df_red_good_approx = df_red_good.groupby('region').apply(lambda x: x.head(5)).reset_index(drop=True)
+incremental_repair.py:107: FutureWarning: Not prepending group keys to the result index of transform-like apply. In the future, the group keys will be included in the index, regardless of whether the applied function returns a like-indexed object.
+To preserve the previous behavior, use
+
+	>>> .groupby(..., group_keys=False)
+
+To adopt the future behavior and silence this warning, use 
+
+	>>> .groupby(..., group_keys=True)
+  df_yellow_approx = df_yellow.groupby('region').apply(lambda x: x.head(5)).reset_index(drop=True)
+incremental_repair.py:108: FutureWarning: Not prepending group keys to the result index of transform-like apply. In the future, the group keys will be included in the index, regardless of whether the applied function returns a like-indexed object.
+To preserve the previous behavior, use
+
+	>>> .groupby(..., group_keys=False)
+
+To adopt the future behavior and silence this warning, use 
+
+	>>> .groupby(..., group_keys=True)
+  df_green_approx = df_green.groupby('region').apply(lambda x: x.head(5)).reset_index(drop=True)
+Count red regions: 13
+Remaining regions to be repaired: 13
+Bad states identified: [(42,)]
+Simulated annealing on region 42 ...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Initializing Breach from folder /home/deyun/git/breach...
+Found var AF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942246_1_breach/Air Fuel Control Model 1/A//F sensor tolerance [0.99 1.01].
+Found var AF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942361_1_breach/Air Fuel Control Model 1/A//F sensor tolerance [0.99 1.01].
+Found var AF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942484_1_breach/Air Fuel Control Model 1/A//F sensor tolerance [0.99 1.01].
+Found var AF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942599_1_breach/Air Fuel Control Model 1/A//F sensor tolerance [0.99 1.01].
+Found var AF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1943201_1_breach/Air Fuel Control Model 1/A//F sensor tolerance [0.99 1.01].
+Found var AF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1943335_1_breach/Air Fuel Control Model 1/A//F sensor tolerance [0.99 1.01].
+Found var AF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1944276_1_breach/Air Fuel Control Model 1/A//F sensor tolerance [0.99 1.01].
+Found var AF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1944605_1_breach/Air Fuel Control Model 1/A//F sensor tolerance [0.99 1.01].
+Found var AF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942128_1_breach/Air Fuel Control Model 1/A//F sensor tolerance [0.99 1.01].
+Found var AF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942132_1_breach/Air Fuel Control Model 1/A//F sensor tolerance [0.99 1.01].
+Found var AF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942715_1_breach/Air Fuel Control Model 1/A//F sensor tolerance [0.99 1.01].
+Found var AF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942830_1_breach/Air Fuel Control Model 1/A//F sensor tolerance [0.99 1.01].
+Found var AF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942951_1_breach/Air Fuel Control Model 1/A//F sensor tolerance [0.99 1.01].
+Found var AF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1943076_1_breach/Air Fuel Control Model 1/A//F sensor tolerance [0.99 1.01].
+Found var AF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1943490_1_breach/Air Fuel Control Model 1/A//F sensor tolerance [0.99 1.01].
+Found var AF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1943671_1_breach/Air Fuel Control Model 1/A//F sensor tolerance [0.99 1.01].
+Found var AF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1943832_1_breach/Air Fuel Control Model 1/A//F sensor tolerance [0.99 1.01].
+Found var AF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1943980_1_breach/Air Fuel Control Model 1/A//F sensor tolerance [0.99 1.01].
+Found var AF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1944114_1_breach/Air Fuel Control Model 1/A//F sensor tolerance [0.99 1.01].
+Found var AF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1944453_1_breach/Air Fuel Control Model 1/A//F sensor tolerance [0.99 1.01].
+Found var MAF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942128_1_breach/Air Fuel Control Model 1/MAF sensor tolerance [0.95 1.05].
+Found var fault_time in base workspace used by fr_AFC_FFNN_tra_53497_w1942128_1_breach/Air Fuel Control Model 1/A//F Sensor
+Fault Injection.
+Found var fuel_inj_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942128_1_breach/Air Fuel Control Model 1/fuel injector tolerance
+[0.95 1.05].
+Found var kappa_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942128_1_breach/Air Fuel Control Model 1/Wall wetting/Kappa tolerance
+[0.9 1.1].
+Found var pump_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942128_1_breach/Air Fuel Control Model 1/Intake Manifold/Gain2.
+Found var tau_ww_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942128_1_breach/Air Fuel Control Model 1/Wall wetting/tau_ww tolerance
+[0.9 1.1].
+Found var x_gain in base workspace used by fr_AFC_FFNN_tra_53497_w1942128_1_breach/Air Fuel Control Model 1/Multiply.
+Found x_gain, 4 4 table -  Set 'FindTables' option to true to generate table parameters.
+Found var x_offset in base workspace used by fr_AFC_FFNN_tra_53497_w1942128_1_breach/Air Fuel Control Model 1/Constant.
+Found x_offset, 4 1 table -  Set 'FindTables' option to true to generate table parameters.
+Found var y_gain in base workspace used by fr_AFC_FFNN_tra_53497_w1942128_1_breach/Air Fuel Control Model 1/Constant1.
+Found var y_offset in base workspace used by fr_AFC_FFNN_tra_53497_w1942128_1_breach/Air Fuel Control Model 1/Constant2.
+### Building the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1942128_1_breach
+Found var MAF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942132_1_breach/Air Fuel Control Model 1/MAF sensor tolerance [0.95 1.05].
+Found var fault_time in base workspace used by fr_AFC_FFNN_tra_53497_w1942132_1_breach/Air Fuel Control Model 1/A//F Sensor
+Fault Injection.
+Found var fuel_inj_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942132_1_breach/Air Fuel Control Model 1/fuel injector tolerance
+[0.95 1.05].
+Found var kappa_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942132_1_breach/Air Fuel Control Model 1/Wall wetting/Kappa tolerance
+[0.9 1.1].
+Found var pump_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942132_1_breach/Air Fuel Control Model 1/Intake Manifold/Gain2.
+Found var tau_ww_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942132_1_breach/Air Fuel Control Model 1/Wall wetting/tau_ww tolerance
+[0.9 1.1].
+Found var x_gain in base workspace used by fr_AFC_FFNN_tra_53497_w1942132_1_breach/Air Fuel Control Model 1/Multiply.
+Found x_gain, 4 4 table -  Set 'FindTables' option to true to generate table parameters.
+Found var x_offset in base workspace used by fr_AFC_FFNN_tra_53497_w1942132_1_breach/Air Fuel Control Model 1/Constant.
+Found x_offset, 4 1 table -  Set 'FindTables' option to true to generate table parameters.
+Found var y_gain in base workspace used by fr_AFC_FFNN_tra_53497_w1942132_1_breach/Air Fuel Control Model 1/Constant1.
+Found var y_offset in base workspace used by fr_AFC_FFNN_tra_53497_w1942132_1_breach/Air Fuel Control Model 1/Constant2.
+### Building the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1942132_1_breach
+Found var MAF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942246_1_breach/Air Fuel Control Model 1/MAF sensor tolerance [0.95 1.05].
+Found var fault_time in base workspace used by fr_AFC_FFNN_tra_53497_w1942246_1_breach/Air Fuel Control Model 1/A//F Sensor
+Fault Injection.
+Found var fuel_inj_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942246_1_breach/Air Fuel Control Model 1/fuel injector tolerance
+[0.95 1.05].
+Found var kappa_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942246_1_breach/Air Fuel Control Model 1/Wall wetting/Kappa tolerance
+[0.9 1.1].
+Found var pump_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942246_1_breach/Air Fuel Control Model 1/Intake Manifold/Gain2.
+Found var tau_ww_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942246_1_breach/Air Fuel Control Model 1/Wall wetting/tau_ww tolerance
+[0.9 1.1].
+Found var x_gain in base workspace used by fr_AFC_FFNN_tra_53497_w1942246_1_breach/Air Fuel Control Model 1/Multiply.
+Found x_gain, 4 4 table -  Set 'FindTables' option to true to generate table parameters.
+Found var x_offset in base workspace used by fr_AFC_FFNN_tra_53497_w1942246_1_breach/Air Fuel Control Model 1/Constant.
+Found x_offset, 4 1 table -  Set 'FindTables' option to true to generate table parameters.
+Found var y_gain in base workspace used by fr_AFC_FFNN_tra_53497_w1942246_1_breach/Air Fuel Control Model 1/Constant1.
+Found var y_offset in base workspace used by fr_AFC_FFNN_tra_53497_w1942246_1_breach/Air Fuel Control Model 1/Constant2.
+### Building the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1942246_1_breach
+Found var MAF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942361_1_breach/Air Fuel Control Model 1/MAF sensor tolerance [0.95 1.05].
+Found var fault_time in base workspace used by fr_AFC_FFNN_tra_53497_w1942361_1_breach/Air Fuel Control Model 1/A//F Sensor
+Fault Injection.
+Found var fuel_inj_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942361_1_breach/Air Fuel Control Model 1/fuel injector tolerance
+[0.95 1.05].
+Found var kappa_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942361_1_breach/Air Fuel Control Model 1/Wall wetting/Kappa tolerance
+[0.9 1.1].
+Found var pump_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942361_1_breach/Air Fuel Control Model 1/Intake Manifold/Gain2.
+Found var tau_ww_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942361_1_breach/Air Fuel Control Model 1/Wall wetting/tau_ww tolerance
+[0.9 1.1].
+Found var x_gain in base workspace used by fr_AFC_FFNN_tra_53497_w1942361_1_breach/Air Fuel Control Model 1/Multiply.
+Found x_gain, 4 4 table -  Set 'FindTables' option to true to generate table parameters.
+Found var x_offset in base workspace used by fr_AFC_FFNN_tra_53497_w1942361_1_breach/Air Fuel Control Model 1/Constant.
+Found x_offset, 4 1 table -  Set 'FindTables' option to true to generate table parameters.
+Found var y_gain in base workspace used by fr_AFC_FFNN_tra_53497_w1942361_1_breach/Air Fuel Control Model 1/Constant1.
+Found var y_offset in base workspace used by fr_AFC_FFNN_tra_53497_w1942361_1_breach/Air Fuel Control Model 1/Constant2.
+### Building the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1942361_1_breach
+Found var MAF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942484_1_breach/Air Fuel Control Model 1/MAF sensor tolerance [0.95 1.05].
+Found var fault_time in base workspace used by fr_AFC_FFNN_tra_53497_w1942484_1_breach/Air Fuel Control Model 1/A//F Sensor
+Fault Injection.
+Found var fuel_inj_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942484_1_breach/Air Fuel Control Model 1/fuel injector tolerance
+[0.95 1.05].
+Found var kappa_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942484_1_breach/Air Fuel Control Model 1/Wall wetting/Kappa tolerance
+[0.9 1.1].
+Found var pump_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942484_1_breach/Air Fuel Control Model 1/Intake Manifold/Gain2.
+Found var tau_ww_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942484_1_breach/Air Fuel Control Model 1/Wall wetting/tau_ww tolerance
+[0.9 1.1].
+Found var x_gain in base workspace used by fr_AFC_FFNN_tra_53497_w1942484_1_breach/Air Fuel Control Model 1/Multiply.
+Found x_gain, 4 4 table -  Set 'FindTables' option to true to generate table parameters.
+Found var x_offset in base workspace used by fr_AFC_FFNN_tra_53497_w1942484_1_breach/Air Fuel Control Model 1/Constant.
+Found x_offset, 4 1 table -  Set 'FindTables' option to true to generate table parameters.
+Found var y_gain in base workspace used by fr_AFC_FFNN_tra_53497_w1942484_1_breach/Air Fuel Control Model 1/Constant1.
+Found var y_offset in base workspace used by fr_AFC_FFNN_tra_53497_w1942484_1_breach/Air Fuel Control Model 1/Constant2.
+### Building the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1942484_1_breach
+Found var MAF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942599_1_breach/Air Fuel Control Model 1/MAF sensor tolerance [0.95 1.05].
+Found var fault_time in base workspace used by fr_AFC_FFNN_tra_53497_w1942599_1_breach/Air Fuel Control Model 1/A//F Sensor
+Fault Injection.
+Found var fuel_inj_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942599_1_breach/Air Fuel Control Model 1/fuel injector tolerance
+[0.95 1.05].
+Found var kappa_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942599_1_breach/Air Fuel Control Model 1/Wall wetting/Kappa tolerance
+[0.9 1.1].
+Found var pump_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942599_1_breach/Air Fuel Control Model 1/Intake Manifold/Gain2.
+Found var tau_ww_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942599_1_breach/Air Fuel Control Model 1/Wall wetting/tau_ww tolerance
+[0.9 1.1].
+Found var x_gain in base workspace used by fr_AFC_FFNN_tra_53497_w1942599_1_breach/Air Fuel Control Model 1/Multiply.
+Found x_gain, 4 4 table -  Set 'FindTables' option to true to generate table parameters.
+Found var x_offset in base workspace used by fr_AFC_FFNN_tra_53497_w1942599_1_breach/Air Fuel Control Model 1/Constant.
+Found x_offset, 4 1 table -  Set 'FindTables' option to true to generate table parameters.
+Found var y_gain in base workspace used by fr_AFC_FFNN_tra_53497_w1942599_1_breach/Air Fuel Control Model 1/Constant1.
+Found var y_offset in base workspace used by fr_AFC_FFNN_tra_53497_w1942599_1_breach/Air Fuel Control Model 1/Constant2.
+### Building the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1942599_1_breach
+Found var MAF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942715_1_breach/Air Fuel Control Model 1/MAF sensor tolerance [0.95 1.05].
+Found var fault_time in base workspace used by fr_AFC_FFNN_tra_53497_w1942715_1_breach/Air Fuel Control Model 1/A//F Sensor
+Fault Injection.
+Found var fuel_inj_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942715_1_breach/Air Fuel Control Model 1/fuel injector tolerance
+[0.95 1.05].
+Found var kappa_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942715_1_breach/Air Fuel Control Model 1/Wall wetting/Kappa tolerance
+[0.9 1.1].
+Found var pump_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942715_1_breach/Air Fuel Control Model 1/Intake Manifold/Gain2.
+Found var tau_ww_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942715_1_breach/Air Fuel Control Model 1/Wall wetting/tau_ww tolerance
+[0.9 1.1].
+Found var x_gain in base workspace used by fr_AFC_FFNN_tra_53497_w1942715_1_breach/Air Fuel Control Model 1/Multiply.
+Found x_gain, 4 4 table -  Set 'FindTables' option to true to generate table parameters.
+Found var x_offset in base workspace used by fr_AFC_FFNN_tra_53497_w1942715_1_breach/Air Fuel Control Model 1/Constant.
+Found x_offset, 4 1 table -  Set 'FindTables' option to true to generate table parameters.
+Found var y_gain in base workspace used by fr_AFC_FFNN_tra_53497_w1942715_1_breach/Air Fuel Control Model 1/Constant1.
+Found var y_offset in base workspace used by fr_AFC_FFNN_tra_53497_w1942715_1_breach/Air Fuel Control Model 1/Constant2.
+### Building the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1942715_1_breach
+Found var MAF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942830_1_breach/Air Fuel Control Model 1/MAF sensor tolerance [0.95 1.05].
+Found var fault_time in base workspace used by fr_AFC_FFNN_tra_53497_w1942830_1_breach/Air Fuel Control Model 1/A//F Sensor
+Fault Injection.
+Found var fuel_inj_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942830_1_breach/Air Fuel Control Model 1/fuel injector tolerance
+[0.95 1.05].
+Found var kappa_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942830_1_breach/Air Fuel Control Model 1/Wall wetting/Kappa tolerance
+[0.9 1.1].
+Found var pump_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942830_1_breach/Air Fuel Control Model 1/Intake Manifold/Gain2.
+Found var tau_ww_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942830_1_breach/Air Fuel Control Model 1/Wall wetting/tau_ww tolerance
+[0.9 1.1].
+Found var x_gain in base workspace used by fr_AFC_FFNN_tra_53497_w1942830_1_breach/Air Fuel Control Model 1/Multiply.
+Found x_gain, 4 4 table -  Set 'FindTables' option to true to generate table parameters.
+Found var x_offset in base workspace used by fr_AFC_FFNN_tra_53497_w1942830_1_breach/Air Fuel Control Model 1/Constant.
+Found x_offset, 4 1 table -  Set 'FindTables' option to true to generate table parameters.
+Found var y_gain in base workspace used by fr_AFC_FFNN_tra_53497_w1942830_1_breach/Air Fuel Control Model 1/Constant1.
+Found var y_offset in base workspace used by fr_AFC_FFNN_tra_53497_w1942830_1_breach/Air Fuel Control Model 1/Constant2.
+### Building the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1942830_1_breach
+Found var MAF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942951_1_breach/Air Fuel Control Model 1/MAF sensor tolerance [0.95 1.05].
+Found var fault_time in base workspace used by fr_AFC_FFNN_tra_53497_w1942951_1_breach/Air Fuel Control Model 1/A//F Sensor
+Fault Injection.
+Found var fuel_inj_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942951_1_breach/Air Fuel Control Model 1/fuel injector tolerance
+[0.95 1.05].
+Found var kappa_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942951_1_breach/Air Fuel Control Model 1/Wall wetting/Kappa tolerance
+[0.9 1.1].
+Found var pump_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942951_1_breach/Air Fuel Control Model 1/Intake Manifold/Gain2.
+Found var tau_ww_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1942951_1_breach/Air Fuel Control Model 1/Wall wetting/tau_ww tolerance
+[0.9 1.1].
+Found var x_gain in base workspace used by fr_AFC_FFNN_tra_53497_w1942951_1_breach/Air Fuel Control Model 1/Multiply.
+Found x_gain, 4 4 table -  Set 'FindTables' option to true to generate table parameters.
+Found var x_offset in base workspace used by fr_AFC_FFNN_tra_53497_w1942951_1_breach/Air Fuel Control Model 1/Constant.
+Found x_offset, 4 1 table -  Set 'FindTables' option to true to generate table parameters.
+Found var y_gain in base workspace used by fr_AFC_FFNN_tra_53497_w1942951_1_breach/Air Fuel Control Model 1/Constant1.
+Found var y_offset in base workspace used by fr_AFC_FFNN_tra_53497_w1942951_1_breach/Air Fuel Control Model 1/Constant2.
+### Building the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1942951_1_breach
+Found var MAF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1943201_1_breach/Air Fuel Control Model 1/MAF sensor tolerance [0.95 1.05].
+Found var fault_time in base workspace used by fr_AFC_FFNN_tra_53497_w1943201_1_breach/Air Fuel Control Model 1/A//F Sensor
+Fault Injection.
+Found var fuel_inj_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1943201_1_breach/Air Fuel Control Model 1/fuel injector tolerance
+[0.95 1.05].
+Found var kappa_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1943201_1_breach/Air Fuel Control Model 1/Wall wetting/Kappa tolerance
+[0.9 1.1].
+Found var pump_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1943201_1_breach/Air Fuel Control Model 1/Intake Manifold/Gain2.
+Found var tau_ww_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1943201_1_breach/Air Fuel Control Model 1/Wall wetting/tau_ww tolerance
+[0.9 1.1].
+Found var x_gain in base workspace used by fr_AFC_FFNN_tra_53497_w1943201_1_breach/Air Fuel Control Model 1/Multiply.
+Found x_gain, 4 4 table -  Set 'FindTables' option to true to generate table parameters.
+Found var x_offset in base workspace used by fr_AFC_FFNN_tra_53497_w1943201_1_breach/Air Fuel Control Model 1/Constant.
+Found x_offset, 4 1 table -  Set 'FindTables' option to true to generate table parameters.
+Found var y_gain in base workspace used by fr_AFC_FFNN_tra_53497_w1943201_1_breach/Air Fuel Control Model 1/Constant1.
+Found var y_offset in base workspace used by fr_AFC_FFNN_tra_53497_w1943201_1_breach/Air Fuel Control Model 1/Constant2.
+### Building the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1943201_1_breach
+Found var MAF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1943335_1_breach/Air Fuel Control Model 1/MAF sensor tolerance [0.95 1.05].
+Found var fault_time in base workspace used by fr_AFC_FFNN_tra_53497_w1943335_1_breach/Air Fuel Control Model 1/A//F Sensor
+Fault Injection.
+Found var fuel_inj_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1943335_1_breach/Air Fuel Control Model 1/fuel injector tolerance
+[0.95 1.05].
+Found var kappa_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1943335_1_breach/Air Fuel Control Model 1/Wall wetting/Kappa tolerance
+[0.9 1.1].
+Found var pump_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1943335_1_breach/Air Fuel Control Model 1/Intake Manifold/Gain2.
+Found var tau_ww_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1943335_1_breach/Air Fuel Control Model 1/Wall wetting/tau_ww tolerance
+[0.9 1.1].
+Found var x_gain in base workspace used by fr_AFC_FFNN_tra_53497_w1943335_1_breach/Air Fuel Control Model 1/Multiply.
+Found x_gain, 4 4 table -  Set 'FindTables' option to true to generate table parameters.
+Found var x_offset in base workspace used by fr_AFC_FFNN_tra_53497_w1943335_1_breach/Air Fuel Control Model 1/Constant.
+Found x_offset, 4 1 table -  Set 'FindTables' option to true to generate table parameters.
+Found var y_gain in base workspace used by fr_AFC_FFNN_tra_53497_w1943335_1_breach/Air Fuel Control Model 1/Constant1.
+Found var y_offset in base workspace used by fr_AFC_FFNN_tra_53497_w1943335_1_breach/Air Fuel Control Model 1/Constant2.
+### Building the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1943335_1_breach
+Found var MAF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1943490_1_breach/Air Fuel Control Model 1/MAF sensor tolerance [0.95 1.05].
+Found var fault_time in base workspace used by fr_AFC_FFNN_tra_53497_w1943490_1_breach/Air Fuel Control Model 1/A//F Sensor
+Fault Injection.
+Found var fuel_inj_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1943490_1_breach/Air Fuel Control Model 1/fuel injector tolerance
+[0.95 1.05].
+Found var kappa_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1943490_1_breach/Air Fuel Control Model 1/Wall wetting/Kappa tolerance
+[0.9 1.1].
+Found var pump_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1943490_1_breach/Air Fuel Control Model 1/Intake Manifold/Gain2.
+Found var tau_ww_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1943490_1_breach/Air Fuel Control Model 1/Wall wetting/tau_ww tolerance
+[0.9 1.1].
+Found var x_gain in base workspace used by fr_AFC_FFNN_tra_53497_w1943490_1_breach/Air Fuel Control Model 1/Multiply.
+Found x_gain, 4 4 table -  Set 'FindTables' option to true to generate table parameters.
+Found var x_offset in base workspace used by fr_AFC_FFNN_tra_53497_w1943490_1_breach/Air Fuel Control Model 1/Constant.
+Found x_offset, 4 1 table -  Set 'FindTables' option to true to generate table parameters.
+Found var y_gain in base workspace used by fr_AFC_FFNN_tra_53497_w1943490_1_breach/Air Fuel Control Model 1/Constant1.
+Found var y_offset in base workspace used by fr_AFC_FFNN_tra_53497_w1943490_1_breach/Air Fuel Control Model 1/Constant2.
+### Building the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1943490_1_breach
+Found var MAF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1943671_1_breach/Air Fuel Control Model 1/MAF sensor tolerance [0.95 1.05].
+Found var fault_time in base workspace used by fr_AFC_FFNN_tra_53497_w1943671_1_breach/Air Fuel Control Model 1/A//F Sensor
+Fault Injection.
+Found var fuel_inj_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1943671_1_breach/Air Fuel Control Model 1/fuel injector tolerance
+[0.95 1.05].
+Found var kappa_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1943671_1_breach/Air Fuel Control Model 1/Wall wetting/Kappa tolerance
+[0.9 1.1].
+Found var pump_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1943671_1_breach/Air Fuel Control Model 1/Intake Manifold/Gain2.
+Found var tau_ww_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1943671_1_breach/Air Fuel Control Model 1/Wall wetting/tau_ww tolerance
+[0.9 1.1].
+Found var x_gain in base workspace used by fr_AFC_FFNN_tra_53497_w1943671_1_breach/Air Fuel Control Model 1/Multiply.
+Found x_gain, 4 4 table -  Set 'FindTables' option to true to generate table parameters.
+Found var x_offset in base workspace used by fr_AFC_FFNN_tra_53497_w1943671_1_breach/Air Fuel Control Model 1/Constant.
+Found x_offset, 4 1 table -  Set 'FindTables' option to true to generate table parameters.
+Found var y_gain in base workspace used by fr_AFC_FFNN_tra_53497_w1943671_1_breach/Air Fuel Control Model 1/Constant1.
+Found var y_offset in base workspace used by fr_AFC_FFNN_tra_53497_w1943671_1_breach/Air Fuel Control Model 1/Constant2.
+### Building the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1943671_1_breach
+Found var MAF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1943832_1_breach/Air Fuel Control Model 1/MAF sensor tolerance [0.95 1.05].
+Found var fault_time in base workspace used by fr_AFC_FFNN_tra_53497_w1943832_1_breach/Air Fuel Control Model 1/A//F Sensor
+Fault Injection.
+Found var fuel_inj_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1943832_1_breach/Air Fuel Control Model 1/fuel injector tolerance
+[0.95 1.05].
+Found var kappa_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1943832_1_breach/Air Fuel Control Model 1/Wall wetting/Kappa tolerance
+[0.9 1.1].
+Found var pump_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1943832_1_breach/Air Fuel Control Model 1/Intake Manifold/Gain2.
+Found var tau_ww_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1943832_1_breach/Air Fuel Control Model 1/Wall wetting/tau_ww tolerance
+[0.9 1.1].
+Found var x_gain in base workspace used by fr_AFC_FFNN_tra_53497_w1943832_1_breach/Air Fuel Control Model 1/Multiply.
+Found x_gain, 4 4 table -  Set 'FindTables' option to true to generate table parameters.
+Found var x_offset in base workspace used by fr_AFC_FFNN_tra_53497_w1943832_1_breach/Air Fuel Control Model 1/Constant.
+Found x_offset, 4 1 table -  Set 'FindTables' option to true to generate table parameters.
+Found var y_gain in base workspace used by fr_AFC_FFNN_tra_53497_w1943832_1_breach/Air Fuel Control Model 1/Constant1.
+Found var y_offset in base workspace used by fr_AFC_FFNN_tra_53497_w1943832_1_breach/Air Fuel Control Model 1/Constant2.
+### Building the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1943832_1_breach
+Found var MAF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1943980_1_breach/Air Fuel Control Model 1/MAF sensor tolerance [0.95 1.05].
+Found var fault_time in base workspace used by fr_AFC_FFNN_tra_53497_w1943980_1_breach/Air Fuel Control Model 1/A//F Sensor
+Fault Injection.
+Found var fuel_inj_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1943980_1_breach/Air Fuel Control Model 1/fuel injector tolerance
+[0.95 1.05].
+Found var kappa_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1943980_1_breach/Air Fuel Control Model 1/Wall wetting/Kappa tolerance
+[0.9 1.1].
+Found var pump_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1943980_1_breach/Air Fuel Control Model 1/Intake Manifold/Gain2.
+Found var tau_ww_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1943980_1_breach/Air Fuel Control Model 1/Wall wetting/tau_ww tolerance
+[0.9 1.1].
+Found var x_gain in base workspace used by fr_AFC_FFNN_tra_53497_w1943980_1_breach/Air Fuel Control Model 1/Multiply.
+Found x_gain, 4 4 table -  Set 'FindTables' option to true to generate table parameters.
+Found var x_offset in base workspace used by fr_AFC_FFNN_tra_53497_w1943980_1_breach/Air Fuel Control Model 1/Constant.
+Found x_offset, 4 1 table -  Set 'FindTables' option to true to generate table parameters.
+Found var y_gain in base workspace used by fr_AFC_FFNN_tra_53497_w1943980_1_breach/Air Fuel Control Model 1/Constant1.
+Found var y_offset in base workspace used by fr_AFC_FFNN_tra_53497_w1943980_1_breach/Air Fuel Control Model 1/Constant2.
+### Building the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1943980_1_breach
+Found var MAF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1944114_1_breach/Air Fuel Control Model 1/MAF sensor tolerance [0.95 1.05].
+Found var fault_time in base workspace used by fr_AFC_FFNN_tra_53497_w1944114_1_breach/Air Fuel Control Model 1/A//F Sensor
+Fault Injection.
+Found var fuel_inj_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1944114_1_breach/Air Fuel Control Model 1/fuel injector tolerance
+[0.95 1.05].
+Found var kappa_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1944114_1_breach/Air Fuel Control Model 1/Wall wetting/Kappa tolerance
+[0.9 1.1].
+Found var pump_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1944114_1_breach/Air Fuel Control Model 1/Intake Manifold/Gain2.
+Found var tau_ww_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1944114_1_breach/Air Fuel Control Model 1/Wall wetting/tau_ww tolerance
+[0.9 1.1].
+Found var x_gain in base workspace used by fr_AFC_FFNN_tra_53497_w1944114_1_breach/Air Fuel Control Model 1/Multiply.
+Found x_gain, 4 4 table -  Set 'FindTables' option to true to generate table parameters.
+Found var x_offset in base workspace used by fr_AFC_FFNN_tra_53497_w1944114_1_breach/Air Fuel Control Model 1/Constant.
+Found x_offset, 4 1 table -  Set 'FindTables' option to true to generate table parameters.
+Found var y_gain in base workspace used by fr_AFC_FFNN_tra_53497_w1944114_1_breach/Air Fuel Control Model 1/Constant1.
+Found var y_offset in base workspace used by fr_AFC_FFNN_tra_53497_w1944114_1_breach/Air Fuel Control Model 1/Constant2.
+### Building the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1944114_1_breach
+Found var MAF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1944276_1_breach/Air Fuel Control Model 1/MAF sensor tolerance [0.95 1.05].
+Found var fault_time in base workspace used by fr_AFC_FFNN_tra_53497_w1944276_1_breach/Air Fuel Control Model 1/A//F Sensor
+Fault Injection.
+Found var fuel_inj_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1944276_1_breach/Air Fuel Control Model 1/fuel injector tolerance
+[0.95 1.05].
+Found var kappa_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1944276_1_breach/Air Fuel Control Model 1/Wall wetting/Kappa tolerance
+[0.9 1.1].
+Found var pump_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1944276_1_breach/Air Fuel Control Model 1/Intake Manifold/Gain2.
+Found var tau_ww_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1944276_1_breach/Air Fuel Control Model 1/Wall wetting/tau_ww tolerance
+[0.9 1.1].
+Found var x_gain in base workspace used by fr_AFC_FFNN_tra_53497_w1944276_1_breach/Air Fuel Control Model 1/Multiply.
+Found x_gain, 4 4 table -  Set 'FindTables' option to true to generate table parameters.
+Found var x_offset in base workspace used by fr_AFC_FFNN_tra_53497_w1944276_1_breach/Air Fuel Control Model 1/Constant.
+Found x_offset, 4 1 table -  Set 'FindTables' option to true to generate table parameters.
+Found var y_gain in base workspace used by fr_AFC_FFNN_tra_53497_w1944276_1_breach/Air Fuel Control Model 1/Constant1.
+Found var y_offset in base workspace used by fr_AFC_FFNN_tra_53497_w1944276_1_breach/Air Fuel Control Model 1/Constant2.
+### Building the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1944276_1_breach
+Found var MAF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1944453_1_breach/Air Fuel Control Model 1/MAF sensor tolerance [0.95 1.05].
+Found var fault_time in base workspace used by fr_AFC_FFNN_tra_53497_w1944453_1_breach/Air Fuel Control Model 1/A//F Sensor
+Fault Injection.
+Found var fuel_inj_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1944453_1_breach/Air Fuel Control Model 1/fuel injector tolerance
+[0.95 1.05].
+Found var kappa_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1944453_1_breach/Air Fuel Control Model 1/Wall wetting/Kappa tolerance
+[0.9 1.1].
+Found var pump_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1944453_1_breach/Air Fuel Control Model 1/Intake Manifold/Gain2.
+Found var tau_ww_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1944453_1_breach/Air Fuel Control Model 1/Wall wetting/tau_ww tolerance
+[0.9 1.1].
+Found var x_gain in base workspace used by fr_AFC_FFNN_tra_53497_w1944453_1_breach/Air Fuel Control Model 1/Multiply.
+Found x_gain, 4 4 table -  Set 'FindTables' option to true to generate table parameters.
+Found var x_offset in base workspace used by fr_AFC_FFNN_tra_53497_w1944453_1_breach/Air Fuel Control Model 1/Constant.
+Found x_offset, 4 1 table -  Set 'FindTables' option to true to generate table parameters.
+Found var y_gain in base workspace used by fr_AFC_FFNN_tra_53497_w1944453_1_breach/Air Fuel Control Model 1/Constant1.
+Found var y_offset in base workspace used by fr_AFC_FFNN_tra_53497_w1944453_1_breach/Air Fuel Control Model 1/Constant2.
+### Building the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1944453_1_breach
+Found var MAF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1944605_1_breach/Air Fuel Control Model 1/MAF sensor tolerance [0.95 1.05].
+Found var fault_time in base workspace used by fr_AFC_FFNN_tra_53497_w1944605_1_breach/Air Fuel Control Model 1/A//F Sensor
+Fault Injection.
+Found var fuel_inj_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1944605_1_breach/Air Fuel Control Model 1/fuel injector tolerance
+[0.95 1.05].
+Found var kappa_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1944605_1_breach/Air Fuel Control Model 1/Wall wetting/Kappa tolerance
+[0.9 1.1].
+Found var pump_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1944605_1_breach/Air Fuel Control Model 1/Intake Manifold/Gain2.
+Found var tau_ww_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1944605_1_breach/Air Fuel Control Model 1/Wall wetting/tau_ww tolerance
+[0.9 1.1].
+Found var x_gain in base workspace used by fr_AFC_FFNN_tra_53497_w1944605_1_breach/Air Fuel Control Model 1/Multiply.
+Found x_gain, 4 4 table -  Set 'FindTables' option to true to generate table parameters.
+Found var x_offset in base workspace used by fr_AFC_FFNN_tra_53497_w1944605_1_breach/Air Fuel Control Model 1/Constant.
+Found x_offset, 4 1 table -  Set 'FindTables' option to true to generate table parameters.
+Found var y_gain in base workspace used by fr_AFC_FFNN_tra_53497_w1944605_1_breach/Air Fuel Control Model 1/Constant1.
+Found var y_offset in base workspace used by fr_AFC_FFNN_tra_53497_w1944605_1_breach/Air Fuel Control Model 1/Constant2.
+### Building the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1944605_1_breach
+Found var MAF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1943076_1_breach/Air Fuel Control Model 1/MAF sensor tolerance [0.95 1.05].
+Found var fault_time in base workspace used by fr_AFC_FFNN_tra_53497_w1943076_1_breach/Air Fuel Control Model 1/A//F Sensor
+Fault Injection.
+Found var fuel_inj_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1943076_1_breach/Air Fuel Control Model 1/fuel injector tolerance
+[0.95 1.05].
+Found var kappa_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1943076_1_breach/Air Fuel Control Model 1/Wall wetting/Kappa tolerance
+[0.9 1.1].
+Found var pump_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1943076_1_breach/Air Fuel Control Model 1/Intake Manifold/Gain2.
+Found var tau_ww_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1943076_1_breach/Air Fuel Control Model 1/Wall wetting/tau_ww tolerance
+[0.9 1.1].
+Found var x_gain in base workspace used by fr_AFC_FFNN_tra_53497_w1943076_1_breach/Air Fuel Control Model 1/Multiply.
+Found x_gain, 4 4 table -  Set 'FindTables' option to true to generate table parameters.
+Found var x_offset in base workspace used by fr_AFC_FFNN_tra_53497_w1943076_1_breach/Air Fuel Control Model 1/Constant.
+Found x_offset, 4 1 table -  Set 'FindTables' option to true to generate table parameters.
+Found var y_gain in base workspace used by fr_AFC_FFNN_tra_53497_w1943076_1_breach/Air Fuel Control Model 1/Constant1.
+Found var y_offset in base workspace used by fr_AFC_FFNN_tra_53497_w1943076_1_breach/Air Fuel Control Model 1/Constant2.
+### Building the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1943076_1_breach
+Warning: gcc version '11' not supported. See https://www.mathworks.com/support/compilers/current_release.
+### Successfully built the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1942246_1_breach
+Warning: gcc version '11' not supported. See https://www.mathworks.com/support/compilers/current_release.
+### Successfully built the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1942484_1_breach
+Warning: gcc version '11' not supported. See https://www.mathworks.com/support/compilers/current_release.
+### Successfully built the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1944605_1_breach
+Warning: gcc version '11' not supported. See https://www.mathworks.com/support/compilers/current_release.
+### Successfully built the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1942132_1_breach
+Warning: gcc version '11' not supported. See https://www.mathworks.com/support/compilers/current_release.
+### Successfully built the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1942361_1_breach
+Warning: gcc version '11' not supported. See https://www.mathworks.com/support/compilers/current_release.
+### Successfully built the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1942599_1_breach
+Warning: gcc version '11' not supported. See https://www.mathworks.com/support/compilers/current_release.
+### Successfully built the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1942830_1_breach
+Warning: gcc version '11' not supported. See https://www.mathworks.com/support/compilers/current_release.
+### Successfully built the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1943335_1_breach
+Warning: gcc version '11' not supported. See https://www.mathworks.com/support/compilers/current_release.
+### Successfully built the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1943490_1_breach
+Warning: gcc version '11' not supported. See https://www.mathworks.com/support/compilers/current_release.
+### Successfully built the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1944276_1_breach
+Warning: gcc version '11' not supported. See https://www.mathworks.com/support/compilers/current_release.
+### Successfully built the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1942128_1_breach
+Warning: gcc version '11' not supported. See https://www.mathworks.com/support/compilers/current_release.
+### Successfully built the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1942715_1_breach
+Warning: gcc version '11' not supported. See https://www.mathworks.com/support/compilers/current_release.
+### Successfully built the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1942951_1_breach
+Warning: gcc version '11' not supported. See https://www.mathworks.com/support/compilers/current_release.
+### Successfully built the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1943076_1_breach
+Warning: gcc version '11' not supported. See https://www.mathworks.com/support/compilers/current_release.
+### Successfully built the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1943201_1_breach
+Warning: gcc version '11' not supported. See https://www.mathworks.com/support/compilers/current_release.
+### Successfully built the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1943671_1_breach
+Warning: gcc version '11' not supported. See https://www.mathworks.com/support/compilers/current_release.
+### Successfully built the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1943832_1_breach
+Warning: gcc version '11' not supported. See https://www.mathworks.com/support/compilers/current_release.
+### Successfully built the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1943980_1_breach
+Warning: gcc version '11' not supported. See https://www.mathworks.com/support/compilers/current_release.
+### Successfully built the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1944114_1_breach
+Warning: gcc version '11' not supported. See https://www.mathworks.com/support/compilers/current_release.
+### Successfully built the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1944453_1_breach
+
+Build Summary
+
+Top model accelerator targets built:
+
+Model                                    Action                       Rebuild Reason                                    
+========================================================================================================================
+fr_AFC_FFNN_tra_53497_w1942128_1_breach  Code generated and compiled  Code generation information file does not exist.  
+
+1 of 1 models built (0 models already up to date)
+Build duration: 0h 0m 9.5584s
+### Building the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1942128_1_breach
+
+Build Summary
+
+Top model accelerator targets built:
+
+Model                                    Action                       Rebuild Reason                                    
+========================================================================================================================
+fr_AFC_FFNN_tra_53497_w1942132_1_breach  Code generated and compiled  Code generation information file does not exist.  
+
+1 of 1 models built (0 models already up to date)
+Build duration: 0h 0m 8.9827s
+### Building the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1942132_1_breach
+
+Build Summary
+
+Top model accelerator targets built:
+
+Model                                    Action                       Rebuild Reason                                    
+========================================================================================================================
+fr_AFC_FFNN_tra_53497_w1942246_1_breach  Code generated and compiled  Code generation information file does not exist.  
+
+1 of 1 models built (0 models already up to date)
+Build duration: 0h 0m 8.2505s
+### Building the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1942246_1_breach
+
+Build Summary
+
+Top model accelerator targets built:
+
+Model                                    Action                       Rebuild Reason                                    
+========================================================================================================================
+fr_AFC_FFNN_tra_53497_w1942361_1_breach  Code generated and compiled  Code generation information file does not exist.  
+
+1 of 1 models built (0 models already up to date)
+Build duration: 0h 0m 8.8409s
+### Building the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1942361_1_breach
+
+Build Summary
+
+Top model accelerator targets built:
+
+Model                                    Action                       Rebuild Reason                                    
+========================================================================================================================
+fr_AFC_FFNN_tra_53497_w1942484_1_breach  Code generated and compiled  Code generation information file does not exist.  
+
+1 of 1 models built (0 models already up to date)
+Build duration: 0h 0m 8.6373s
+### Building the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1942484_1_breach
+
+Build Summary
+
+Top model accelerator targets built:
+
+Model                                    Action                       Rebuild Reason                                    
+========================================================================================================================
+fr_AFC_FFNN_tra_53497_w1942599_1_breach  Code generated and compiled  Code generation information file does not exist.  
+
+1 of 1 models built (0 models already up to date)
+Build duration: 0h 0m 8.6738s
+### Building the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1942599_1_breach
+
+Build Summary
+
+Top model accelerator targets built:
+
+Model                                    Action                       Rebuild Reason                                    
+========================================================================================================================
+fr_AFC_FFNN_tra_53497_w1942715_1_breach  Code generated and compiled  Code generation information file does not exist.  
+
+1 of 1 models built (0 models already up to date)
+Build duration: 0h 0m 9.5718s
+### Building the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1942715_1_breach
+
+Build Summary
+
+Top model accelerator targets built:
+
+Model                                    Action                       Rebuild Reason                                    
+========================================================================================================================
+fr_AFC_FFNN_tra_53497_w1942830_1_breach  Code generated and compiled  Code generation information file does not exist.  
+
+1 of 1 models built (0 models already up to date)
+Build duration: 0h 0m 8.9733s
+### Building the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1942830_1_breach
+
+Build Summary
+
+Top model accelerator targets built:
+
+Model                                    Action                       Rebuild Reason                                    
+========================================================================================================================
+fr_AFC_FFNN_tra_53497_w1942951_1_breach  Code generated and compiled  Code generation information file does not exist.  
+
+1 of 1 models built (0 models already up to date)
+Build duration: 0h 0m 9.3137s
+### Building the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1942951_1_breach
+
+Build Summary
+
+Top model accelerator targets built:
+
+Model                                    Action                       Rebuild Reason                                    
+========================================================================================================================
+fr_AFC_FFNN_tra_53497_w1943076_1_breach  Code generated and compiled  Code generation information file does not exist.  
+
+1 of 1 models built (0 models already up to date)
+Build duration: 0h 0m 9.4507s
+### Building the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1943076_1_breach
+
+Build Summary
+
+Top model accelerator targets built:
+
+Model                                    Action                       Rebuild Reason                                    
+========================================================================================================================
+fr_AFC_FFNN_tra_53497_w1943201_1_breach  Code generated and compiled  Code generation information file does not exist.  
+
+1 of 1 models built (0 models already up to date)
+Build duration: 0h 0m 9.3856s
+### Building the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1943201_1_breach
+
+Build Summary
+
+Top model accelerator targets built:
+
+Model                                    Action                       Rebuild Reason                                    
+========================================================================================================================
+fr_AFC_FFNN_tra_53497_w1943335_1_breach  Code generated and compiled  Code generation information file does not exist.  
+
+1 of 1 models built (0 models already up to date)
+Build duration: 0h 0m 9.1191s
+### Building the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1943335_1_breach
+
+Build Summary
+
+Top model accelerator targets built:
+
+Model                                    Action                       Rebuild Reason                                    
+========================================================================================================================
+fr_AFC_FFNN_tra_53497_w1943490_1_breach  Code generated and compiled  Code generation information file does not exist.  
+
+1 of 1 models built (0 models already up to date)
+Build duration: 0h 0m 9.174s
+### Building the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1943490_1_breach
+
+Build Summary
+
+Top model accelerator targets built:
+
+Model                                    Action                       Rebuild Reason                                    
+========================================================================================================================
+fr_AFC_FFNN_tra_53497_w1943671_1_breach  Code generated and compiled  Code generation information file does not exist.  
+
+1 of 1 models built (0 models already up to date)
+Build duration: 0h 0m 9.4769s
+### Building the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1943671_1_breach
+
+Build Summary
+
+Top model accelerator targets built:
+
+Model                                    Action                       Rebuild Reason                                    
+========================================================================================================================
+fr_AFC_FFNN_tra_53497_w1943832_1_breach  Code generated and compiled  Code generation information file does not exist.  
+
+1 of 1 models built (0 models already up to date)
+Build duration: 0h 0m 9.4637s
+### Building the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1943832_1_breach
+
+Build Summary
+
+Top model accelerator targets built:
+
+Model                                    Action                       Rebuild Reason                                    
+========================================================================================================================
+fr_AFC_FFNN_tra_53497_w1943980_1_breach  Code generated and compiled  Code generation information file does not exist.  
+
+1 of 1 models built (0 models already up to date)
+Build duration: 0h 0m 9.1923s
+### Building the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1943980_1_breach
+
+Build Summary
+
+Top model accelerator targets built:
+
+Model                                    Action                       Rebuild Reason                                    
+========================================================================================================================
+fr_AFC_FFNN_tra_53497_w1944114_1_breach  Code generated and compiled  Code generation information file does not exist.  
+
+1 of 1 models built (0 models already up to date)
+Build duration: 0h 0m 9.5505s
+### Building the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1944114_1_breach
+
+Build Summary
+
+Top model accelerator targets built:
+
+Model                                    Action                       Rebuild Reason                                    
+========================================================================================================================
+fr_AFC_FFNN_tra_53497_w1944276_1_breach  Code generated and compiled  Code generation information file does not exist.  
+
+1 of 1 models built (0 models already up to date)
+Build duration: 0h 0m 8.9267s
+### Building the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1944276_1_breach
+
+Build Summary
+
+Top model accelerator targets built:
+
+Model                                    Action                       Rebuild Reason                                    
+========================================================================================================================
+fr_AFC_FFNN_tra_53497_w1944453_1_breach  Code generated and compiled  Code generation information file does not exist.  
+
+1 of 1 models built (0 models already up to date)
+Build duration: 0h 0m 9.6565s
+### Building the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1944453_1_breach
+
+Build Summary
+
+Top model accelerator targets built:
+
+Model                                    Action                       Rebuild Reason                                    
+========================================================================================================================
+fr_AFC_FFNN_tra_53497_w1944605_1_breach  Code generated and compiled  Code generation information file does not exist.  
+
+1 of 1 models built (0 models already up to date)
+Build duration: 0h 0m 8.424s
+### Building the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1944605_1_breach
+Warning: gcc version '11' not supported. See https://www.mathworks.com/support/compilers/current_release.
+### Successfully built the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1942246_1_breach
+Warning: gcc version '11' not supported. See https://www.mathworks.com/support/compilers/current_release.
+### Successfully built the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1942599_1_breach
+Warning: gcc version '11' not supported. See https://www.mathworks.com/support/compilers/current_release.
+### Successfully built the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1942128_1_breach
+Warning: gcc version '11' not supported. See https://www.mathworks.com/support/compilers/current_release.
+### Successfully built the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1942132_1_breach
+Warning: gcc version '11' not supported. See https://www.mathworks.com/support/compilers/current_release.
+### Successfully built the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1942361_1_breach
+Warning: gcc version '11' not supported. See https://www.mathworks.com/support/compilers/current_release.
+### Successfully built the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1942484_1_breach
+Warning: gcc version '11' not supported. See https://www.mathworks.com/support/compilers/current_release.
+### Successfully built the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1942715_1_breach
+Warning: gcc version '11' not supported. See https://www.mathworks.com/support/compilers/current_release.
+### Successfully built the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1942830_1_breach
+Warning: gcc version '11' not supported. See https://www.mathworks.com/support/compilers/current_release.
+### Successfully built the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1942951_1_breach
+Warning: gcc version '11' not supported. See https://www.mathworks.com/support/compilers/current_release.
+### Successfully built the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1943076_1_breach
+Warning: gcc version '11' not supported. See https://www.mathworks.com/support/compilers/current_release.
+### Successfully built the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1943201_1_breach
+Warning: gcc version '11' not supported. See https://www.mathworks.com/support/compilers/current_release.
+### Successfully built the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1943335_1_breach
+Warning: gcc version '11' not supported. See https://www.mathworks.com/support/compilers/current_release.
+### Successfully built the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1943490_1_breach
+Warning: gcc version '11' not supported. See https://www.mathworks.com/support/compilers/current_release.
+### Successfully built the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1943671_1_breach
+Warning: gcc version '11' not supported. See https://www.mathworks.com/support/compilers/current_release.
+### Successfully built the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1943832_1_breach
+Warning: gcc version '11' not supported. See https://www.mathworks.com/support/compilers/current_release.
+### Successfully built the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1943980_1_breach
+Warning: gcc version '11' not supported. See https://www.mathworks.com/support/compilers/current_release.
+### Successfully built the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1944114_1_breach
+Warning: gcc version '11' not supported. See https://www.mathworks.com/support/compilers/current_release.
+### Successfully built the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1944276_1_breach
+Warning: gcc version '11' not supported. See https://www.mathworks.com/support/compilers/current_release.
+### Successfully built the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1944453_1_breach
+Warning: gcc version '11' not supported. See https://www.mathworks.com/support/compilers/current_release.
+### Successfully built the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1944605_1_breach
+
+Build Summary
+
+Top model accelerator targets built:
+
+Model                                    Action                       Rebuild Reason                        
+============================================================================================================
+fr_AFC_FFNN_tra_53497_w1942246_1_breach  Code generated and compiled  Accelerator MEX file is out of date.  
+
+1 of 1 models built (0 models already up to date)
+Build duration: 0h 0m 5.9959s
+
+Build Summary
+
+Top model accelerator targets built:
+
+Model                                    Action                       Rebuild Reason                        
+============================================================================================================
+fr_AFC_FFNN_tra_53497_w1942484_1_breach  Code generated and compiled  Accelerator MEX file is out of date.  
+
+1 of 1 models built (0 models already up to date)
+Build duration: 0h 0m 7.0019s
+
+Build Summary
+
+Top model accelerator targets built:
+
+Model                                    Action                       Rebuild Reason                        
+============================================================================================================
+fr_AFC_FFNN_tra_53497_w1942599_1_breach  Code generated and compiled  Accelerator MEX file is out of date.  
+
+1 of 1 models built (0 models already up to date)
+Build duration: 0h 0m 5.9039s
+
+Build Summary
+
+Top model accelerator targets built:
+
+Model                                    Action                       Rebuild Reason                        
+============================================================================================================
+fr_AFC_FFNN_tra_53497_w1942128_1_breach  Code generated and compiled  Accelerator MEX file is out of date.  
+
+1 of 1 models built (0 models already up to date)
+Build duration: 0h 0m 7.251s
+
+Build Summary
+
+Top model accelerator targets built:
+
+Model                                    Action                       Rebuild Reason                        
+============================================================================================================
+fr_AFC_FFNN_tra_53497_w1942132_1_breach  Code generated and compiled  Accelerator MEX file is out of date.  
+
+1 of 1 models built (0 models already up to date)
+Build duration: 0h 0m 7.1604s
+
+Build Summary
+
+Top model accelerator targets built:
+
+Model                                    Action                       Rebuild Reason                        
+============================================================================================================
+fr_AFC_FFNN_tra_53497_w1942361_1_breach  Code generated and compiled  Accelerator MEX file is out of date.  
+
+1 of 1 models built (0 models already up to date)
+Build duration: 0h 0m 7.1855s
+
+Build Summary
+
+Top model accelerator targets built:
+
+Model                                    Action                       Rebuild Reason                        
+============================================================================================================
+fr_AFC_FFNN_tra_53497_w1942715_1_breach  Code generated and compiled  Accelerator MEX file is out of date.  
+
+1 of 1 models built (0 models already up to date)
+Build duration: 0h 0m 7.2047s
+
+Build Summary
+
+Top model accelerator targets built:
+
+Model                                    Action                       Rebuild Reason                        
+============================================================================================================
+fr_AFC_FFNN_tra_53497_w1942830_1_breach  Code generated and compiled  Accelerator MEX file is out of date.  
+
+1 of 1 models built (0 models already up to date)
+Build duration: 0h 0m 7.1642s
+
+Build Summary
+
+Top model accelerator targets built:
+
+Model                                    Action                       Rebuild Reason                        
+============================================================================================================
+fr_AFC_FFNN_tra_53497_w1942951_1_breach  Code generated and compiled  Accelerator MEX file is out of date.  
+
+1 of 1 models built (0 models already up to date)
+Build duration: 0h 0m 7.1533s
+
+Build Summary
+
+Top model accelerator targets built:
+
+Model                                    Action                       Rebuild Reason                        
+============================================================================================================
+fr_AFC_FFNN_tra_53497_w1943076_1_breach  Code generated and compiled  Accelerator MEX file is out of date.  
+
+1 of 1 models built (0 models already up to date)
+Build duration: 0h 0m 7.1926s
+
+Build Summary
+
+Top model accelerator targets built:
+
+Model                                    Action                       Rebuild Reason                        
+============================================================================================================
+fr_AFC_FFNN_tra_53497_w1943201_1_breach  Code generated and compiled  Accelerator MEX file is out of date.  
+
+1 of 1 models built (0 models already up to date)
+Build duration: 0h 0m 7.1656s
+
+Build Summary
+
+Top model accelerator targets built:
+
+Model                                    Action                       Rebuild Reason                        
+============================================================================================================
+fr_AFC_FFNN_tra_53497_w1943335_1_breach  Code generated and compiled  Accelerator MEX file is out of date.  
+
+1 of 1 models built (0 models already up to date)
+Build duration: 0h 0m 7.3756s
+
+Build Summary
+
+Top model accelerator targets built:
+
+Model                                    Action                       Rebuild Reason                        
+============================================================================================================
+fr_AFC_FFNN_tra_53497_w1943490_1_breach  Code generated and compiled  Accelerator MEX file is out of date.  
+
+1 of 1 models built (0 models already up to date)
+Build duration: 0h 0m 7.0883s
+
+Build Summary
+
+Top model accelerator targets built:
+
+Model                                    Action                       Rebuild Reason                        
+============================================================================================================
+fr_AFC_FFNN_tra_53497_w1943671_1_breach  Code generated and compiled  Accelerator MEX file is out of date.  
+
+1 of 1 models built (0 models already up to date)
+Build duration: 0h 0m 7.2683s
+
+Build Summary
+
+Top model accelerator targets built:
+
+Model                                    Action                       Rebuild Reason                        
+============================================================================================================
+fr_AFC_FFNN_tra_53497_w1943832_1_breach  Code generated and compiled  Accelerator MEX file is out of date.  
+
+1 of 1 models built (0 models already up to date)
+Build duration: 0h 0m 7.0584s
+
+Build Summary
+
+Top model accelerator targets built:
+
+Model                                    Action                       Rebuild Reason                        
+============================================================================================================
+fr_AFC_FFNN_tra_53497_w1943980_1_breach  Code generated and compiled  Accelerator MEX file is out of date.  
+
+1 of 1 models built (0 models already up to date)
+Build duration: 0h 0m 7.2062s
+
+Build Summary
+
+Top model accelerator targets built:
+
+Model                                    Action                       Rebuild Reason                        
+============================================================================================================
+fr_AFC_FFNN_tra_53497_w1944114_1_breach  Code generated and compiled  Accelerator MEX file is out of date.  
+
+1 of 1 models built (0 models already up to date)
+Build duration: 0h 0m 7.197s
+
+Build Summary
+
+Top model accelerator targets built:
+
+Model                                    Action                       Rebuild Reason                        
+============================================================================================================
+fr_AFC_FFNN_tra_53497_w1944276_1_breach  Code generated and compiled  Accelerator MEX file is out of date.  
+
+1 of 1 models built (0 models already up to date)
+Build duration: 0h 0m 7.166s
+
+Build Summary
+
+Top model accelerator targets built:
+
+Model                                    Action                       Rebuild Reason                        
+============================================================================================================
+fr_AFC_FFNN_tra_53497_w1944453_1_breach  Code generated and compiled  Accelerator MEX file is out of date.  
+
+1 of 1 models built (0 models already up to date)
+Build duration: 0h 0m 7.1332s
+
+Build Summary
+
+Top model accelerator targets built:
+
+Model                                    Action                       Rebuild Reason                        
+============================================================================================================
+fr_AFC_FFNN_tra_53497_w1944605_1_breach  Code generated and compiled  Accelerator MEX file is out of date.  
+
+1 of 1 models built (0 models already up to date)
+Build duration: 0h 0m 7.3667s
+Annealing iteration 0 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 1 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 2 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 3 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 4 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 5 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 6 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 7 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 8 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 9 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 10 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 11 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 12 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 13 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 14 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 15 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 16 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 17 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 18 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 19 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 20 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 21 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 22 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 23 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 24 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 25 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 26 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 27 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 28 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 29 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 30 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 31 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 32 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 33 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 34 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 35 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 36 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 37 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 38 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 39 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 40 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 41 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 42 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 43 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 44 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 45 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 46 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 47 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 48 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 49 ...
+Rejected due to good states broken, rollback to previous params
+Execution time: 109.0448272228241
+Found var AF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1941683_1_breach/Air Fuel Control Model 1/A//F sensor tolerance [0.99 1.01].
+Found var MAF_sensor_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1941683_1_breach/Air Fuel Control Model 1/MAF sensor tolerance [0.95 1.05].
+Found var fault_time in base workspace used by fr_AFC_FFNN_tra_53497_w1941683_1_breach/Air Fuel Control Model 1/A//F Sensor
+Fault Injection.
+Found var fuel_inj_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1941683_1_breach/Air Fuel Control Model 1/fuel injector tolerance
+[0.95 1.05].
+Found var kappa_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1941683_1_breach/Air Fuel Control Model 1/Wall wetting/Kappa tolerance
+[0.9 1.1].
+Found var pump_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1941683_1_breach/Air Fuel Control Model 1/Intake Manifold/Gain2.
+Found var tau_ww_tol in base workspace used by fr_AFC_FFNN_tra_53497_w1941683_1_breach/Air Fuel Control Model 1/Wall wetting/tau_ww tolerance
+[0.9 1.1].
+Found var x_gain in base workspace used by fr_AFC_FFNN_tra_53497_w1941683_1_breach/Air Fuel Control Model 1/Multiply.
+Found x_gain, 4 4 table -  Set 'FindTables' option to true to generate table parameters.
+Found var x_offset in base workspace used by fr_AFC_FFNN_tra_53497_w1941683_1_breach/Air Fuel Control Model 1/Constant.
+Found x_offset, 4 1 table -  Set 'FindTables' option to true to generate table parameters.
+Found var y_gain in base workspace used by fr_AFC_FFNN_tra_53497_w1941683_1_breach/Air Fuel Control Model 1/Constant1.
+Found var y_offset in base workspace used by fr_AFC_FFNN_tra_53497_w1941683_1_breach/Air Fuel Control Model 1/Constant2.
+### Building the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1941683_1_breach
+Warning: gcc version '11' not supported. See https://www.mathworks.com/support/compilers/current_release.
+### Successfully built the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1941683_1_breach
+
+Build Summary
+
+Top model accelerator targets built:
+
+Model                                    Action                       Rebuild Reason                                    
+========================================================================================================================
+fr_AFC_FFNN_tra_53497_w1941683_1_breach  Code generated and compiled  Code generation information file does not exist.  
+
+1 of 1 models built (0 models already up to date)
+Build duration: 0h 0m 6.8307s
+### Building the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1941683_1_breach
+Warning: gcc version '11' not supported. See https://www.mathworks.com/support/compilers/current_release.
+### Successfully built the Accelerator target for model: fr_AFC_FFNN_tra_53497_w1941683_1_breach
+
+Build Summary
+
+Top model accelerator targets built:
+
+Model                                    Action                       Rebuild Reason                        
+============================================================================================================
+fr_AFC_FFNN_tra_53497_w1941683_1_breach  Code generated and compiled  Accelerator MEX file is out of date.  
+
+1 of 1 models built (0 models already up to date)
+Build duration: 0h 0m 4.0551s
+Avg bad states robustness before and after sim annealing: -0.025268189970141464, -0.025268189970141464
+Bad region not repaired, rollback
+Iteration time: 165.24404883384705
+Simulations so far: 4490
+Remaining regions to be repaired: 12
+Bad states identified: [(38,)]
+Simulated annealing on region 38 ...
+Annealing iteration 0 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 1 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 2 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 3 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 4 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 5 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 6 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 7 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 8 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 9 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 10 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 11 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 12 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 13 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 14 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 15 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 16 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 17 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 18 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 19 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 20 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 21 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 22 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 23 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 24 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 25 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 26 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 27 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 28 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 29 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 30 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 31 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 32 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 33 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 34 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 35 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 36 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 37 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 38 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 39 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 40 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 41 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 42 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 43 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 44 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 45 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 46 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 47 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 48 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 49 ...
+Rejected due to good states broken, rollback to previous params
+Execution time: 30.039510011672974
+Avg bad states robustness before and after sim annealing: -0.07556618403935289, -0.07556618403935289
+Bad region not repaired, rollback
+Iteration time: 30.404617309570312
+Simulations so far: 8980
+Remaining regions to be repaired: 11
+Bad states identified: [(24,)]
+Simulated annealing on region 24 ...
+Annealing iteration 0 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 1 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 2 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 3 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 4 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 5 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 6 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 7 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 8 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 9 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 10 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 11 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 12 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 13 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 14 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 15 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 16 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 17 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 18 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 19 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 20 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 21 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 22 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 23 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 24 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 25 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 26 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 27 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 28 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 29 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 30 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 31 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 32 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 33 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 34 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 35 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 36 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 37 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 38 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 39 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 40 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 41 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 42 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 43 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 44 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 45 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 46 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 47 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 48 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 49 ...
+Rejected due to good states broken, rollback to previous params
+Execution time: 30.55616068840027
+Avg bad states robustness before and after sim annealing: -0.07800456757741614, -0.07800456757741614
+Bad region not repaired, rollback
+Iteration time: 30.84967303276062
+Simulations so far: 13470
+Remaining regions to be repaired: 10
+Bad states identified: [(51,)]
+Simulated annealing on region 51 ...
+Annealing iteration 0 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 1 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 2 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 3 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 4 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 5 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 6 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 7 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 8 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 9 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 10 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 11 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 12 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 13 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 14 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 15 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 16 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 17 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 18 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 19 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 20 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 21 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 22 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 23 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 24 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 25 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 26 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 27 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 28 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 29 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 30 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 31 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 32 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 33 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 34 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 35 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 36 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 37 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 38 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 39 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 40 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 41 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 42 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 43 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 44 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 45 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 46 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 47 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 48 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 49 ...
+Rejected due to good states broken, rollback to previous params
+Execution time: 30.458963632583618
+Avg bad states robustness before and after sim annealing: -0.08422578150229398, -0.08422578150229398
+Bad region not repaired, rollback
+Iteration time: 30.707082271575928
+Simulations so far: 17960
+Remaining regions to be repaired: 9
+Bad states identified: [(37,)]
+Simulated annealing on region 37 ...
+Annealing iteration 0 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 1 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 2 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 3 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 4 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 5 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 6 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 7 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 8 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 9 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 10 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 11 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 12 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 13 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 14 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 15 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 16 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 17 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 18 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 19 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 20 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 21 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 22 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 23 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 24 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 25 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 26 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 27 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 28 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 29 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 30 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 31 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 32 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 33 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 34 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 35 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 36 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 37 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 38 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 39 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 40 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 41 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 42 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 43 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 44 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 45 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 46 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 47 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 48 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 49 ...
+Rejected due to good states broken, rollback to previous params
+Execution time: 31.664543867111206
+Avg bad states robustness before and after sim annealing: -0.09801468431255245, -0.09801468431255245
+Bad region not repaired, rollback
+Iteration time: 31.96790838241577
+Simulations so far: 22450
+Remaining regions to be repaired: 8
+Bad states identified: [(19,)]
+Simulated annealing on region 19 ...
+Annealing iteration 0 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 1 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 2 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 3 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 4 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 5 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 6 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 7 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 8 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 9 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 10 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 11 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 12 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 13 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 14 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 15 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 16 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 17 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 18 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 19 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 20 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 21 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 22 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 23 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 24 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 25 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 26 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 27 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 28 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 29 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 30 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 31 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 32 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 33 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 34 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 35 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 36 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 37 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 38 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 39 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 40 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 41 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 42 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 43 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 44 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 45 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 46 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 47 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 48 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 49 ...
+Rejected due to good states broken, rollback to previous params
+Execution time: 29.437835454940796
+Avg bad states robustness before and after sim annealing: -0.16539329392155722, -0.16539329392155722
+Bad region not repaired, rollback
+Iteration time: 29.672403812408447
+Simulations so far: 26940
+Remaining regions to be repaired: 7
+Bad states identified: [(0,)]
+Simulated annealing on region 0 ...
+Annealing iteration 0 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 1 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 2 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 3 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 4 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 5 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 6 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 7 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 8 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 9 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 10 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 11 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 12 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 13 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 14 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 15 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 16 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 17 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 18 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 19 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 20 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 21 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 22 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 23 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 24 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 25 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 26 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 27 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 28 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 29 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 30 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 31 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 32 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 33 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 34 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 35 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 36 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 37 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 38 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 39 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 40 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 41 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 42 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 43 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 44 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 45 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 46 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 47 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 48 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 49 ...
+Rejected due to good states broken, rollback to previous params
+Execution time: 29.35257840156555
+Avg bad states robustness before and after sim annealing: -0.17932932745716457, -0.17932932745716457
+Bad region not repaired, rollback
+Iteration time: 29.596588373184204
+Simulations so far: 31430
+Remaining regions to be repaired: 6
+Bad states identified: [(9,)]
+Simulated annealing on region 9 ...
+Annealing iteration 0 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 1 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 2 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 3 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 4 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 5 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 6 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 7 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 8 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 9 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 10 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 11 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 12 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 13 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 14 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 15 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 16 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 17 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 18 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 19 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 20 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 21 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 22 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 23 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 24 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 25 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 26 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 27 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 28 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 29 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 30 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 31 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 32 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 33 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 34 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 35 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 36 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 37 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 38 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 39 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 40 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 41 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 42 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 43 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 44 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 45 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 46 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 47 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 48 ...
+Warning: Solver is encountering difficulty in simulating model 'fr_AFC_FFNN_tra_53497_w1942715_1_breach' at time 0.40193366612812709. Simulink will continue to simulate with warnings. Please check the model for errors.
+> In fastRob (line 52)
+In isar_sl_eval_chunk (line 12)
+In parallel_function>make_general_channel/channel_general (line 832)
+In remoteParallelFunction (line 67)
+Warning: Solver was unable to reduce the step size without violating minimum step size of 1.42796E-15 for 1 consecutive times at time 0.401934.  Solver will continue simulation with the step size restricted to 1.42796E-15 and using an effective relative error tolerance of 0.00133224, which is greater than the specified relative error tolerance of 0.001. This usually may be caused by the high stiffness of the system. Please check the system or increase the solver Number of consecutive min steps violation parameter.
+> In fastRob (line 52)
+In isar_sl_eval_chunk (line 12)
+In parallel_function>make_general_channel/channel_general (line 832)
+In remoteParallelFunction (line 67)
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 49 ...
+Rejected due to good states broken, rollback to previous params
+Execution time: 28.584789276123047
+Avg bad states robustness before and after sim annealing: -0.1991612629279622, -0.1991612629279622
+Bad region not repaired, rollback
+Iteration time: 28.81934142112732
+Simulations so far: 35920
+Remaining regions to be repaired: 5
+Bad states identified: [(43,)]
+Simulated annealing on region 43 ...
+Annealing iteration 0 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 1 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 2 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 3 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 4 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 5 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 6 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 7 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 8 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 9 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 10 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 11 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 12 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 13 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 14 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 15 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 16 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 17 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 18 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 19 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 20 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 21 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 22 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 23 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 24 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 25 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 26 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 27 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 28 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 29 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 30 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 31 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 32 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 33 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 34 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 35 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 36 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 37 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 38 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 39 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 40 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 41 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 42 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 43 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 44 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 45 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 46 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 47 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 48 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 49 ...
+Rejected due to good states broken, rollback to previous params
+Execution time: 28.340172290802002
+Avg bad states robustness before and after sim annealing: -0.2166322629532047, -0.2166322629532047
+Bad region not repaired, rollback
+Iteration time: 28.570761919021606
+Simulations so far: 40410
+Remaining regions to be repaired: 4
+Bad states identified: [(73,)]
+Simulated annealing on region 73 ...
+Annealing iteration 0 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 1 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 2 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 3 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 4 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 5 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 6 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 7 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 8 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 9 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 10 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 11 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 12 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 13 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 14 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 15 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 16 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 17 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 18 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 19 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 20 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 21 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 22 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 23 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 24 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 25 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 26 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 27 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 28 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 29 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 30 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 31 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 32 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 33 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 34 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 35 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 36 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 37 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 38 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 39 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 40 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 41 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 42 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 43 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 44 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 45 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 46 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 47 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 48 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 49 ...
+Rejected due to good states broken, rollback to previous params
+Execution time: 28.796900749206543
+Avg bad states robustness before and after sim annealing: -0.24674781068063112, -0.24674781068063112
+Bad region not repaired, rollback
+Iteration time: 29.04186463356018
+Simulations so far: 44900
+Remaining regions to be repaired: 3
+Bad states identified: [(65,)]
+Simulated annealing on region 65 ...
+Annealing iteration 0 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 1 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 2 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 3 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 4 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 5 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 6 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 7 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 8 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 9 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 10 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 11 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 12 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 13 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 14 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 15 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 16 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 17 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 18 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 19 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 20 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 21 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 22 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 23 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 24 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 25 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 26 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 27 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 28 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 29 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 30 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 31 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 32 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 33 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 34 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 35 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 36 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 37 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 38 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 39 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 40 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 41 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 42 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 43 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 44 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 45 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 46 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 47 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 48 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 49 ...
+Rejected due to good states broken, rollback to previous params
+Execution time: 28.546407222747803
+Avg bad states robustness before and after sim annealing: -0.3210235610708594, -0.3210235610708594
+Bad region not repaired, rollback
+Iteration time: 28.77453303337097
+Simulations so far: 49390
+Remaining regions to be repaired: 2
+Bad states identified: [(22,)]
+Simulated annealing on region 22 ...
+Annealing iteration 0 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 1 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 2 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 3 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 4 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 5 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 6 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 7 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 8 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 9 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 10 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 11 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 12 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 13 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 14 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 15 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 16 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 17 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 18 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 19 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 20 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 21 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 22 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 23 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 24 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 25 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 26 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 27 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 28 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 29 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 30 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 31 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 32 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 33 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 34 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 35 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 36 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 37 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 38 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 39 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 40 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 41 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 42 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 43 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 44 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 45 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 46 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 47 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 48 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 49 ...
+Rejected due to good states broken, rollback to previous params
+Execution time: 28.98854684829712
+Avg bad states robustness before and after sim annealing: -0.49642350379246025, -0.49642350379246025
+Bad region not repaired, rollback
+Iteration time: 29.219902992248535
+Simulations so far: 53880
+Remaining regions to be repaired: 1
+Bad states identified: [(32,)]
+Simulated annealing on region 32 ...
+Annealing iteration 0 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 1 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 2 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 3 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 4 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 5 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 6 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 7 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 8 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 9 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 10 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 11 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 12 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 13 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 14 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 15 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 16 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 17 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 18 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 19 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 20 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 21 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 22 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 23 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 24 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 25 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 26 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 27 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 28 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 29 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 30 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 31 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 32 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 33 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 34 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 35 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 36 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 37 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 38 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 39 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 40 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 41 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 42 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 43 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 44 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 45 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 46 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 47 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 48 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 49 ...
+Rejected due to good states broken, rollback to previous params
+Execution time: 28.68483805656433
+Avg bad states robustness before and after sim annealing: -0.6441986570617644, -0.6441986570617644
+Bad region not repaired, rollback
+Iteration time: 28.926174879074097
+Simulations so far: 58370
+Total time: 522.0849719047546
+Simulations: {'annealing': 58344, 'sample_check': 0, 'total': 58370, 'state_check': 26, 'iterations': 13, 'matlab_restarts': 0}
