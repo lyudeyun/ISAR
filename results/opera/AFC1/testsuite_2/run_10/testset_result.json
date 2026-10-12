@@ -1,0 +1,11 @@
+{
+  "num_cases": 1000,
+  "satisfied_before": 854,
+  "satisfied_after": 854,
+  "SR_before": 85.4,
+  "SR_after": 85.4,
+  "neg_to_pos": 0,
+  "pos_to_neg": 0,
+  "test_set": "AFC_mu_015_spec_1_FFNN_trainlm_15_15_15_NoSat_May_11_Te_TS_1000.mat",
+  "checkpoint": null
+}
