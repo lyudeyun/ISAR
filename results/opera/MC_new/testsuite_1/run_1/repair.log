@@ -1,0 +1,346 @@
+Perturbation std: 0.1
+Green, green hatches, red: 0, 99, 1
+/Users/deyun/git/ISAR/incremental_repair.py:106: FutureWarning: Not prepending group keys to the result index of transform-like apply. In the future, the group keys will be included in the index, regardless of whether the applied function returns a like-indexed object.
+To preserve the previous behavior, use
+
+	>>> .groupby(..., group_keys=False)
+
+To adopt the future behavior and silence this warning, use 
+
+	>>> .groupby(..., group_keys=True)
+  df_red_good_approx = df_red_good.groupby('region').apply(lambda x: x.head(5)).reset_index(drop=True)
+/Users/deyun/git/ISAR/incremental_repair.py:107: FutureWarning: Not prepending group keys to the result index of transform-like apply. In the future, the group keys will be included in the index, regardless of whether the applied function returns a like-indexed object.
+To preserve the previous behavior, use
+
+	>>> .groupby(..., group_keys=False)
+
+To adopt the future behavior and silence this warning, use 
+
+	>>> .groupby(..., group_keys=True)
+  df_yellow_approx = df_yellow.groupby('region').apply(lambda x: x.head(5)).reset_index(drop=True)
+/Users/deyun/git/ISAR/incremental_repair.py:108: FutureWarning: Not prepending group keys to the result index of transform-like apply. In the future, the group keys will be included in the index, regardless of whether the applied function returns a like-indexed object.
+To preserve the previous behavior, use
+
+	>>> .groupby(..., group_keys=False)
+
+To adopt the future behavior and silence this warning, use 
+
+	>>> .groupby(..., group_keys=True)
+  df_green_approx = df_green.groupby('region').apply(lambda x: x.head(5)).reset_index(drop=True)
+Count red regions: 1
+Remaining regions to be repaired: 1
+Bad states identified: [(-0.3555976359705761, 0.0303059859292058)]
+Simulated annealing on region 21 ...
+Annealing iteration 0 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 1 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 2 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 3 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 4 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 5 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 6 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 7 ...
+Better params identified
+Annealing iteration 8 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 9 ...
+Better params identified
+Annealing iteration 10 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 11 ...
+Better params identified
+Annealing iteration 12 ...
+Better params identified
+Annealing iteration 13 ...
+Better params identified
+Annealing iteration 14 ...
+Rejected due to M-H criterion violated, rollback to previous params
+Annealing iteration 15 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 16 ...
+Better params identified
+Annealing iteration 17 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 18 ...
+Better params identified
+Annealing iteration 19 ...
+Better params identified
+Annealing iteration 20 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 21 ...
+Better params identified
+Annealing iteration 22 ...
+Better params identified
+Annealing iteration 23 ...
+Better params identified
+Annealing iteration 24 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 25 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 26 ...
+Better params identified
+Annealing iteration 27 ...
+Better params identified
+Annealing iteration 28 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 29 ...
+Better params identified
+Annealing iteration 30 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 31 ...
+Better params identified
+Annealing iteration 32 ...
+Rejected due to M-H criterion violated, rollback to previous params
+Annealing iteration 33 ...
+Better params identified
+Annealing iteration 34 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 35 ...
+Better params identified
+Annealing iteration 36 ...
+Rejected due to M-H criterion violated, rollback to previous params
+Annealing iteration 37 ...
+Better params identified
+Annealing iteration 38 ...
+Better params identified
+Annealing iteration 39 ...
+Better params identified
+Annealing iteration 40 ...
+Better params identified
+Annealing iteration 41 ...
+Better params identified
+Annealing iteration 42 ...
+Better params identified
+Annealing iteration 43 ...
+Better params identified
+Annealing iteration 44 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 45 ...
+Better params identified
+Annealing iteration 46 ...
+Rejected due to M-H criterion violated, rollback to previous params
+Annealing iteration 47 ...
+Better params identified
+Annealing iteration 48 ...
+Rejected due to good states broken, rollback to previous params
+Annealing iteration 49 ...
+Better params identified
+Execution time: 17.29739809036255
+Avg bad states robustness before and after sim annealing: -0.17520750448796024, 0.14999999999999997
+Exist a bad state that is repaired
+Avg good states robustness after sim annealing: 0.14999999999999994
+Bad states are improved, proceed
+/Users/deyun/git/ISAR/incremental_repair_utils.py:325: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  net = torch.load(repaired_net_path)
+Checking sampled states ...
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+/Users/deyun/git/ISAR/incremental_repair_utils.py:352: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df_sample_repaired = df_sample_repaired.append(result_dict, ignore_index=True)
+Green, green hatches, red: 0, 100, 0
+Iteration time: 18.121572017669678
+Simulations so far: 5302
+Total time: 18.266388177871704
+Simulations: {'annealing': 5100, 'sample_check': 100, 'total': 5302, 'state_check': 102, 'iterations': 1}
