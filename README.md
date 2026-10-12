@@ -466,10 +466,10 @@ python run_benchmark.py --benchmark=UUV --runs=10
 python run_benchmark.py --benchmark=AFC1_Phi1 --runs=10 --workers=8 --breach_path=/path/to/breach
 ```
 
-Results are written to `results/<benchmark>/`, with the file prefix `mc`, `uuv` or `simulink`:
+Results are written to `results/contrrep/<benchmark>/`, with the file prefix `mc`, `uuv` or `simulink`:
 
 ```
-results/AFC1_Phi1/
+results/contrrep/AFC1_Phi1/
 ├── simulink_sampling_result_broken.csv     # robustness of the test suite under the original controller
 ├── simulink_verisig_result_skipped.csv     # every test case marked unverified
 ├── simulink_initial_state_regions.csv
@@ -487,7 +487,7 @@ results/AFC1_Phi1/
 - The final repaired controller of a run is its last checkpoint, and its robustness on the test suite is in the matching `sample_checkpoint_*.csv`. If no region is repaired, there is no checkpoint and the result is the original controller.
 - `simulation_count.json` counts the simulations of the repair, one per simulated test case. The simulations that prepare the inputs are not included.
 - The repair stops once every violated region has been tried once; it has no simulation budget.
-- The annealing perturbs every weight and bias with Gaussian noise of standard deviation 0.1, the default of ISAR. `--std` changes it, e.g. `--std=0.001`; such runs are written to `results/<benchmark>/std_<std>/run_<seed>/`, apart from the runs with the default.
+- The annealing perturbs every weight and bias with Gaussian noise of standard deviation 0.1, the default of ISAR. `--std` changes it, e.g. `--std=0.001`; such runs are written to `results/contrrep/<benchmark>/std_<std>/run_<seed>/`, apart from the runs with the default.
 
 To run the seeds in parallel, e.g. one job per seed on a cluster, prepare the inputs once and then start one call per seed:
 
@@ -504,11 +504,11 @@ For Simulink benchmarks, give each concurrently running job its own copy of Brea
 The two steps that `run_benchmark.py` performs can also be called directly, e.g. for MC and AFC1_Phi1:
 
 ```
-python testsuite_to_isar.py --benchmark=mc --mat_path=benchmark_contrrep/MC/MC_Phi_1_FFNN_16_16_XV_10_10_20250609.mat --network=controllers/mc_sig_2x16_broken_old.yml --output_dir=results/MC
-python -u incremental_repair.py --benchmark=mc --network=controllers/mc_sig_2x16_broken_old.yml --seed=1 --verisig_result_path=results/MC/mc_verisig_result_skipped.csv --sampled_result_path=results/MC/mc_sampling_result_broken.csv --output_path=results/MC/run_1
+python testsuite_to_isar.py --benchmark=mc --mat_path=benchmark_contrrep/MC/MC_Phi_1_FFNN_16_16_XV_10_10_20250609.mat --network=controllers/mc_sig_2x16_broken_old.yml --output_dir=results/contrrep/MC
+python -u incremental_repair.py --benchmark=mc --network=controllers/mc_sig_2x16_broken_old.yml --seed=1 --verisig_result_path=results/contrrep/MC/mc_verisig_result_skipped.csv --sampled_result_path=results/contrrep/MC/mc_sampling_result_broken.csv --output_path=results/contrrep/MC/run_1
 
-python testsuite_to_isar.py --benchmark=simulink --simulink_config=benchmark_contrrep/AFC1_Phi1/config_rfFR11 --breach_path=/path/to/breach --workers=8 --output_dir=results/AFC1_Phi1
-python -u incremental_repair.py --benchmark=simulink --simulink_config=benchmark_contrrep/AFC1_Phi1/config_rfFR11 --breach_path=/path/to/breach --workers=8 --seed=1 --verisig_result_path=results/AFC1_Phi1/simulink_verisig_result_skipped.csv --sampled_result_path=results/AFC1_Phi1/simulink_sampling_result_broken.csv --output_path=results/AFC1_Phi1/run_1
+python testsuite_to_isar.py --benchmark=simulink --simulink_config=benchmark_contrrep/AFC1_Phi1/config_rfFR11 --breach_path=/path/to/breach --workers=8 --output_dir=results/contrrep/AFC1_Phi1
+python -u incremental_repair.py --benchmark=simulink --simulink_config=benchmark_contrrep/AFC1_Phi1/config_rfFR11 --breach_path=/path/to/breach --workers=8 --seed=1 --verisig_result_path=results/contrrep/AFC1_Phi1/simulink_verisig_result_skipped.csv --sampled_result_path=results/contrrep/AFC1_Phi1/simulink_sampling_result_broken.csv --output_path=results/contrrep/AFC1_Phi1/run_1
 ```
 
 `testsuite_to_isar.py` also accepts other MATLAB test suites of UUV or MC initial states: a `testSuite` struct whose `testCases` have `sysInputs` ([y, h] for UUV, [pos, vel] for MC) and `rob`.

@@ -19,11 +19,10 @@ PYTHON_BENCHMARKS = {
 }
 
 
-# Results of a benchmark; benchmarks outside benchmark_contrrep/ keep theirs apart,
-# e.g. benchmark_opera/ACC1 -> <results_dir>/opera/ACC1
+# Results of a benchmark, grouped by benchmark folder, e.g. benchmark_opera/ACC1 -> <results_dir>/opera/ACC1;
+# MC and UUV belong to benchmark_contrrep (<results_dir>/contrrep/MC)
 def benchmark_results_dir(results_dir, benchmark_dir, benchmark):
-    group = os.path.basename(os.path.normpath(benchmark_dir))
-    group = '' if group == 'benchmark_contrrep' else group.replace('benchmark_', '', 1)
+    group = os.path.basename(os.path.normpath(benchmark_dir)).replace('benchmark_', '', 1)
     return os.path.abspath(os.path.join(results_dir, group, benchmark))
 
 
@@ -51,10 +50,11 @@ def parse_test_suites(spec, num_test_suites):
 # Repeated ISAR repairs of one benchmark on its 100-case test suite, without the verifier.
 # Prepares the inputs once (robustness of the test suite under the original controller), then runs
 # one repair per seed, each in a fresh process (for Simulink benchmarks, with its own MATLAB session).
-# Results go to <results_dir>/<benchmark>/run_<seed>/; seeds whose repair already finished are skipped.
+# Results go to <results_dir>/contrrep/<benchmark>/run_<seed>/ (<results_dir>/opera/... for benchmark_opera);
+# seeds whose repair already finished are skipped.
 # A Simulink config listing several test suites (benchmark_opera/) repeats this on each of them: the inputs
-# of test suite <k> are prepared in <results_dir>/<benchmark>/testsuite_<k>/, and its runs go to
-# <results_dir>/<benchmark>/testsuite_<k>/run_<seed>/.
+# of test suite <k> are prepared in <results_dir>/opera/<benchmark>/testsuite_<k>/, and its runs go to
+# <results_dir>/opera/<benchmark>/testsuite_<k>/run_<seed>/.
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("--benchmark", help="MC, UUV, or a Simulink benchmark folder under --benchmark_dir, e.g. AFC1_Phi1 or, with --benchmark_dir=benchmark_opera, ACC1")
