@@ -489,6 +489,30 @@ results/contrrep/AFC1_Phi1/
 - The repair stops once every violated region has been tried once; it has no simulation budget.
 - The annealing perturbs every weight and bias with Gaussian noise of standard deviation 0.1, the default of ISAR. `--std` changes it, e.g. `--std=0.001`; such runs are written to `results/contrrep/<benchmark>/std_<std>/run_<seed>/`, apart from the runs with the default.
 
+**Evaluation on the validation suite.** Each benchmark also has a validation suite of 10000 cases (`*_testCaseNum_10000_val.mat`), the held-out suite AutoPatch's `validatePatch` scores repairs on; for the Simulink benchmarks it is the `testSet` entry of the config. After the repairs, `evaluate_testset.py` simulates the final controller of each finished run on it, with the metrics described for the OPERA test set below (a case is satisfied if its robustness is > 0, as in `validatePatch`):
+
+```
+python evaluate_testset.py --benchmark=MC
+python evaluate_testset.py --benchmark=UUV
+python evaluate_testset.py --benchmark_dir=benchmark_contrrep --benchmark=AFC1_Phi1 --workers=8 --breach_path=/path/to/breach
+```
+
+The results sit next to those on the 100-case test suite, under names of their own:
+
+```
+results/contrrep/AFC1_Phi1/
+├── simulink_sampling_result_broken.csv     # test suite (100): the original controller
+├── testset/
+│   ├── original.csv                        # validation suite (10000): the original controller
+│   └── summary.csv                         # validation suite: all runs
+├── run_1/
+│   ├── sample_checkpoint_iter_<i>_region_<r>.csv   # test suite: after each accepted repair; the last is the result
+│   ├── tanh_iter_<i>_region_<r>.pt/.yml            # the controller after each accepted repair; the last is the result
+│   ├── testset_result.json                         # validation suite: SR before and after, cases repaired and broken
+│   └── testset_robustness.csv                      # validation suite: robustness of every case before and after
+└── ...
+```
+
 To run the seeds in parallel, e.g. one job per seed on a cluster, prepare the inputs once and then start one call per seed:
 
 ```

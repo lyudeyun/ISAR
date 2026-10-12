@@ -56,6 +56,8 @@ max_cf_gps=1.66;
 min_cf_gps=0.13;
 testSuite 1
 AFC2_FFNN_trainscg_15_15_15_15_ep_500_Nor_20250717_testCaseNum_100.mat
+testSet 1
+AFC2_FFNN_trainscg_15_15_15_15_ep_500_Nor_20250717_testCaseNum_10000_val.mat
 testCaseNum 1
 100
 faultType 1

@@ -57,6 +57,8 @@ amin_ego=-3;
 amax_ego=2;
 testSuite 1
 ACC5v_FFNN_traingdx_15_15_15_ep_50_Nor_20250702_testCaseNum_100.mat
+testSet 1
+ACC5v_FFNN_traingdx_15_15_15_ep_50_Nor_20250702_testCaseNum_10000_val.mat
 testCaseNum 1
 100
 faultType 1

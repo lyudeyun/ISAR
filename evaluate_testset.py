@@ -7,10 +7,48 @@ import shutil
 
 import numpy as np
 import pandas as pd
+import scipy.io as sio
 import torch
+import yaml
 
-from run_benchmark import ISAR_DIR, benchmark_config, benchmark_results_dir, parse_test_suites
+from incremental_repair_utils import (MC_Control_NN, UUV_Control_NN, load_model_dict,  # the classes: to unpickle checkpoints
+                                      mc_robustness, mc_simulate, uuv_robustness, uuv_simulate)
+from run_benchmark import ISAR_DIR, PYTHON_BENCHMARKS, benchmark_config, benchmark_results_dir, parse_test_suites
 from simulink_interface import DEFAULT_BREACH_PATH, SimulinkBenchmark, SimulinkNN, parse_autopatch_config  # SimulinkNN: to unpickle checkpoints
+
+
+# The test set of MC or UUV, simulated in Python like during repair; same interface as SimulinkBenchmark
+class PythonTestSet:
+
+    def __init__(self, kind, network_path, test_set_path):
+        self.kind = kind
+        test_cases = sio.loadmat(test_set_path, squeeze_me=True, struct_as_record=False)['testSuite'].testCases
+        # sysInputs is [y, h] for uuv and [pos, vel] for mc, as in testsuite_to_isar.py
+        self.inputs = [(float(t.sysInputs[0]), float(t.sysInputs[1])) for t in test_cases]
+        self.stored_rob = np.array([float(t.rob) for t in test_cases])
+        self.num_cases = len(self.inputs)
+        with open(network_path, 'rb') as f:
+            self.model_dict = yaml.safe_load(f)
+
+    def original_net(self):
+        net = UUV_Control_NN() if self.kind == 'uuv' else MC_Control_NN()
+        load_model_dict(self.model_dict, net)
+        return net
+
+    def robustness(self, net, case_ids):
+        rob = []
+        for c in case_ids:
+            v1, v2 = self.inputs[c]
+            if self.kind == 'uuv':
+                _, traj_pos_y = uuv_simulate(net=net, init_global_heading_deg=v2, init_pos_y=v1)
+                rob.append(uuv_robustness(traj_pos_y))
+            else:
+                traj_pos, _ = mc_simulate(v1, v2, net)
+                rob.append(mc_robustness(traj_pos))
+        return rob
+
+    def close(self):
+        pass
 
 
 # The controller a run ends with: its last checkpoint, or the original controller if no region was repaired
@@ -36,16 +74,18 @@ def compare(rob_before, rob_after):
             'pos_to_neg': int(((rob_before > 0) & (rob_after < 0)).sum())}
 
 
-# Evaluates the controllers repaired by run_benchmark.py on the test set of a Simulink benchmark (the
-# testSet entry of its config, e.g. the 1000-case OPERA test set), as OPERA's rep_eval does.
+# Evaluates the controllers repaired by run_benchmark.py on the test set of a benchmark, as OPERA's rep_eval
+# and AutoPatch's validatePatch do: the testSet entry of a Simulink config (the 1000-case OPERA test set, the
+# 10000-case validation suite of the ContrRep benchmarks), or the validation suite of MC and UUV.
 # The original controller is simulated once, in <results>/testset/original.csv; each finished run gets
 # testset_robustness.csv and testset_result.json in its run folder, and all runs are summarized in
 # <results>/testset/summary.csv. Runs that are already evaluated are skipped, runs that have not finished
 # yet are left out, so the script can be called again while repairs are still running.
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("--benchmark", help="Simulink benchmark folder under --benchmark_dir, e.g. ACC1")
-    parser.add_argument("--benchmark_dir", help="folder of the Simulink benchmarks, default benchmark_opera", default='benchmark_opera')
+    parser.add_argument("--benchmark", help="MC, UUV, or a Simulink benchmark folder under --benchmark_dir, e.g. ACC1 or AFC1_Phi1")
+    parser.add_argument("--benchmark_dir", help="folder of the Simulink benchmarks, benchmark_opera (default) or benchmark_contrrep; "
+                                                "MC and UUV are in benchmark_contrrep", default='benchmark_opera')
     parser.add_argument("--test_suites", help="for a config listing several test suites: the runs of which ones to evaluate, "
                                               "e.g. 2 or 1,3 or 1-5; default all", default=None)
     parser.add_argument("--runs", help="number of runs per test suite, default 10", default=10)
@@ -57,11 +97,20 @@ if __name__ == '__main__':
     parser.add_argument("--eval_timeout", help="seconds to wait for one batch of simulations before restarting MATLAB, default 900", default=900)
     args = parser.parse_args()
 
-    config_path = benchmark_config(args.benchmark_dir, args.benchmark)
-    config = parse_autopatch_config(config_path)
-    assert 'testSet' in config, f'{config_path} has no testSet entry'
+    if args.benchmark in PYTHON_BENCHMARKS:
+        args.benchmark_dir = 'benchmark_contrrep'
+        bm = PYTHON_BENCHMARKS[args.benchmark]
+        test_set = os.path.basename(bm['test_set'])
+        num_test_suites = 1
+    else:
+        config_path = benchmark_config(args.benchmark_dir, args.benchmark)
+        config = parse_autopatch_config(config_path)
+        assert 'testSet' in config, f'{config_path} has no testSet entry'
+        test_set = config['testSet'][0]
+        num_test_suites = len(config['testSuite'])
     out_dir = benchmark_results_dir(args.results_dir, args.benchmark_dir, args.benchmark)
-    num_test_suites = len(config['testSuite'])
+    # The UUV simulator reads uuv_model_oneHz.mat from the current folder
+    os.chdir(ISAR_DIR)
     test_suites = [None] if num_test_suites == 1 else parse_test_suites(args.test_suites, num_test_suites)
     seeds = [int(args.first_seed) + i for i in range(int(args.runs))]
     eval_dir = os.path.join(out_dir, 'testset' if args.std is None else f'testset_std_{float(args.std):g}')
@@ -90,13 +139,16 @@ if __name__ == '__main__':
             print(f'{label(k, seed)}: repair not finished, skipped', flush=True)
 
     if todo or not os.path.isfile(original_path):
-        bench = SimulinkBenchmark(os.path.dirname(config_path), config_path, args.breach_path,
-                                  os.path.join(eval_dir, 'matlab_work'), workers=int(args.workers),
-                                  eval_timeout=float(args.eval_timeout), test_suite_file=config['testSet'][0])
+        if args.benchmark in PYTHON_BENCHMARKS:
+            bench = PythonTestSet(bm['benchmark'], bm['network'], bm['test_set'])
+        else:
+            bench = SimulinkBenchmark(os.path.dirname(config_path), config_path, args.breach_path,
+                                      os.path.join(eval_dir, 'matlab_work'), workers=int(args.workers),
+                                      eval_timeout=float(args.eval_timeout), test_suite_file=test_set)
         try:
             case_ids = list(range(bench.num_cases))
             if not os.path.isfile(original_path):
-                print(f'{args.benchmark}: simulating the {bench.num_cases} test cases of {config["testSet"][0]} under the original controller', flush=True)
+                print(f'{args.benchmark}: simulating the {bench.num_cases} test cases of {test_set} under the original controller', flush=True)
                 rob = np.array(bench.robustness(bench.original_net(), case_ids))
                 stored = bench.stored_rob
                 print(f'Recomputed robustness vs. rob in the test set: max |diff| = {np.max(np.abs(rob - stored)):.2e}, '
@@ -114,7 +166,7 @@ if __name__ == '__main__':
                     net = torch.load(checkpoint, weights_only=False)
                     rob = np.array(bench.robustness(net, case_ids))
                 result = compare(rob_original, rob)
-                result.update({'test_set': config['testSet'][0],
+                result.update({'test_set': test_set,
                                'checkpoint': None if checkpoint is None else os.path.basename(checkpoint)})
                 pd.DataFrame({'case': case_ids, 'rob_original': rob_original, 'rob_repaired': rob}).to_csv(
                     os.path.join(run_dir, 'testset_robustness.csv'), index=False)

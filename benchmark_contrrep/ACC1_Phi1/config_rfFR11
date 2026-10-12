@@ -57,6 +57,8 @@ amin_ego=-3;
 amax_ego=2;
 testSuite 1
 ACC4_FFNN_trainbfg_15_15_15_ep_100_Nor_20250527_testCaseNum_100.mat
+testSet 1
+ACC4_FFNN_trainbfg_15_15_15_ep_100_Nor_20250527_testCaseNum_10000_val.mat
 testCaseNum 1
 100
 faultType 1

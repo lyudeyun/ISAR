@@ -8,14 +8,16 @@ import sys
 
 ISAR_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# Benchmarks simulated in Python: the controller and the 100-case test suite of each
+# Benchmarks simulated in Python: the controller, the 100-case test suite and the 10000-case validation suite of each
 PYTHON_BENCHMARKS = {
     'MC': {'benchmark': 'mc',
            'network': os.path.join('controllers', 'mc_sig_2x16_broken_old.yml'),
-           'mat_path': os.path.join('benchmark_contrrep', 'MC', 'MC_Phi_1_FFNN_16_16_XV_10_10_20250609.mat')},
+           'mat_path': os.path.join('benchmark_contrrep', 'MC', 'MC_Phi_1_FFNN_16_16_XV_10_10_20250609.mat'),
+           'test_set': os.path.join('benchmark_contrrep', 'MC', 'mc_sig_2x16_broken_cp_testCaseNum_10000_val.mat')},
     'UUV': {'benchmark': 'uuv',
             'network': os.path.join('controllers', 'uuv_tanh_2_15_2x32_broken.yml'),
-            'mat_path': os.path.join('benchmark_contrrep', 'UUV', 'UUV_Phi_1_FFNN_32_32_YH_10_10_May_13.mat')},
+            'mat_path': os.path.join('benchmark_contrrep', 'UUV', 'UUV_Phi_1_FFNN_32_32_YH_10_10_May_13.mat'),
+            'test_set': os.path.join('benchmark_contrrep', 'UUV', 'uuv_tanh_2_15_2x32_broken_cp_testCaseNum_10000_val.mat')},
 }
 
 
