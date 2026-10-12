@@ -13,7 +13,7 @@ import yaml
 
 from incremental_repair_utils import (MC_Control_NN, UUV_Control_NN, load_model_dict,  # the classes: to unpickle checkpoints
                                       mc_robustness, mc_simulate, uuv_robustness, uuv_simulate)
-from run_benchmark import ISAR_DIR, PYTHON_BENCHMARKS, benchmark_config, benchmark_results_dir, parse_test_suites
+from run_benchmark import ISAR_DIR, PYTHON_BENCHMARKS, benchmark_config, benchmark_results_dir, parse_test_suites, python_config
 from simulink_interface import DEFAULT_BREACH_PATH, SimulinkBenchmark, SimulinkNN, parse_autopatch_config  # SimulinkNN: to unpickle checkpoints
 
 
@@ -83,9 +83,9 @@ def compare(rob_before, rob_after):
 # yet are left out, so the script can be called again while repairs are still running.
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("--benchmark", help="MC, UUV, or a Simulink benchmark folder under --benchmark_dir, e.g. ACC1 or AFC1_Phi1")
-    parser.add_argument("--benchmark_dir", help="folder of the Simulink benchmarks, benchmark_opera (default) or benchmark_contrrep; "
-                                                "MC and UUV are in benchmark_contrrep", default='benchmark_opera')
+    parser.add_argument("--benchmark", help="MC_old, UUV, or a benchmark folder under --benchmark_dir, e.g. ACC1, MC_new or AFC1_Phi1")
+    parser.add_argument("--benchmark_dir", help="folder of the Simulink benchmarks and MC_new, benchmark_opera (default) or "
+                                                "benchmark_contrrep; not needed for MC_old and UUV", default='benchmark_opera')
     parser.add_argument("--test_suites", help="for a config listing several test suites: the runs of which ones to evaluate, "
                                               "e.g. 2 or 1,3 or 1-5; default all", default=None)
     parser.add_argument("--runs", help="number of runs per test suite, default 10", default=10)
@@ -97,17 +97,19 @@ if __name__ == '__main__':
     parser.add_argument("--eval_timeout", help="seconds to wait for one batch of simulations before restarting MATLAB, default 900", default=900)
     args = parser.parse_args()
 
+    python_bm = None
     if args.benchmark in PYTHON_BENCHMARKS:
         args.benchmark_dir = 'benchmark_contrrep'
-        bm = PYTHON_BENCHMARKS[args.benchmark]
-        test_set = os.path.basename(bm['test_set'])
+        python_bm = PYTHON_BENCHMARKS[args.benchmark]
         num_test_suites = 1
     else:
         config_path = benchmark_config(args.benchmark_dir, args.benchmark)
         config = parse_autopatch_config(config_path)
         assert 'testSet' in config, f'{config_path} has no testSet entry'
-        test_set = config['testSet'][0]
         num_test_suites = len(config['testSuite'])
+        # MC or UUV with its own controller and test set in the benchmark folder (benchmark_opera/MC_new)
+        python_bm = python_config(config_path)
+    test_set = os.path.basename(python_bm['test_set']) if python_bm is not None else config['testSet'][0]
     out_dir = benchmark_results_dir(args.results_dir, args.benchmark_dir, args.benchmark)
     # The UUV simulator reads uuv_model_oneHz.mat from the current folder
     os.chdir(ISAR_DIR)
@@ -139,8 +141,8 @@ if __name__ == '__main__':
             print(f'{label(k, seed)}: repair not finished, skipped', flush=True)
 
     if todo or not os.path.isfile(original_path):
-        if args.benchmark in PYTHON_BENCHMARKS:
-            bench = PythonTestSet(bm['benchmark'], bm['network'], bm['test_set'])
+        if python_bm is not None:
+            bench = PythonTestSet(python_bm['benchmark'], python_bm['network'], python_bm['test_set'])
         else:
             bench = SimulinkBenchmark(os.path.dirname(config_path), config_path, args.breach_path,
                                       os.path.join(eval_dir, 'matlab_work'), workers=int(args.workers),

@@ -8,12 +8,13 @@ import sys
 
 ISAR_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# Benchmarks simulated in Python: the controller, the 100-case test suite and the 10000-case validation suite of each
+# ContrRep benchmarks simulated in Python: the controller, the 100-case test suite and the 10000-case validation suite
+# of each. MC_old is MC with the old controller; benchmark_opera/MC_new is MC with the new one
 PYTHON_BENCHMARKS = {
-    'MC': {'benchmark': 'mc',
-           'network': os.path.join('controllers', 'mc_sig_2x16_broken_old.yml'),
-           'mat_path': os.path.join('benchmark_contrrep', 'MC', 'MC_Phi_1_FFNN_16_16_XV_10_10_20250609.mat'),
-           'test_set': os.path.join('benchmark_contrrep', 'MC', 'mc_sig_2x16_broken_cp_testCaseNum_10000_val.mat')},
+    'MC_old': {'benchmark': 'mc',
+               'network': os.path.join('controllers', 'mc_sig_2x16_broken_old.yml'),
+               'mat_path': os.path.join('benchmark_contrrep', 'MC_old', 'MC_Phi_1_FFNN_16_16_XV_10_10_20250609.mat'),
+               'test_set': os.path.join('benchmark_contrrep', 'MC_old', 'mc_sig_2x16_broken_cp_testCaseNum_10000_val.mat')},
     'UUV': {'benchmark': 'uuv',
             'network': os.path.join('controllers', 'uuv_tanh_2_15_2x32_broken.yml'),
             'mat_path': os.path.join('benchmark_contrrep', 'UUV', 'UUV_Phi_1_FFNN_32_32_YH_10_10_May_13.mat'),
@@ -28,7 +29,21 @@ def benchmark_results_dir(results_dir, benchmark_dir, benchmark):
     return os.path.abspath(os.path.join(results_dir, group, benchmark))
 
 
-# The single config_rfFR* of a Simulink benchmark
+# MC or UUV described by a config in its benchmark folder (benchType nonSimulink, e.g. benchmark_opera/MC_new):
+# the benchmark name, the controller, the test suites and the test set, as paths; None for a Simulink config
+def python_config(config_path):
+    from simulink_interface import parse_autopatch_config
+    cfg = parse_autopatch_config(config_path)
+    if cfg.get('benchType', ['simulink'])[0] != 'nonSimulink':
+        return None
+    folder = os.path.dirname(config_path)
+    return {'benchmark': cfg['bench'][0].lower(),
+            'network': os.path.join(folder, cfg['nn'][0]),
+            'test_suites': [os.path.join(folder, f) for f in cfg['testSuite']],
+            'test_set': os.path.join(folder, cfg['testSet'][0]) if 'testSet' in cfg else None}
+
+
+# The single config_rfFR* of a Simulink benchmark, or of MC_new in benchmark_opera
 def benchmark_config(benchmark_dir, benchmark):
     configs = sorted(glob.glob(os.path.join(ISAR_DIR, benchmark_dir, benchmark, 'config_rfFR*')))
     assert len(configs) == 1, f'expected one config_rfFR* in {benchmark_dir}/{benchmark}, found {configs}'
@@ -59,7 +74,7 @@ def parse_test_suites(spec, num_test_suites):
 # <results_dir>/opera/<benchmark>/testsuite_<k>/run_<seed>/.
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("--benchmark", help="MC, UUV, or a Simulink benchmark folder under --benchmark_dir, e.g. AFC1_Phi1 or, with --benchmark_dir=benchmark_opera, ACC1")
+    parser.add_argument("--benchmark", help="MC_old, UUV, or a benchmark folder under --benchmark_dir, e.g. AFC1_Phi1 or, with --benchmark_dir=benchmark_opera, ACC1 or MC_new")
     parser.add_argument("--benchmark_dir", help="folder of the Simulink benchmarks, benchmark_contrrep (default) or benchmark_opera", default='benchmark_contrrep')
     parser.add_argument("--test_suites", help="Simulink only, for a config listing several test suites: which ones to repair on, 1-based, "
                                               "e.g. 2 or 1,3 or 1-5; default all", default=None)
@@ -73,8 +88,13 @@ if __name__ == '__main__':
     parser.add_argument("--prepare_only", help="1 to only prepare the inputs, e.g. once before submitting one job per seed", default=0)
     args = parser.parse_args()
 
+    if args.benchmark in PYTHON_BENCHMARKS:
+        args.benchmark_dir = 'benchmark_contrrep'
     out_dir = benchmark_results_dir(args.results_dir, args.benchmark_dir, args.benchmark)
     num_test_suites = 1
+    # Arguments that select test suite k: testsuite_to_isar.py reads it, incremental_repair.py only needs it
+    # for Simulink (None: the single test suite of the benchmark)
+    prepare_suite_args = repair_suite_args = lambda k: [] if k is None else ['--test_suite=' + str(k)]
     if args.benchmark in PYTHON_BENCHMARKS:
         bm = PYTHON_BENCHMARKS[args.benchmark]
         kind = bm['benchmark']
@@ -82,15 +102,24 @@ if __name__ == '__main__':
         repair_args = ['--network=' + bm['network']]
     else:
         config = benchmark_config(args.benchmark_dir, args.benchmark)
-        kind = 'simulink'
-        from simulink_interface import parse_autopatch_config
-        num_test_suites = len(parse_autopatch_config(config)['testSuite'])
-        if not os.path.isfile(os.path.join(args.breach_path, 'InitBreach.m')):
-            sys.exit(f'Breach not found in {os.path.abspath(args.breach_path)} (no InitBreach.m); '
-                     f'pass the Breach folder with --breach_path or set ISAR_BREACH_PATH')
-        prepare_args = ['--simulink_config=' + config, '--breach_path=' + os.path.abspath(args.breach_path),
-                        '--workers=' + str(args.workers), '--eval_timeout=' + str(args.eval_timeout)]
-        repair_args = prepare_args
+        python_bm = python_config(config)
+        if python_bm is not None:
+            # MC or UUV with its own controller and test suites in the benchmark folder (benchmark_opera/MC_new)
+            kind = python_bm['benchmark']
+            num_test_suites = len(python_bm['test_suites'])
+            prepare_args = repair_args = ['--network=' + python_bm['network']]
+            prepare_suite_args = lambda k: ['--mat_path=' + python_bm['test_suites'][k - 1]]
+            repair_suite_args = lambda k: []
+        else:
+            kind = 'simulink'
+            from simulink_interface import parse_autopatch_config
+            num_test_suites = len(parse_autopatch_config(config)['testSuite'])
+            if not os.path.isfile(os.path.join(args.breach_path, 'InitBreach.m')):
+                sys.exit(f'Breach not found in {os.path.abspath(args.breach_path)} (no InitBreach.m); '
+                         f'pass the Breach folder with --breach_path or set ISAR_BREACH_PATH')
+            prepare_args = ['--simulink_config=' + config, '--breach_path=' + os.path.abspath(args.breach_path),
+                            '--workers=' + str(args.workers), '--eval_timeout=' + str(args.eval_timeout)]
+            repair_args = prepare_args
     seeds = [int(args.first_seed) + i for i in range(int(args.runs))]
 
     # Test suites to repair on (None: the single test suite of the benchmark)
@@ -106,9 +135,6 @@ if __name__ == '__main__':
     def suite_label(k):
         return args.benchmark if k is None else f'{args.benchmark} test suite {k}'
 
-    def suite_args(k):
-        return [] if k is None else ['--test_suite=' + str(k)]
-
     def prepared_paths(k):
         return (os.path.join(suite_dir(k), f'{kind}_verisig_result_skipped.csv'),
                 os.path.join(suite_dir(k), f'{kind}_sampling_result_broken.csv'))
@@ -119,7 +145,7 @@ if __name__ == '__main__':
         if not (os.path.isfile(verisig_path) and os.path.isfile(sampled_path)):
             print(f'Preparing {suite_label(k)}: robustness of the test suite under the original controller', flush=True)
             subprocess.run([sys.executable, '-u', 'testsuite_to_isar.py', '--benchmark=' + kind, '--output_dir=' + suite_dir(k)]
-                           + prepare_args + suite_args(k), cwd=ISAR_DIR, check=True)
+                           + prepare_args + prepare_suite_args(k), cwd=ISAR_DIR, check=True)
             shutil.rmtree(os.path.join(suite_dir(k), 'matlab_work'), ignore_errors=True)
     if int(args.prepare_only):
         sys.exit(0)
@@ -144,7 +170,7 @@ if __name__ == '__main__':
             with open(log_path, 'w') as log:
                 result = subprocess.run([sys.executable, '-u', 'incremental_repair.py', '--benchmark=' + kind, '--seed=' + str(seed),
                                          '--verisig_result_path=' + verisig_path, '--sampled_result_path=' + sampled_path,
-                                         '--output_path=' + run_dir] + repair_args + suite_args(k)
+                                         '--output_path=' + run_dir] + repair_args + repair_suite_args(k)
                                         + ([] if args.std is None else ['--std=' + str(float(args.std))]),
                                         cwd=ISAR_DIR, stdout=log, stderr=subprocess.STDOUT)
             if result.returncode != 0:

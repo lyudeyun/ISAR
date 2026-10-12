@@ -442,7 +442,7 @@ Ten benchmarks can be repaired on a given test suite of 100 cases, without the v
 
 | Benchmark | Simulator | Specification | Controller |
 | --- | --- | --- | --- |
-| `MC` | Python | MC | `controllers/mc_sig_2x16_broken_old.yml` |
+| `MC_old` | Python | MC | `controllers/mc_sig_2x16_broken_old.yml` |
 | `UUV` | Python | UUV | `controllers/uuv_tanh_2_15_2x32_broken.yml` |
 | `ACC1_Phi1` | Simulink | ACC4 | `ACC4_FFNN_trainbfg_15_15_15_ep_100_Nor_20250527` |
 | `ACC1_Phi2` | Simulink | ACC5v | `ACC5v_FFNN_traingdx_15_15_15_ep_50_Nor_20250702` |
@@ -461,7 +461,7 @@ The simulated annealing is random, so the repair is repeated with different seed
 `run_benchmark.py` prepares the inputs of a benchmark once, then runs one repair per seed, each in a new process:
 
 ```
-python run_benchmark.py --benchmark=MC --runs=10
+python run_benchmark.py --benchmark=MC_old --runs=10
 python run_benchmark.py --benchmark=UUV --runs=10
 python run_benchmark.py --benchmark=AFC1_Phi1 --runs=10 --workers=8 --breach_path=/path/to/breach
 ```
@@ -492,7 +492,7 @@ results/contrrep/AFC1_Phi1/
 **Evaluation on the validation suite.** Each benchmark also has a validation suite of 10000 cases (`*_testCaseNum_10000_val.mat`), the held-out suite AutoPatch's `validatePatch` scores repairs on; for the Simulink benchmarks it is the `testSet` entry of the config. After the repairs, `evaluate_testset.py` simulates the final controller of each finished run on it, with the metrics described for the OPERA test set below (a case is satisfied if its robustness is > 0, as in `validatePatch`):
 
 ```
-python evaluate_testset.py --benchmark=MC
+python evaluate_testset.py --benchmark=MC_old
 python evaluate_testset.py --benchmark=UUV
 python evaluate_testset.py --benchmark_dir=benchmark_contrrep --benchmark=AFC1_Phi1 --workers=8 --breach_path=/path/to/breach
 ```
@@ -528,8 +528,8 @@ For Simulink benchmarks, give each concurrently running job its own copy of Brea
 The two steps that `run_benchmark.py` performs can also be called directly, e.g. for MC and AFC1_Phi1:
 
 ```
-python testsuite_to_isar.py --benchmark=mc --mat_path=benchmark_contrrep/MC/MC_Phi_1_FFNN_16_16_XV_10_10_20250609.mat --network=controllers/mc_sig_2x16_broken_old.yml --output_dir=results/contrrep/MC
-python -u incremental_repair.py --benchmark=mc --network=controllers/mc_sig_2x16_broken_old.yml --seed=1 --verisig_result_path=results/contrrep/MC/mc_verisig_result_skipped.csv --sampled_result_path=results/contrrep/MC/mc_sampling_result_broken.csv --output_path=results/contrrep/MC/run_1
+python testsuite_to_isar.py --benchmark=mc --mat_path=benchmark_contrrep/MC_old/MC_Phi_1_FFNN_16_16_XV_10_10_20250609.mat --network=controllers/mc_sig_2x16_broken_old.yml --output_dir=results/contrrep/MC_old
+python -u incremental_repair.py --benchmark=mc --network=controllers/mc_sig_2x16_broken_old.yml --seed=1 --verisig_result_path=results/contrrep/MC_old/mc_verisig_result_skipped.csv --sampled_result_path=results/contrrep/MC_old/mc_sampling_result_broken.csv --output_path=results/contrrep/MC_old/run_1
 
 python testsuite_to_isar.py --benchmark=simulink --simulink_config=benchmark_contrrep/AFC1_Phi1/config_rfFR11 --breach_path=/path/to/breach --workers=8 --output_dir=results/contrrep/AFC1_Phi1
 python -u incremental_repair.py --benchmark=simulink --simulink_config=benchmark_contrrep/AFC1_Phi1/config_rfFR11 --breach_path=/path/to/breach --workers=8 --seed=1 --verisig_result_path=results/contrrep/AFC1_Phi1/simulink_verisig_result_skipped.csv --sampled_result_path=results/contrrep/AFC1_Phi1/simulink_sampling_result_broken.csv --output_path=results/contrrep/AFC1_Phi1/run_1
@@ -542,11 +542,11 @@ python -u incremental_repair.py --benchmark=simulink --simulink_config=benchmark
 The eight Simulink benchmarks in `benchmark_contrrep/` were copied from the git-tracked files of the AutoPatch repository (commit `1edcc84`, `FLRepBenchGen/`).
 Each benchmark folder contains the Simulink model, the controller network (`*_config_*.mat`), test suites of 100 cases (`*_testCaseNum_100.mat`, used for repair) and of 10000 cases (`*_testCaseNum_10000_val.mat`, for validation), the AutoPatch configs (`config_rfFR*`, `config_rfValEval*`), and the normalization parameters of the controller (`norm_params.mat`).
 The specifications and simulation parameters are in the `config_rfFR*` file of each benchmark.
-`benchmark_contrrep/MC/` and `benchmark_contrrep/UUV/` hold the test suites of MC and UUV, with their 10000-case validation suites.
+`benchmark_contrrep/MC_old/` and `benchmark_contrrep/UUV/` hold the test suites of MC (with the old controller) and UUV, with their 10000-case validation suites.
 
 #### OPERA benchmarks
 
-`benchmark_opera/` holds the six Simulink benchmarks of the AutoRepair_Alpha (OPERA) repository, with the test suites its SpectAcle+ContrRep baseline repairs on (`baseline/spectacle+contrrep`, commit `6f4688767`).
+`benchmark_opera/` holds the six Simulink benchmarks of the AutoRepair_Alpha (OPERA) repository, with the test suites its SpectAcle+ContrRep baseline repairs on (`baseline/spectacle+contrrep`, commit `6f4688767`), and MC with the new controller (`MC_new`, from `benchmark/mc/`, commit `a317187fb`), simulated in Python like `MC_old`.
 
 | Benchmark | Specification | Model | Normalization |
 | --- | --- | --- | --- |
@@ -556,9 +556,11 @@ The specifications and simulation parameters are in the `config_rfFR*` file of e
 | `AFC2` | AFC2 | `AFC_FFNN_trainlm_30_30_30_Nor_Jan_6` | yes |
 | `WT1` | WT1 | `WT_FFNN_trainbfg_5_5_5_Dec_22` | no |
 | `WT2` | WT2 | `WT_FFNN_trainbfg_15_15_15_Dec_22` | no |
+| `MC_new` | MC1 | `mc_sig_2x16_broken.yml` (= `controllers/mc_sig_2x16_broken_new.yml`) | – |
 
 - The dataset to be repaired has 10000 traces, too many to simulate for every candidate of the annealing. Each benchmark therefore has five test suites of 100 cases (`*_TS_100_seed_<k>.mat`, k = 1..5), sampled stratified from that dataset, i.e. with its share of violating traces; the config (`config_rfFR_<benchmark>`) lists them in order. They are the first five of the ten test suites of OPERA's SpectAcle+ContrRep baseline.
 - The repair is repeated with seeds 1 to 10 on each test suite, 50 runs per benchmark: the test suites capture the variation from sampling, the seeds that from the annealing.
+- `MC_new` has the same layout without a model folder: the controller, the five test suites (`*_Tr_TS_100_seed_<k>.mat`) and the test set (`*_Te.mat`, 1000 cases) sit next to its config, whose `benchType nonSimulink` makes the scripts simulate it in Python. Its test suites have 1 violating case each, its test set 14.
 - `norm_params.mat` holds the normalization of the network inputs and output, taken from the config's `dataset_run` as OPERA does (`ps_x`, `ps_y`); it is empty with `is_nor = 0` for the benchmarks without normalization.
 
 ```
