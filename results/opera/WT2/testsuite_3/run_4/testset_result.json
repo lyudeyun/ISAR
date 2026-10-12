@@ -1,0 +1,11 @@
+{
+  "num_cases": 1000,
+  "satisfied_before": 977,
+  "satisfied_after": 1000,
+  "SR_before": 97.7,
+  "SR_after": 100.0,
+  "neg_to_pos": 23,
+  "pos_to_neg": 0,
+  "test_set": "WT_error_086_spec_1_FFNN_trainbfg_15_15_15_Dec_22_Te_TS_1000.mat",
+  "checkpoint": "tanh_iter_0_region_74.pt"
+}
