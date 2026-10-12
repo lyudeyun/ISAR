@@ -1,0 +1,11 @@
+{
+  "num_cases": 10000,
+  "satisfied_before": 4357,
+  "satisfied_after": 9999,
+  "SR_before": 43.57,
+  "SR_after": 99.99,
+  "neg_to_pos": 5643,
+  "pos_to_neg": 1,
+  "test_set": "AFC2_FFNN_trainscg_15_15_15_15_ep_500_Nor_20250717_testCaseNum_10000_val.mat",
+  "checkpoint": "tanh_iter_4_region_37.pt"
+}

@@ -1,0 +1,11 @@
+{
+  "num_cases": 10000,
+  "satisfied_before": 6166,
+  "satisfied_after": 6166,
+  "SR_before": 61.66,
+  "SR_after": 61.66,
+  "neg_to_pos": 0,
+  "pos_to_neg": 0,
+  "test_set": "AFC1_FFNN_trainrp_15_15_15_15_ep_1000_Nor_20250519_testCaseNum_10000_val.mat",
+  "checkpoint": null
+}

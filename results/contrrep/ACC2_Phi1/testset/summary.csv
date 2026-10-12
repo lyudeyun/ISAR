@@ -1,0 +1,11 @@
+test_suite,seed,num_cases,satisfied_before,satisfied_after,SR_before,SR_after,neg_to_pos,pos_to_neg,test_set,checkpoint
+,1,10000,1773,9924,17.73,99.24,8151,0,ACC4_FFNN_trainoss_30_30_30_ep_100_Nor_20250528_testCaseNum_10000_val.mat,tanh_iter_4_region_95.pt
+,2,10000,1773,9973,17.73,99.73,8200,0,ACC4_FFNN_trainoss_30_30_30_ep_100_Nor_20250528_testCaseNum_10000_val.mat,tanh_iter_6_region_28.pt
+,3,10000,1773,9771,17.73,97.71,7998,0,ACC4_FFNN_trainoss_30_30_30_ep_100_Nor_20250528_testCaseNum_10000_val.mat,tanh_iter_6_region_67.pt
+,4,10000,1773,9741,17.73,97.41,7968,0,ACC4_FFNN_trainoss_30_30_30_ep_100_Nor_20250528_testCaseNum_10000_val.mat,tanh_iter_11_region_80.pt
+,5,10000,1773,9936,17.73,99.36,8163,0,ACC4_FFNN_trainoss_30_30_30_ep_100_Nor_20250528_testCaseNum_10000_val.mat,tanh_iter_16_region_79.pt
+,6,10000,1773,9917,17.73,99.17,8144,0,ACC4_FFNN_trainoss_30_30_30_ep_100_Nor_20250528_testCaseNum_10000_val.mat,tanh_iter_2_region_80.pt
+,7,10000,1773,9843,17.73,98.43,8070,0,ACC4_FFNN_trainoss_30_30_30_ep_100_Nor_20250528_testCaseNum_10000_val.mat,tanh_iter_6_region_83.pt
+,8,10000,1773,9904,17.73,99.04,8131,0,ACC4_FFNN_trainoss_30_30_30_ep_100_Nor_20250528_testCaseNum_10000_val.mat,tanh_iter_5_region_28.pt
+,9,10000,1773,9936,17.73,99.36,8163,0,ACC4_FFNN_trainoss_30_30_30_ep_100_Nor_20250528_testCaseNum_10000_val.mat,tanh_iter_8_region_28.pt
+,10,10000,1773,9668,17.73,96.68,7895,0,ACC4_FFNN_trainoss_30_30_30_ep_100_Nor_20250528_testCaseNum_10000_val.mat,tanh_iter_7_region_40.pt

@@ -1,0 +1,11 @@
+test_suite,seed,num_cases,satisfied_before,satisfied_after,SR_before,SR_after,neg_to_pos,pos_to_neg,test_set,checkpoint
+,1,10000,5616,9226,56.16,92.26,3610,0,uuv_tanh_2_15_2x32_broken_cp_testCaseNum_10000_val.mat,tanh_iter_0_region_3.pt
+,2,10000,5616,9223,56.16,92.23,3607,0,uuv_tanh_2_15_2x32_broken_cp_testCaseNum_10000_val.mat,tanh_iter_0_region_3.pt
+,3,10000,5616,9227,56.16,92.27,3611,0,uuv_tanh_2_15_2x32_broken_cp_testCaseNum_10000_val.mat,tanh_iter_0_region_3.pt
+,4,10000,5616,9217,56.16,92.17,3601,0,uuv_tanh_2_15_2x32_broken_cp_testCaseNum_10000_val.mat,tanh_iter_0_region_3.pt
+,5,10000,5616,9225,56.16,92.25,3609,0,uuv_tanh_2_15_2x32_broken_cp_testCaseNum_10000_val.mat,tanh_iter_0_region_3.pt
+,6,10000,5616,9226,56.16,92.26,3610,0,uuv_tanh_2_15_2x32_broken_cp_testCaseNum_10000_val.mat,tanh_iter_0_region_3.pt
+,7,10000,5616,9227,56.16,92.27,3611,0,uuv_tanh_2_15_2x32_broken_cp_testCaseNum_10000_val.mat,tanh_iter_0_region_3.pt
+,8,10000,5616,9221,56.16,92.21,3605,0,uuv_tanh_2_15_2x32_broken_cp_testCaseNum_10000_val.mat,tanh_iter_0_region_3.pt
+,9,10000,5616,9219,56.16,92.19,3603,0,uuv_tanh_2_15_2x32_broken_cp_testCaseNum_10000_val.mat,tanh_iter_0_region_3.pt
+,10,10000,5616,9226,56.16,92.26,3610,0,uuv_tanh_2_15_2x32_broken_cp_testCaseNum_10000_val.mat,tanh_iter_0_region_3.pt

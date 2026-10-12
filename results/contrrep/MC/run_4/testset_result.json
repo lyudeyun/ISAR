@@ -1,0 +1,11 @@
+{
+  "num_cases": 10000,
+  "satisfied_before": 910,
+  "satisfied_after": 5854,
+  "SR_before": 9.1,
+  "SR_after": 58.54,
+  "neg_to_pos": 4944,
+  "pos_to_neg": 0,
+  "test_set": "mc_sig_2x16_broken_cp_testCaseNum_10000_val.mat",
+  "checkpoint": "tanh_iter_11_region_65.pt"
+}

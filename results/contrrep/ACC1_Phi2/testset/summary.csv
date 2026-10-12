@@ -1,0 +1,11 @@
+test_suite,seed,num_cases,satisfied_before,satisfied_after,SR_before,SR_after,neg_to_pos,pos_to_neg,test_set,checkpoint
+,1,10000,4452,9842,44.52,98.42,5390,0,ACC5v_FFNN_traingdx_15_15_15_ep_50_Nor_20250702_testCaseNum_10000_val.mat,tanh_iter_5_region_51.pt
+,2,10000,4452,9215,44.52,92.15,4763,0,ACC5v_FFNN_traingdx_15_15_15_ep_50_Nor_20250702_testCaseNum_10000_val.mat,tanh_iter_0_region_86.pt
+,3,10000,4452,9770,44.52,97.7,5318,0,ACC5v_FFNN_traingdx_15_15_15_ep_50_Nor_20250702_testCaseNum_10000_val.mat,tanh_iter_5_region_78.pt
+,4,10000,4452,9904,44.52,99.04,5452,0,ACC5v_FFNN_traingdx_15_15_15_ep_50_Nor_20250702_testCaseNum_10000_val.mat,tanh_iter_11_region_50.pt
+,5,10000,4452,9899,44.52,98.99,5447,0,ACC5v_FFNN_traingdx_15_15_15_ep_50_Nor_20250702_testCaseNum_10000_val.mat,tanh_iter_9_region_85.pt
+,6,10000,4452,9841,44.52,98.41,5389,0,ACC5v_FFNN_traingdx_15_15_15_ep_50_Nor_20250702_testCaseNum_10000_val.mat,tanh_iter_7_region_78.pt
+,7,10000,4452,9838,44.52,98.38,5386,0,ACC5v_FFNN_traingdx_15_15_15_ep_50_Nor_20250702_testCaseNum_10000_val.mat,tanh_iter_7_region_85.pt
+,8,10000,4452,9590,44.52,95.9,5138,0,ACC5v_FFNN_traingdx_15_15_15_ep_50_Nor_20250702_testCaseNum_10000_val.mat,tanh_iter_4_region_55.pt
+,9,10000,4452,9912,44.52,99.12,5460,0,ACC5v_FFNN_traingdx_15_15_15_ep_50_Nor_20250702_testCaseNum_10000_val.mat,tanh_iter_7_region_85.pt
+,10,10000,4452,9550,44.52,95.5,5101,3,ACC5v_FFNN_traingdx_15_15_15_ep_50_Nor_20250702_testCaseNum_10000_val.mat,tanh_iter_20_region_9.pt

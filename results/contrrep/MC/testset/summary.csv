@@ -1,0 +1,11 @@
+test_suite,seed,num_cases,satisfied_before,satisfied_after,SR_before,SR_after,neg_to_pos,pos_to_neg,test_set,checkpoint
+,1,10000,910,6786,9.1,67.86,5876,0,mc_sig_2x16_broken_cp_testCaseNum_10000_val.mat,tanh_iter_0_region_78.pt
+,2,10000,910,9206,9.1,92.06,8296,0,mc_sig_2x16_broken_cp_testCaseNum_10000_val.mat,tanh_iter_21_region_14.pt
+,3,10000,910,6793,9.1,67.93,5883,0,mc_sig_2x16_broken_cp_testCaseNum_10000_val.mat,tanh_iter_0_region_78.pt
+,4,10000,910,5854,9.1,58.54,4944,0,mc_sig_2x16_broken_cp_testCaseNum_10000_val.mat,tanh_iter_11_region_65.pt
+,5,10000,910,6780,9.1,67.8,5870,0,mc_sig_2x16_broken_cp_testCaseNum_10000_val.mat,tanh_iter_2_region_95.pt
+,6,10000,910,9125,9.1,91.25,8215,0,mc_sig_2x16_broken_cp_testCaseNum_10000_val.mat,tanh_iter_24_region_7.pt
+,7,10000,910,9188,9.1,91.88,8278,0,mc_sig_2x16_broken_cp_testCaseNum_10000_val.mat,tanh_iter_23_region_14.pt
+,8,10000,910,9757,9.1,97.57,8847,0,mc_sig_2x16_broken_cp_testCaseNum_10000_val.mat,tanh_iter_26_region_5.pt
+,9,10000,910,9201,9.1,92.01,8291,0,mc_sig_2x16_broken_cp_testCaseNum_10000_val.mat,tanh_iter_33_region_7.pt
+,10,10000,910,6789,9.1,67.89,5879,0,mc_sig_2x16_broken_cp_testCaseNum_10000_val.mat,tanh_iter_0_region_78.pt
