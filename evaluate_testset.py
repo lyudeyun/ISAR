@@ -121,14 +121,15 @@ OPERA_SET_NAMES = {'ACC': {'x_ego': 'te_x_ego_set', 'steady': 'te_steady_num_set
 
 
 # MC's performance metrics of one execution, as mcMetrics in AutoRepair_Alpha's src/eval/MC_rep_eval.m: reach is the
-# step at which the position first reaches 0.45 (the horizon if never), energy and smooth the sum of u^2 and of
-# |u(t) - u(t-1)| up to that step; traj_pos[0] is the initial state and u[t] the control applied after traj_pos[t]
+# step at which the position first reaches 0.45 (the horizon if never), energy the mean of u^2 and smooth the mean of
+# |u(t) - u(t-1)| per step up to that step (smooth is 0 if the goal is reached at the first step); traj_pos[0] is the
+# initial state and u[t] the control applied after traj_pos[t]
 def mc_metrics(traj_pos, u):
     horizon = len(u)
     reached = np.nonzero(np.asarray(traj_pos[1:]) >= 0.45)[0]
     k = horizon if len(reached) == 0 else int(reached[0]) + 1
     uk = np.asarray(u[:k], dtype=float)
-    return {'reach': k, 'energy': float(np.sum(uk ** 2)), 'smooth': float(np.sum(np.abs(np.diff(uk))))}
+    return {'reach': k, 'energy': float(np.mean(uk ** 2)), 'smooth': float(np.mean(np.abs(np.diff(uk)))) if k > 1 else 0.0}
 
 
 # MC simulated as simMatlabMC.m of AutoRepair_Alpha (benchmark/mc), which MC_rep_eval.m uses: the controller in

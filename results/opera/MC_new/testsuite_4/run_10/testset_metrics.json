@@ -2,6 +2,6 @@
   "test_set": "MC_Phi_1_FFNN_16_16_XV_100_100_Feb_11_2026_Te.mat",
   "checkpoint": "tanh_iter_0_region_88.pt",
   "te_mean_reach": 63.892,
-  "te_mean_energy": 50.47810804965375,
-  "te_mean_smooth": 2.3770480795737177
+  "te_mean_energy": 0.7697881040661435,
+  "te_mean_smooth": 0.04090808035944088
 }
