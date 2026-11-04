@@ -546,7 +546,7 @@ The specifications and simulation parameters are in the `config_rfFR*` file of e
 
 #### OPERA benchmarks
 
-`benchmark_opera/` holds the six Simulink benchmarks of the AutoRepair_Alpha (OPERA) repository, with the test suites its SpectAcle+ContrRep baseline repairs on (`baseline/spectacle+contrrep`, commit `6f4688767`), and MC with the new controller (`MC_new`, from `benchmark/mc/`, commit `a317187fb`; the same files are in `benchmark/mc/MC_Phi_1_FFNN_16_16_XV_100_100_Feb_11_2026/dataset/` since commit `c0bf9ba9e`), simulated in Python like `MC_old`.
+`benchmark_opera/` holds the six Simulink benchmarks of the OPERA repository, with the test suites its SpectAcle+ContrRep baseline repairs on (`baseline/spectacle+contrrep`, commit `6f4688767`), and MC with the new controller (`MC_new`, from `benchmark/mc/`, commit `a317187fb`; the same files are in `benchmark/mc/MC_Phi_1_FFNN_16_16_XV_100_100_Feb_11_2026/dataset/` since commit `c0bf9ba9e`), simulated in Python like `MC_old`.
 
 | Benchmark | Specification | Model | Normalization |
 | --- | --- | --- | --- |
@@ -588,20 +588,39 @@ python evaluate_testset.py --benchmark=ACC1 --workers=8 --breach_path=/path/to/b
 - Runs that are already evaluated are skipped, and runs whose repair has not finished are left out, so the script can be run again while repairs are still going on. `--test_suites`, `--first_seed`, `--runs` and `--std` select the runs as for `run_benchmark.py`.
 - The test set adds 1000 simulations per run, on top of 1000 for the original controller. Like a repair, the evaluation starts its own MATLAB session; run it with its own Breach copy if repairs are running at the same time.
 
-**Performance metrics on the test set.** For the benchmarks of `benchmark_opera/`, `evaluate_testset.py` also computes OPERA's performance metrics of each final controller, to see whether a repair degrades the behaviour beyond the specification. They are taken over from AutoRepair_Alpha, constants and averaging included:
+**Performance metrics on the test set.** For the benchmarks of `benchmark_opera/`, `evaluate_testset.py` also computes system-specific performance metrics of each final controller, to assess how repair affects behaviour beyond satisfaction of the specification. The names and definitions below follow OPERA's `docs/metrics.md` and its RQ4 evaluation, including the constants and aggregation rules. The output field maps each metric to the raw value saved in `testset_metrics.json` and `testset/metrics_summary.csv`.
 
-| Benchmark | Metrics | Source in AutoRepair_Alpha |
-| --- | --- | --- |
-| `ACC1`, `ACC2` | `te_mean_x_ego`, `te_mean_steady`, `te_mean_delta_v`, `te_mean_comfortable`, `te_mean_resilience` | `test/rep_eval_acc.py` |
-| `AFC1`, `AFC2` | `te_mean_steady`, `te_mean_recovery`, `te_mean_MAE`, `te_mean_MAXERR` | `test/rep_eval_afc.py` |
-| `WT1`, `WT2` | `te_mean_steady`, `te_mean_MAE`, `te_mean_MAXERR` | `test/rep_eval_wt.py` |
-| `MC_new` | `te_mean_reach`, `te_mean_energy`, `te_mean_smooth` | `src/eval/MC_rep_eval.m` |
+↑ means higher is better; ↓ means lower is better.
+
+| Benchmark | Metric | Meaning | Output field |
+| --- | --- | --- | --- |
+| `ACC1`, `ACC2` | Space ↑ | Distance traveled by the ego car at the end of the run. | `te_mean_x_ego` |
+| `ACC1`, `ACC2` | Speed ↓ | Mean absolute deviation from the set speed of 30 while the safety margin is positive. | `te_mean_delta_v` |
+| `ACC1`, `ACC2` | Steadiness ↑ | Fraction of samples with a safety margin greater than 2 m. | `te_mean_steady` |
+| `ACC1`, `ACC2` | Resilience ↑ | Fraction of unsteady intervals from which the car recovers within 1 s. | `te_mean_resilience` |
+| `ACC1`, `ACC2` | Comfort ↑ | Fraction of steps with an absolute acceleration change below 0.1. | `te_mean_comfortable` |
+| `AFC1`, `AFC2` | Steadiness ↑ | Fraction of samples with a relative air-to-fuel ratio deviation of at most 10%. | `te_mean_steady` |
+| `AFC1`, `AFC2` | Resilience ↑ | Fraction of unsteady intervals from which the system recovers within 1 s. | `te_mean_recovery` |
+| `AFC1`, `AFC2` | MAE ↓ | Mean relative air-to-fuel ratio deviation. | `te_mean_MAE` |
+| `AFC1`, `AFC2` | MAXERR ↓ | Maximum relative air-to-fuel ratio deviation per run. | `te_mean_MAXERR` |
+| `WT1`, `WT2` | Steadiness ↑ | Fraction of checked samples with an absolute water-level error below 0.5. | `te_mean_steady` |
+| `WT1`, `WT2` | MAE ↓ | Mean absolute water-level error over the checked samples. | `te_mean_MAE` |
+| `WT1`, `WT2` | MAXERR ↓ | Maximum absolute water-level error over the checked samples per run. | `te_mean_MAXERR` |
+| `MC_new` | Reach ↓ | Steps to first reach position 0.45; 110 if the goal is never reached. | `te_mean_reach` |
+| `MC_new` | Energy ↓ | Mean squared control signal per step up to the goal. | `te_mean_energy` |
+| `MC_new` | Smoothness ↓ | Mean absolute change in the control signal per step up to the goal. | `te_mean_smooth` |
+
+ACC, AFC and WT are sampled every 0.1 s. For ACC, the safety margin is `d_rel - 1.4 * v_ego - 10`, and samples with a margin below 2 m are unsteady. For AFC, the relative deviation is `abs(1 - AF / 14.7)`, and samples with a deviation above 0.10 are unsteady. An unsteady interval is a maximal sequence of consecutive unsteady samples; recovery means that the interval contains fewer than 10 samples. WT uses only the 30 samples at times 4.0–4.9, 9.0–9.9 and 14.0–14.9 s. MC uses the full 110 steps if the goal is never reached; Smoothness is 0 if it is reached at the first step.
+
+Metrics are computed per test case and averaged over the test set, except for ACC Speed and ACC/AFC Resilience. Speed divides the total absolute speed deviation at safe samples by the total number of those samples; Resilience divides the total number of recovered intervals by the total number of unsteady intervals. These ratios are `NaN` when their denominator is zero. In particular, a controller with no unsteady intervals has undefined Resilience. AFC's Resilience keeps the output field name `te_mean_recovery` used by OPERA.
+
+The implementations in OPERA are `test/rep_eval_acc.py`, `test/rep_eval_afc.py`, `test/rep_eval_wt.py` and `src/eval/MC_rep_eval.m` for ACC, AFC, WT and MC, respectively.
 
 - Simulink benchmarks: the per-test-case quantities are computed by `simulink/isarOperaMetrics.m`, a copy of the MATLAB code that `rep_eval_*.py` generates, from the trajectory fastRob returns; the signals they need besides those of the specification are recorded through `simConf.extraSigs` (see `simulink/fastrob/README.md`). `evaluate_testset.py` averages them as `rep_eval_*.py` does, e.g. `te_mean_resilience = sum(recovery) / sum(unsteady)`.
 - MC: simulated as `simMatlabMC.m` (which `MC_rep_eval.m` uses), in double precision from the controller's yml file, and scored with `mcMetrics` of `MC_rep_eval.m`. `mc_simulate`, used during repair, evaluates the network in single precision, which moves the metrics by about 1e-7.
 - The metrics are computed in a simulation session of their own: the robustness and the files above are as without them.
 - Outputs: in each run folder `testset_metrics.json` (the metrics of its final controller, the `te_mean_*` of `rep_eval`) and `testset_metrics_cases.csv` (their per-test-case quantities, one row per test case, the `te_*_set` of `rep_eval`, e.g. `te_x_ego_set`); the same for the original controller in `testset/original_metrics.json` and `testset/original_metrics_cases.csv`; and `testset/metrics_summary.csv` (one row per run). Runs that already have both files are skipped.
-- Checked on the original controllers (MATLAB R2026a): the metrics of ACC and WT agree with the `te_mean_*` of AutoRepair_Alpha's `analysis/RQ1/*_Bef_Eval_Result.mat` within 3e-13, those of MC with the executions recorded in its test set within 1e-14 and with `MC_rep_eval.m` within 4e-11. AFC is simulated in accelerator mode with a variable-step solver, whose results depend on the MATLAB release.
+- Checked on the original controllers (MATLAB R2026a): the metrics of ACC and WT agree with the `te_mean_*` of OPERA's `analysis/RQ1/*_Bef_Eval_Result.mat` within 3e-13, those of MC with the executions recorded in its test set within 1e-14 and with `MC_rep_eval.m` within 4e-11. AFC is simulated in accelerator mode with a variable-step solver, whose results depend on the MATLAB release.
 
 **Requirements.** MATLAB with Simulink and the Deep Learning Toolbox, the MATLAB Engine for Python (Step 0), and [Breach](https://github.com/decyphir/breach).
 Pass the Breach folder with `--breach_path`, or set the environment variable `ISAR_BREACH_PATH`.
@@ -619,3 +638,9 @@ Otherwise a folder named `breach` next to this repository is used, e.g. `~/git3/
 - fastRob decides that a copy in `Ext/ModelsData` belongs to a finished process by its process id on the current machine. Jobs on different nodes that share one Breach folder can therefore delete each other's copies while they are in use. Give each concurrently running job its own copy of Breach, as AutoPatch's `run_experiment.pjm.sh` does.
 - MATLAB sessions that start parallel pools at the same time on one machine can conflict in the default job storage folder. `initParpool` uses the environment variable `MATLAB_JOB_STORAGE_LOCATION` if it is set, so set it to a different folder for each job.
 - The models were saved with MATLAB R2021a. Newer releases can open them; do not save them with a newer release, or R2021a can no longer open them.
+
+### Acknowledgments
+
+We thank Pengyuan Lu, Matthew Cleaveland, Oleg Sokolsky, Insup Lee, and Ivan Ruchkin, the authors of [Repairing Learning-Enabled Controllers While Preserving What Works](https://arxiv.org/abs/2311.03477), for making their [ISAR implementation](https://github.com/ericlupy/isar_rep) publicly available.
+
+This repository is maintained solely to reproduce their code and use ISAR as a baseline in the OPERA experiments. Credit for the ISAR algorithm and its original implementation belongs to the original authors. Our additions support benchmark integration and experimental evaluation. Please cite the original paper when using ISAR.
